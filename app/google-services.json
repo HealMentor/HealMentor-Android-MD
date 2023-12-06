@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "95554816904",
+    "project_id": "mentorheal-f2887",
+    "storage_bucket": "mentorheal-f2887.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95554816904:android:92c5140da319f9be94883d",
+        "android_client_info": {
+          "package_name": "com.ch2ps215.mentorheal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGOIRqa_vyRhxkgmH_N9ybJ1T8r03nnWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
