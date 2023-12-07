@@ -1,10 +1,13 @@
 package com.ch2ps215.mentorheal.presentation.home.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -16,10 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.ch2ps215.mentorheal.R
+import timber.log.Timber
 import java.util.*
 
 @Composable
@@ -31,18 +39,21 @@ fun Header(
     onClickProfileImage: () -> Unit
 ) {
     Surface(
-    color = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.surface,
+        ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = modifier
+        ) {
 
-    ) {
-        Row {
             AsyncImage(
                 model = photo,
                 contentDescription = null,
+                fallback = painterResource(R.drawable.ic_profile_placeholder),
                 contentScale = ContentScale.Crop,
-                modifier = modifier
-                    .size(60.dp)
+                modifier = Modifier
+                    .size(58.dp)
                     .clip(CircleShape)
-                    .background(Color.Gray.copy(alpha = 0.5F))
                     .clickable(onClick = onClickProfileImage)
             )
 
@@ -55,7 +66,10 @@ fun Header(
                 }
 
                 Text(
-                    text = if (firstName == null) " " else stringResource(R.string.welcome_home, firstName),
+                    text = if (firstName == null) " " else stringResource(
+                        R.string.welcome_home,
+                        firstName
+                    ),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )

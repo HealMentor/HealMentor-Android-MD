@@ -3,11 +3,13 @@ package com.ch2ps215.mentorheal.presentation.home
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -89,32 +91,32 @@ fun HomeScreen(
             Crossfade(
                 targetState = isSearchBarOpen,
                 animationSpec = tween(durationMillis = 500),
-                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(16.dp),
                 label = ""
             ) {
                 if (it) {
                     val querySearch by querySearchState.collectAsState()
                     SearchBar(
-                        modifier = Modifier
-                            .statusBarsPadding(),
-                        searchText = querySearch ?: "",
+                        searchText = querySearch,
                         onQueryChange = onChangeQuerySearch,
                         onSearch = { query ->
 
                         },
                         onBack = {
                             isSearchBarOpen = false
-                        }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                 } else {
                     TopAppBar(
                         title = {
                             val username by usernameState.collectAsState()
                             Header(
-                                modifier = Modifier
-                                    .statusBarsPadding()
-                                    .padding(horizontal = 16.dp, vertical = 32.dp),
-                                name = username,
+                                // jika username empty string, maka akan menampilkan string "Hello"
+                                name = username ?: stringResource(R.string.healer),
                                 photo = null,
                                 onClickShowMore = onClickShowMoreChart,
                                 onClickProfileImage = { }
@@ -127,7 +129,15 @@ fun HomeScreen(
                                     contentDescription = stringResource(R.string.cd_search)
                                 )
                             }
-                        }
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(
+                                    imageVector = Icons.Default.Notifications,
+                                    contentDescription = stringResource(R.string.cd_notification)
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                 }
             }
@@ -167,7 +177,7 @@ fun HomeScreenPreview() {
             snackbarHostState = remember { SnackbarHostState() },
             onChangeQuerySearch = { },
             querySearchState = MutableStateFlow(""),
-            usernameState = MutableStateFlow("Tubagus"),
+            usernameState = MutableStateFlow("Fulan"),
             latestArticlesState = MutableStateFlow(emptyList()),
             articlesReuse = MutableStateFlow(emptyList()),
             articlesReduce = MutableStateFlow(emptyList()),

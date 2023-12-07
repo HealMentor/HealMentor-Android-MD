@@ -20,7 +20,8 @@
     <string name="already_have_account">Already have an account?</string>
 
     <!-- Home -->
-    <string name="welcome_home">Hi, %1$s!</string>
+    <string name="welcome_home">Hi %1$s!</string>
+    <string name="healer">Healer</string>
     <string name="date_format">%1$s %2$s %3$s</string>
     <string name="ongoing_activity">Ongoing Activity</string>
     <string name="activity_recommendation">Activity Recommendation</string>
@@ -64,5 +65,6 @@
     <string name="cd_sign_out">Sign Out</string>
     <string name="cd_search">Search</string>
     <string name="cd_back">back</string>
+    <string name="cd_notification">Notification</string>
 
 </resources>

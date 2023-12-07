@@ -93,8 +93,6 @@ fun ArticlesPlaceholder(
                     .width(240.dp)
                     .shimmer(
                         shape = MaterialTheme.shapes.medium,
-                        startColor = MaterialTheme.colorScheme.surface,
-                        endColor = MaterialTheme.colorScheme.onSurface
                     )
             )
         }
