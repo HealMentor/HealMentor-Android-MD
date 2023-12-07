@@ -22,9 +22,13 @@ object RepositoryModule {
     fun provideUserRepository(
         userLocalDataSource: UserLocalDataSource,
         userRemoteDataSource: UserRemoteDataSource
-    ): UserRepository = TODO()
+    ): UserRepository {
+        return DefaultUserRepository(userLocalDataSource, userRemoteDataSource)
+    }
 
     @Provides
     @Singleton
-    fun provideArticleRepository(articleRemoteDataSource: ArticleRemoteDataSource): ArticleRepository = TODO()
+    fun provideArticleRepository(articleRemoteDataSource: ArticleRemoteDataSource): ArticleRepository {
+        return DefaultArticleRepository(articleRemoteDataSource)
+    }
 }
