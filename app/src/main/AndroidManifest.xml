@@ -16,6 +16,11 @@
         android:theme="@style/Theme.Mentorheal"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.template.Template"
+            android:exported="false"
+            android:label="@string/title_activity_template"
+            android:theme="@style/Theme.Mentorheal" />
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

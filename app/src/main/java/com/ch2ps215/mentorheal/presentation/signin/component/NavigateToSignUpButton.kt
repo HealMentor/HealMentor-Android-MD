@@ -7,7 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ch2ps215.mentorheal.R
 
@@ -23,12 +25,13 @@ fun NavigateToSignUpButton(
         Text(
             text = stringResource(R.string.dont_have_account),
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = Color.White
         )
         Text(
             text = stringResource(R.string.sign_up_now),
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.clickable(onClick = onClick)
         )
     }

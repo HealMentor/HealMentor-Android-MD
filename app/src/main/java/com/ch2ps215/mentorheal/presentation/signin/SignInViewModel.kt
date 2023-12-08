@@ -62,7 +62,7 @@ class SignInViewModel @Inject constructor(
             val password = _passwordField.value.first
             signInUseCase.invoke(email, password).onFailure { e ->
                 Timber.e(e)
-                _snackbar.emit("Failed to sign in")
+                _snackbar.emit(e.message ?: "Failed to sign in. Try again later")
             }
             _loading.value = false
         }

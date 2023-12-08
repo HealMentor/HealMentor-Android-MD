@@ -1,8 +1,10 @@
 package com.ch2ps215.mentorheal.presentation.signup
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -12,7 +14,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -84,7 +89,7 @@ fun SignUpScreen(
     onNavigateToSignInScreen: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.systemBarsPadding(),
+//        modifier = Modifier.systemBarsPadding(),
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         }
@@ -93,6 +98,13 @@ fun SignUpScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color.Gray, Color.Gray),
+                        startY = 0f,
+                        endY = 1f
+                    )
+                )
         ) {
             val focusManager = LocalFocusManager.current
             val scrollState = rememberScrollState()
@@ -100,123 +112,149 @@ fun SignUpScreen(
 
             Column(
                 modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 32.dp),
+                    .fillMaxWidth()
+                    .background(
+                        color = Color(0xFF24B0C1),
+                        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_launcher_background),
+                    painter = painterResource(R.drawable.register),
                     contentDescription = null,
-                    modifier = Modifier.size(64.dp)
-                )
-                Text(
-                    text = stringResource(R.string.welcome),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(vertical = 12.dp),
-                    color = MaterialTheme.colorScheme.primary
                 )
 
-                val nameField by nameFieldState.collectAsState()
-                val (name, nameError) = nameField
-
-                OutlinedTextField(
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    value = name,
-                    onValueChange = onChangeName,
-                    label = {
-                        Text(text = stringResource(R.string.name))
-                    },
-                    maxLines = 1,
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                    isError = nameError != null
-                )
-                TextError(
-                    textRes = nameError,
-                    modifier = Modifier.align(Alignment.Start)
-                )
+                        .padding(16.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.welcome),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        color = Color.White
+                    )
 
-                val emailField by emailFieldState.collectAsState()
-                val (email, emailError) = emailField
+                    val nameField by nameFieldState.collectAsState()
+                    val (name, nameError) = nameField
 
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    value = email,
-                    onValueChange = onChangeEmail,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    ),
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Email,
-                            contentDescription = null
-                        )
-                    },
-                    label = {
-                        Text(text = stringResource(R.string.email))
-                    },
-                    maxLines = 1,
-                    singleLine = true,
-                    isError = emailError != null
-                )
-                TextError(
-                    textRes = emailError,
-                    modifier = Modifier.align(Alignment.Start)
-                )
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        value = name,
+                        onValueChange = onChangeName,
+                        label = {
+                            Text(text = stringResource(R.string.name))
+                        },
+                        maxLines = 1,
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        isError = nameError != null
+                    )
+                    TextError(
+                        textRes = nameError,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
 
-                val passwordField by passwordFieldState.collectAsState()
-                val (password, passwordError) = passwordField
+                    val emailField by emailFieldState.collectAsState()
+                    val (email, emailError) = emailField
 
-                OutlinedTextFieldPassword(
-                    value = password,
-                    onValueChange = onChangePassword,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                    isError = passwordError != null
-                )
-                TextError(
-                    textRes = passwordError,
-                    modifier = Modifier.align(Alignment.Start)
-                )
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        value = email,
+                        onValueChange = onChangeEmail,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Email,
+                                contentDescription = null
+                            )
+                        },
+                        label = {
+                            Text(text = stringResource(R.string.email))
+                        },
+                        maxLines = 1,
+                        singleLine = true,
+                        isError = emailError != null
+                    )
+                    TextError(
+                        textRes = emailError,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
 
-                val confirmPasswordField by confirmPasswordFieldState.collectAsState()
-                val (confirmPassword, confirmPasswordError) = confirmPasswordField
+                    val passwordField by passwordFieldState.collectAsState()
+                    val (password, passwordError) = passwordField
 
-                OutlinedTextFieldPassword(
-                    value = confirmPassword,
-                    onValueChange = onChangeConfirmPassword,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    label = stringResource(R.string.confirm_password),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                    isError = confirmPasswordError != null
-                )
-                TextError(
-                    textRes = confirmPasswordError,
-                    modifier = Modifier.align(Alignment.Start)
-                )
+                    OutlinedTextFieldPassword(
+                        value = password,
+                        onValueChange = onChangePassword,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        isError = passwordError != null
+                    )
+                    TextError(
+                        textRes = passwordError,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
+
+                    val confirmPasswordField by confirmPasswordFieldState.collectAsState()
+                    val (confirmPassword, confirmPasswordError) = confirmPasswordField
+
+                    OutlinedTextFieldPassword(
+                        value = confirmPassword,
+                        onValueChange = onChangeConfirmPassword,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        label = stringResource(R.string.confirm_password),
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                        isError = confirmPasswordError != null
+                    )
+                    TextError(
+                        textRes = confirmPasswordError,
+                        modifier = Modifier.align(Alignment.Start)
+                    )
+                }
+
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart),
+                verticalArrangement = Arrangement.Bottom
+            ) {
 
                 val isFulfilled by fulfilledState.collectAsState()
 
+                // Image in the middle of the screen
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
                     enabled = isFulfilled && !isLoading,
-                    onClick = onClickButtonSignUp
+                    onClick = onClickButtonSignUp,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.button),
+                        contentColor = Color.White
+                    )
                 ) {
-                    Text(text = stringResource(R.string.sign_up))
+                    Text(
+                        text = stringResource(R.string.sign_up),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
                 NavigateToSignInButton(
