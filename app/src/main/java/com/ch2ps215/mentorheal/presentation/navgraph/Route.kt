@@ -54,4 +54,16 @@ sealed class Route(
     object Profile : Route("profile") {
         operator fun invoke() = route
     }
+
+    object Form : Route("form") {
+        operator fun invoke() = route
+    }
+
+    object Problems : Route("kemungkinan") {
+        operator fun invoke() = route
+    }
+
+    object AtasiKecemasan : Route("atasikecemasan") {
+        operator fun invoke() = route
+    }
 }

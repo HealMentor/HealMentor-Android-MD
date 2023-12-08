@@ -1,17 +1,23 @@
 package com.ch2ps215.mentorheal.di
 
 import com.ch2ps215.mentorheal.R
+import com.ch2ps215.mentorheal.data.repository.FormRepository
+import com.ch2ps215.mentorheal.domain.repository.IFormRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
+import com.ch2ps215.mentorheal.domain.usecase.FormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignUpUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateEmailUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateNameUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidatePasswordUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateYesNoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +35,32 @@ object UseCaseModule {
             errorBlankMessage = R.string.error_name_is_required,
             errorMinMessage = R.string.error_name_min_char,
             errorMaxMessage = R.string.error_name_max_char
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideValidateFormUseCase() : ValidateFormUseCase {
+        return ValidateFormUseCase(
+            errorBlankMessage = R.string.error_form_is_required,
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideValidateYesNoUseCase() : ValidateYesNoUseCase {
+        return ValidateYesNoUseCase(
+            errorBlankMessage = R.string.error_form_is_required,
+            errorInvalidMessage = R.string.error_invalid_is_required
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideValidateGenderUseCase() : ValidateGenderUseCase {
+        return ValidateGenderUseCase(
+            errorBlankMessage = R.string.error_form_is_required,
+            errorInvalidMessage = R.string.error_invalid_is_required
         )
     }
 
@@ -54,7 +86,14 @@ object UseCaseModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSignInUseCase(userRepository: UserRepository): SignInUseCase {
+    fun provideFormUseCase(formRepository: IFormRepository): FormUseCase {
+        return FormUseCase(formRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSignInUseCase(
+        userRepository: UserRepository): SignInUseCase {
         return SignInUseCase(userRepository)
     }
 

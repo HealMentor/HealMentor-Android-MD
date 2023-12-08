@@ -9,16 +9,10 @@ ValidateFormUseCase(
      * You can use string resource to inject these values
      * */
     @StringRes private val errorBlankMessage: Int,
-    @StringRes private val errorMinMessage: Int,
-    @StringRes private val errorMaxMessage: Int,
 ) {
 
-    operator fun invoke(name: String): Int? {
-        if (name.isBlank()) return errorBlankMessage
-
-        if (name.length < 3) return errorMinMessage
-
-        if (name.length > 50) return errorMaxMessage
+    operator fun invoke(form: String): Int? {
+        if (form.isBlank()) return errorBlankMessage
 
         return null
     }

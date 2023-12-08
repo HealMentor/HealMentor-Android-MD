@@ -2,6 +2,7 @@ package com.ch2ps215.mentorheal.presentation.form.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -21,7 +22,6 @@ fun RadioGroup(
         options.forEach { option ->
             Row(
                 modifier = Modifier
-                    .fillMaxHeight()
                     .padding(end = 16.dp)
             ) {
                 RadioButton(
@@ -36,7 +36,7 @@ fun RadioGroup(
                     text = option,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
-                        .padding(top = 8.dp)
+                        .padding(top = 10.dp)
                 )
             }
         }
