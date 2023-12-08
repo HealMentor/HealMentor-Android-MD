@@ -42,7 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
-import com.ch2ps215.mentorheal.presentation.form.component.ExposedDropdownMenuBox
+import com.ch2ps215.mentorheal.presentation.form.component.MyExposedDropdownMenuBox
 import com.ch2ps215.mentorheal.presentation.form.component.RadioGroup
 import com.ch2ps215.mentorheal.presentation.form.component.TextFieldGroup
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
@@ -78,6 +78,7 @@ fun FormScreen(
         bidangFieldState = viewModel.bidangField,
         semesterFieldState = viewModel.semesterField,
         cgpaFieldState = viewModel.cgpaField,
+        perkawinanFieldState = viewModel.pernikahanField,
         depresiFieldState = viewModel.depresiField,
         panicFieldState = viewModel.panicField,
         kecemasanFieldState = viewModel.kecemasanField,
@@ -107,6 +108,7 @@ fun FormScreen(
     bidangFieldState: StateFlow<Pair<String, Int?>>,
     semesterFieldState: StateFlow<Pair<String, Int?>>,
     cgpaFieldState: StateFlow<Pair<String, Int?>>,
+    perkawinanFieldState: StateFlow<Pair<String, Int?>>,
     depresiFieldState: StateFlow<Pair<String, Int?>>,
     panicFieldState: StateFlow<Pair<String, Int?>>,
     kecemasanFieldState: StateFlow<Pair<String, Int?>>,
@@ -136,6 +138,8 @@ fun FormScreen(
         ) {
             val focusManager = LocalFocusManager.current
             val scrollState = rememberScrollState()
+            val yesNoOptions = listOf("Yes", "No")
+            val options = listOf(stringResource(R.string.sudah), stringResource(R.string.belum))
             val isLoading by loadingState.collectAsState()
 
             Column(
@@ -253,20 +257,16 @@ fun FormScreen(
                     modifier = Modifier.align(Alignment.Start)
                 )
 
-                var pernikahan by remember { mutableStateOf<String?>(null) }
+                val pernikahanField by perkawinanFieldState.collectAsState()
+                val (pernikahan, pernikahanError) = pernikahanField
 
-                ExposedDropdownMenuBox(
-                    options = listOf(
-                        stringResource(id = R.string.sudah),
-                        stringResource(id = R.string.belum)
-                    ),
+                MyExposedDropdownMenuBox(
+                    modifier = Modifier,
+                    options = options,
                     selectedOption = pernikahan,
-                    onOptionSelected = { selectedOption ->
-                        onChangePernikahan(selectedOption)
-                        pernikahan = selectedOption
-                    },
+                    onOptionSelected = onChangePernikahan,
                     label = stringResource(R.string.perkawinan),
-                    modifier = Modifier
+                    isError = pernikahanError != null
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -275,7 +275,7 @@ fun FormScreen(
                 val (depresi, depresiError) = depresiField
 
                 TextFieldGroup(
-                    options = listOf("Yes", "No"),
+                    options = yesNoOptions,
                     selectedOption = depresi,
                     onOptionSelected = onChangeDepresi,
                     additionalText = stringResource(id = R.string.depresi),
@@ -291,7 +291,7 @@ fun FormScreen(
                 val (kecemasan, kecemasanError) = kecemasanField
 
                 TextFieldGroup(
-                    options = listOf("Yes", "No"),
+                    options = yesNoOptions,
                     selectedOption = kecemasan,
                     onOptionSelected = onChangeKecemasan,
                     additionalText = stringResource(id = R.string.cemas),
@@ -307,7 +307,7 @@ fun FormScreen(
                 val (panik, panikError) = panikField
 
                 TextFieldGroup(
-                    options = listOf("Yes", "No"),
+                    options = yesNoOptions,
                     selectedOption = panik,
                     onOptionSelected = onChangePanic,
                     additionalText = stringResource(id = R.string.panic),
@@ -323,7 +323,7 @@ fun FormScreen(
                 val (kebutuhan, kebutuhanError) = kebutuhanField
 
                 TextFieldGroup(
-                    options = listOf("Yes", "No"),
+                    options = yesNoOptions,
                     selectedOption = kebutuhan,
                     onOptionSelected = onChangeKebutuhanKhusus,
                     additionalText = stringResource(id = R.string.kebutuhankhusus),
@@ -385,6 +385,7 @@ fun FormScreenPreview() {
             bidangFieldState = MutableStateFlow("Laki-Laki" to null),
             semesterFieldState = MutableStateFlow("Laki-Laki" to null),
             cgpaFieldState = MutableStateFlow("Laki-Laki" to null),
+            perkawinanFieldState = MutableStateFlow("Sudah" to null),
             depresiFieldState = MutableStateFlow("YA" to null),
             panicFieldState = MutableStateFlow("YA" to null),
             kecemasanFieldState = MutableStateFlow("YA" to null),

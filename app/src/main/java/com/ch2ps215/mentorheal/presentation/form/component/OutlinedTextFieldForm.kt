@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlineTextFieldForm(
     value: String,
