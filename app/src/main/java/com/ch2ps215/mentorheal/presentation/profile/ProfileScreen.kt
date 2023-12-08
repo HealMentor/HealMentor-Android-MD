@@ -24,7 +24,7 @@ import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import trashissue.rebage.presentation.profile.component.ProfileMenuItem
+import com.ch2ps215.mentorheal.presentation.profile.component.ProfileMenuItem
 
 @Composable
 fun ProfileScreen(

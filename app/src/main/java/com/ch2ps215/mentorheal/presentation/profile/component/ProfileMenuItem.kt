@@ -1,4 +1,4 @@
-package trashissue.rebage.presentation.profile.component
+package com.ch2ps215.mentorheal.presentation.profile.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileMenuItem(
     modifier: Modifier = Modifier,

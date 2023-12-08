@@ -59,6 +59,9 @@ fun TextFieldGroup(
                 .weight(1f)
         ) {
             OutlinedTextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 trailingIcon = {
