@@ -1,7 +1,9 @@
 package com.ch2ps215.mentorheal.di
 
 import com.ch2ps215.mentorheal.R
+import com.ch2ps215.mentorheal.data.DefaultDetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
+import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
@@ -9,6 +11,7 @@ import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
+import com.ch2ps215.mentorheal.domain.usecase.SaveDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignUpUseCase
@@ -110,5 +113,14 @@ object UseCaseModule {
         articleRepository: ArticleRepository
     ): GetFavoriteArticlesUseCase {
         return GetFavoriteArticlesUseCase(userRepository, articleRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSaveDetectionUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): SaveDetectionUseCase {
+        return SaveDetectionUseCase(userRepository, detectionRepository)
     }
 }

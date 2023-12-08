@@ -3,8 +3,13 @@ package com.ch2ps215.mentorheal.di
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.ch2ps215.mentorheal.BuildConfig
-import com.ch2ps215.mentorheal.data.ArticleRemoteDataSource
+import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
+import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
+import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -66,5 +71,16 @@ object RemoteModule {
     fun provideArticleRemoteDataSource(retrofit: Retrofit): ArticleRemoteDataSource {
         val articleService = retrofit.create<ArticleService>()
         return ArticleRemoteDataSource(articleService)
+    }
+
+    @Provides
+    fun provideBooksRef() = Firebase.firestore.collection(DETECTIONS)
+
+    @Provides
+    @Singleton
+    fun provideDetectionRemoteDataSource(
+        firebaseFirestore: CollectionReference
+    ) : DetectionRemoteDataSource {
+        return DetectionRemoteDataSource(firebaseFirestore)
     }
 }

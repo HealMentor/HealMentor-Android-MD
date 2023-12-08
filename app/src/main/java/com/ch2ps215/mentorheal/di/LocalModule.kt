@@ -3,6 +3,7 @@ package com.ch2ps215.mentorheal.di
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
 import com.ch2ps215.mentorheal.data.local.UserLocalDataSource
 import com.ch2ps215.mentorheal.data.local.datastore.UserPreferences
 import com.ch2ps215.mentorheal.data.local.room.MentorHealDatabase
@@ -31,6 +32,12 @@ object LocalModule {
     @Singleton
     fun provideUserLocalDataSource(userPreferences: UserPreferences): UserLocalDataSource {
         return UserLocalDataSource(userPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDetectionLocalDataSource(database: MentorHealDatabase): DetectionLocalDataSource {
+        return DetectionLocalDataSource(database.getDetectionDao())
     }
 
     @Provides

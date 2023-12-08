@@ -1,6 +1,5 @@
-package com.ch2ps215.mentorheal.data
+package com.ch2ps215.mentorheal.data.remote
 
-import com.ch2ps215.mentorheal.data.remote.getErrorMessage
 import com.ch2ps215.mentorheal.data.remote.payload.ArticleResponse
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
 

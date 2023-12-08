@@ -9,12 +9,9 @@ import java.util.Date
 data class DetectionEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    val image: String,
     val label: String,
-    @ColumnInfo(name = "bounding_boxes")
-    val boundingBoxes: List<List<Float>>,
-    val scores: List<Float>,
-    val total: Int,
+    val scores: Float,
+    val idUser: Int,
     @ColumnInfo(name = "created_at")
     val createdAt: Date
 )
