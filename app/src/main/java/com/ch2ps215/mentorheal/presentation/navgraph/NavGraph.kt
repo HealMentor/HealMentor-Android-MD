@@ -6,13 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
+import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
+import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
-import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 
 @Composable
 fun NavGraph(
@@ -56,7 +56,7 @@ fun NavGraph(
             }
 
             composable(Route.Detection()) {
-                DetectionScreen(LocalNavController.current)
+                FormScreen(LocalNavController.current)
             }
 
             composable(Route.Tracker()) {

@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.onboarding.component.OnboardingContent
 import com.ch2ps215.mentorheal.presentation.onboarding.component.Pages
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
@@ -33,19 +32,14 @@ fun OnboardingScreen(
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     OnboardingScreen(
-        onboarding = viewModel::onboarding,
-        onNavigateToSignInScreen = {
-            viewModel.onboarding(true)
-            navController.navigate(Route.SignIn())
-        }
+        onboarding = viewModel::onboarding
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
-    onboarding: (Boolean) -> Unit,
-    onNavigateToSignInScreen: () -> Unit
+    onboarding: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -55,7 +49,10 @@ fun OnboardingScreen(
             .heightIn(900.dp)
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.primary)
+                    colors = listOf(
+                        MaterialTheme.colorScheme.background,
+                        MaterialTheme.colorScheme.primary
+                    )
                 )
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,9 +104,6 @@ fun OnboardingScreen(
 @Composable
 fun OnboardingScreenPreview() {
     MentorhealTheme {
-        OnboardingScreen(
-            onNavigateToSignInScreen = {},
-            onboarding = { }
-        )
+        OnboardingScreen { }
     }
 }

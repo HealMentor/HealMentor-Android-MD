@@ -15,16 +15,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.User
+import com.ch2ps215.mentorheal.presentation.profile.component.AppearanceDialog
+import com.ch2ps215.mentorheal.presentation.profile.component.Photo
+import com.ch2ps215.mentorheal.presentation.profile.component.SignOutDialog
+import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import com.ch2ps215.mentorheal.presentation.profile.component.AppearanceDialog
-import com.ch2ps215.mentorheal.presentation.profile.component.Photo
-import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import trashissue.rebage.presentation.profile.component.ProfileMenuItem
-import com.ch2ps215.mentorheal.presentation.profile.component.SignOutDialog
 
 @Composable
 fun ProfileScreen(
@@ -192,7 +192,15 @@ fun ProfileScreenPreview() {
     MentorhealTheme {
         ProfileScreen(
             snackbarHostState = remember { SnackbarHostState() },
-            userState = MutableStateFlow(User("1", "Tubagus", "tubagus@student.ub.ac.id", null, "")),
+            userState = MutableStateFlow(
+                User(
+                    "1",
+                    "Tubagus",
+                    "tubagus@student.ub.ac.id",
+                    null,
+                    ""
+                )
+            ),
             darkThemeState = MutableStateFlow(null),
             onSignOut = { },
             darkTheme = { },

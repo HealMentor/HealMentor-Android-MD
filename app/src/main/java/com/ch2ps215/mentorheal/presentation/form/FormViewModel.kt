@@ -2,6 +2,7 @@ package com.ch2ps215.mentorheal.presentation.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ch2ps215.mentorheal.domain.usecase.FormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,11 +27,17 @@ class FormViewModel @Inject constructor(
     private val validateFormUseCase: ValidateFormUseCase,
     private val validateGenderUseCase: ValidateGenderUseCase,
     private val validateYesNoUseCase: ValidateYesNoUseCase,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val saveFormUseCase: FormUseCase,
 ) : ViewModel() {
     val username = getUserUseCase()
         .map { it?.name }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
+    val userId = getUserUseCase()
+        .map { it?.id }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
 
     private val _umurField = MutableStateFlow<Pair<String, Int?>>("" to null)
     val umurField = _umurField.asStateFlow()
@@ -62,15 +71,6 @@ class FormViewModel @Inject constructor(
 
     val fulfilled = combine(
         _umurField,
-        _genderField,
-        _bidangField,
-        _semesterField,
-        _cgpaField,
-        _pernikahanField,
-        _depresiField,
-        _kecemasanField,
-        _panicField,
-        _kebutuhankhususField
     ) { fields ->
         fields.all { (value, error) ->
             value.isNotBlank() && error == null
@@ -95,17 +95,17 @@ class FormViewModel @Inject constructor(
 
     fun changeBidang(bidang: String) {
         val error = validateFormUseCase(bidang)
-        _umurField.value = bidang to error
+        _bidangField.value = bidang to error
     }
 
     fun changeSemester(semester: String) {
         val error = validateFormUseCase(semester)
-        _umurField.value = semester to error
+        _semesterField.value = semester to error
     }
 
     fun changeCGPA(cgpa: String) {
         val error = validateFormUseCase(cgpa)
-        _umurField.value = cgpa to error
+        _cgpaField.value = cgpa to error
     }
 
     fun changePernikahan(pernikahan: String) {
@@ -133,26 +133,43 @@ class FormViewModel @Inject constructor(
         _kebutuhankhususField.value = kebutuhankhusus to error
     }
 
-//    fun submit() {
-//        viewModelScope.launch(dispatcher) {
-//            if (!fulfilled.value) return@launch
-//            _loading.value = true
-//            val umur = _umurField.value.first
-//            val gender = _genderField.value.first
-//            val bidang = _bidangField.value.first
-//            val semester = _semesterField.value.first
-//            val CGPA = _cgpaField.value.first
-//            val pernikahan = _pernikahanField.value.first
-//            val depresi = _depresiField.value.first
-//            val cemas = _kecemasanField.value.first
-//            val panic = _panicField.value.first
-//            val kebutuhankhusus = _kebutuhankhususField.value.first
-//            signUpUseCase.invoke(umur, gender, bidang, semester, CGPA, pernikahan, depresi, cemas, panic, kebutuhankhusus).onFailure { e ->
-//                Timber.e(e)
-//                _snackbar.emit(e.message ?: "Failed to sign in. Try again later")
-//            }
-//            _loading.value = false
-//        }
-//    }
+    fun submit() {
+        viewModelScope.launch(dispatcher) {
+            if (!fulfilled.value) return@launch
+            _loading.value = true
+
+            val umur = _umurField.value.first
+            val gender = _genderField.value.first
+            val bidang = _bidangField.value.first
+            val semester = _semesterField.value.first
+            val cgpa = _cgpaField.value.first
+            val pernikahan = _pernikahanField.value.first
+            val depresi = _depresiField.value.first
+            val kecemasan = _kecemasanField.value.first
+            val panic = _panicField.value.first
+            val kebutuhanKhusus = _kebutuhankhususField.value.first
+            val userIdValue = userId.value ?: ""
+
+            saveFormUseCase.invoke(
+                umur,
+                gender,
+                bidang,
+                semester,
+                cgpa,
+                pernikahan,
+                depresi,
+                kecemasan,
+                panic,
+                kebutuhanKhusus,
+                userIdValue
+            ).onFailure { e ->
+                Timber.e(e)
+                _snackbar.emit(e.message ?: "Failed to submit the form. Try again later")
+            }
+
+            _loading.value = false
+        }
+    }
+
 }
 

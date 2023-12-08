@@ -1,12 +1,12 @@
 package com.ch2ps215.mentorheal.di
 
-import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
-import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
+import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
+import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -80,7 +80,7 @@ object RemoteModule {
     @Singleton
     fun provideDetectionRemoteDataSource(
         firebaseFirestore: CollectionReference
-    ) : DetectionRemoteDataSource {
+    ): DetectionRemoteDataSource {
         return DetectionRemoteDataSource(firebaseFirestore)
     }
 }

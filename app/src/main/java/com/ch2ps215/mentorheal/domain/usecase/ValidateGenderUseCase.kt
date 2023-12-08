@@ -8,16 +8,10 @@ class ValidateGenderUseCase(
      * You can use string resource to inject these values
      * */
     @StringRes private val errorBlankMessage: Int,
-    @StringRes private val errorInvalidMessage: Int,
 ) {
 
     operator fun invoke(gender: String): Int? {
         if (gender.isBlank()) return errorBlankMessage
-
-        val validGenders = listOf("Male", "Female")
-        if (!validGenders.contains(gender)) {
-            return errorInvalidMessage
-        }
 
         return null
     }

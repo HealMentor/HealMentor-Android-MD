@@ -3,35 +3,49 @@ package com.ch2ps215.mentorheal.presentation.form
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenuItem
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
+import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
+import com.ch2ps215.mentorheal.presentation.form.component.ExposedDropdownMenuBox
 import com.ch2ps215.mentorheal.presentation.form.component.RadioGroup
+import com.ch2ps215.mentorheal.presentation.form.component.TextFieldGroup
+import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,7 +64,6 @@ fun FormScreen(
 
     FormScreen(
         snackBarHostState = snackBarHostState,
-        usernameState = viewModel.username,
         onChangeUmur = viewModel::changeUmur,
         onChangeGender = viewModel::changeGender,
         onChangeBidang = viewModel::changeBidang,
@@ -58,35 +71,28 @@ fun FormScreen(
         onChangeCGPA = viewModel::changeCGPA,
         onChangePernikahan = viewModel::changePernikahan,
         onChangeDepresi = viewModel::changeDepresi,
-        onChangeKecemasan = viewModel::changeKecemasan,
         onChangePanic = viewModel::changePanic,
+        onChangeKecemasan = viewModel::changeKecemasan,
         onChangeKebutuhanKhusus = viewModel::changeKebutuhanKhusus,
-        genderFieldState = viewModel.genderField,
         umurFieldState = viewModel.umurField,
         bidangFieldState = viewModel.bidangField,
         semesterFieldState = viewModel.semesterField,
         cgpaFieldState = viewModel.cgpaField,
-        pernikahanFieldState = viewModel.pernikahanField,
         depresiFieldState = viewModel.depresiField,
-        kecemasanFieldState = viewModel.kecemasanField,
         panicFieldState = viewModel.panicField,
+        kecemasanFieldState = viewModel.kecemasanField,
         kebutuhankhususFieldState = viewModel.kebutuhankhususField,
         fulfilledState = viewModel.fulfilled,
         loadingState = viewModel.loading,
-//        onClickButtonSignIn = viewModel::signIn,
-//        onNavigateToSignUpScreen = {
-//            navController.navigate(Route.SignUp()) {
-//                popUpTo(Route.SignIn()) { inclusive = true }
-//            }
-//        },
-    )
+    ) {
+        viewModel.submit()
+        navController.navigate(Route.Problems())
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormScreen(
     snackBarHostState: SnackbarHostState,
-    usernameState: StateFlow<String?>,
     onChangeUmur: (String) -> Unit,
     onChangeGender: (String) -> Unit,
     onChangeBidang: (String) -> Unit,
@@ -97,23 +103,28 @@ fun FormScreen(
     onChangePanic: (String) -> Unit,
     onChangeKecemasan: (String) -> Unit,
     onChangeKebutuhanKhusus: (String) -> Unit,
-    genderFieldState: StateFlow<Pair<String, Int?>>,
     umurFieldState: StateFlow<Pair<String, Int?>>,
     bidangFieldState: StateFlow<Pair<String, Int?>>,
     semesterFieldState: StateFlow<Pair<String, Int?>>,
     cgpaFieldState: StateFlow<Pair<String, Int?>>,
-    pernikahanFieldState: StateFlow<Pair<String, Int?>>,
     depresiFieldState: StateFlow<Pair<String, Int?>>,
     panicFieldState: StateFlow<Pair<String, Int?>>,
     kecemasanFieldState: StateFlow<Pair<String, Int?>>,
     kebutuhankhususFieldState: StateFlow<Pair<String, Int?>>,
     fulfilledState: StateFlow<Boolean>,
     loadingState: StateFlow<Boolean>,
-//    onClickButtonSubmit: () -> Unit,
-//    onNavigateToSignUpScreen: () -> Unit
-) {
+    onClickButtonSubmit: () -> Unit,
+
+    ) {
+    val navController = rememberNavController()
+
     Scaffold(
-//        modifier = Modifier.systemBarsPadding(),
+        topBar = {
+            TopAppBar(
+                title = "Form Keluhan",
+                onClickNavigation = { navController.navigateUp() }
+            )
+        },
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         }
@@ -122,13 +133,6 @@ fun FormScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color.Gray, Color.Gray),
-                        startY = 0f,
-                        endY = 1f
-                    )
-                )
         ) {
             val focusManager = LocalFocusManager.current
             val scrollState = rememberScrollState()
@@ -138,7 +142,8 @@ fun FormScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color(0xFFF8F8F8))
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -234,9 +239,9 @@ fun FormScreen(
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     value = cgpa,
-                    onValueChange = onChangeUmur,
+                    onValueChange = onChangeCGPA,
                     label = {
-                        Text(text = stringResource(R.string.umur))
+                        Text(text = stringResource(R.string.CGPA))
                     },
                     maxLines = 1,
                     singleLine = true,
@@ -250,180 +255,106 @@ fun FormScreen(
 
                 var pernikahan by remember { mutableStateOf<String?>(null) }
 
-                // Dropdown for Yes/No selection
-                DropdownMenu(
-                    expanded = pernikahan != null,
-                    onDismissRequest = { pernikahan = null },
+                ExposedDropdownMenuBox(
+                    options = listOf(
+                        stringResource(id = R.string.sudah),
+                        stringResource(id = R.string.belum)
+                    ),
+                    selectedOption = pernikahan,
+                    onOptionSelected = { selectedOption ->
+                        onChangePernikahan(selectedOption)
+                        pernikahan = selectedOption
+                    },
+                    label = stringResource(R.string.perkawinan),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            pernikahan = "Yes"
-                            onChangePernikahan("Yes")
-                        }
-                    ) {
-                        Text(text = "Yes")
-                    }
-                    DropdownMenuItem(
-                        onClick = {
-                            pernikahan = "No"
-                            onChangePernikahan("No")
-                        }
-                    ) {
-                        Text(text = "No")
-                    }
-                }
+                )
 
-                var depresi by remember { mutableStateOf<String?>(null) }
+                Spacer(modifier = Modifier.height(12.dp))
 
-                // Dropdown for Yes/No selection
-                DropdownMenu(
-                    expanded = depresi != null,
-                    onDismissRequest = { depresi = null },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            depresi = "Yes"
-                            onChangePernikahan("Yes")
-                        }
-                    ) {
-                        Text(text = "Yes")
-                    }
-                    DropdownMenuItem(
-                        onClick = {
-                            depresi = "No"
-                            onChangePernikahan("No")
-                        }
-                    ) {
-                        Text(text = "No")
-                    }
-                }
+                val depresiField by depresiFieldState.collectAsState()
+                val (depresi, depresiError) = depresiField
 
-                var cemas by remember { mutableStateOf<String?>(null) }
+                TextFieldGroup(
+                    options = listOf("Yes", "No"),
+                    selectedOption = depresi,
+                    onOptionSelected = onChangeDepresi,
+                    additionalText = stringResource(id = R.string.depresi),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-                // Dropdown for Yes/No selection
-                DropdownMenu(
-                    expanded = cemas != null,
-                    onDismissRequest = { cemas = null },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            cemas = "Yes"
-                            onChangePernikahan("Yes")
-                        }
-                    ) {
-                        Text(text = "Yes")
-                    }
-                    DropdownMenuItem(
-                        onClick = {
-                            cemas = "No"
-                            onChangePernikahan("No")
-                        }
-                    ) {
-                        Text(text = "No")
-                    }
-                }
+                TextError(
+                    textRes = depresiError,
+                    modifier = Modifier.align(Alignment.Start)
+                )
 
-                var panik by remember { mutableStateOf<String?>(null) }
+                val kecemasanField by kecemasanFieldState.collectAsState()
+                val (kecemasan, kecemasanError) = kecemasanField
 
-                // Dropdown for Yes/No selection
-                DropdownMenu(
-                    expanded = panik != null,
-                    onDismissRequest = { panik = null },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            panik = "Yes"
-                            onChangePernikahan("Yes")
-                        }
-                    ) {
-                        Text(text = "Yes")
-                    }
-                    DropdownMenuItem(
-                        onClick = {
-                            panik = "No"
-                            onChangePernikahan("No")
-                        }
-                    ) {
-                        Text(text = "No")
-                    }
-                }
+                TextFieldGroup(
+                    options = listOf("Yes", "No"),
+                    selectedOption = kecemasan,
+                    onOptionSelected = onChangeKecemasan,
+                    additionalText = stringResource(id = R.string.cemas),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
+                TextError(
+                    textRes = kecemasanError,
+                    modifier = Modifier.align(Alignment.Start)
+                )
 
-                var khusus by remember { mutableStateOf<String?>(null) }
+                val panikField by panicFieldState.collectAsState()
+                val (panik, panikError) = panikField
 
-                // Dropdown for Yes/No selection
-                DropdownMenu(
-                    expanded = khusus != null,
-                    onDismissRequest = { khusus = null },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            khusus = "Yes"
-                            onChangePernikahan("Yes")
-                        }
-                    ) {
-                        Text(text = "Yes")
-                    }
-                    DropdownMenuItem(
-                        onClick = {
-                            khusus = "No"
-                            onChangePernikahan("No")
-                        }
-                    ) {
-                        Text(text = "No")
-                    }
-                }
+                TextFieldGroup(
+                    options = listOf("Yes", "No"),
+                    selectedOption = panik,
+                    onOptionSelected = onChangePanic,
+                    additionalText = stringResource(id = R.string.panic),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                TextError(
+                    textRes = panikError,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+
+                val kebutuhanField by kebutuhankhususFieldState.collectAsState()
+                val (kebutuhan, kebutuhanError) = kebutuhanField
+
+                TextFieldGroup(
+                    options = listOf("Yes", "No"),
+                    selectedOption = kebutuhan,
+                    onOptionSelected = onChangeKebutuhanKhusus,
+                    additionalText = stringResource(id = R.string.kebutuhankhusus),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                TextError(
+                    textRes = kebutuhanError,
+                    modifier = Modifier.align(Alignment.Start)
+                )
 
 
                 val isFulfilled by fulfilledState.collectAsState()
 
-//                Button(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 16.dp),
-//                    enabled = isFulfilled && !isLoading,
-//                    onClick = onClickButtonSignIn,
-//                    colors = ButtonDefaults.buttonColors(colorResource(id = R.color.button))
-//
-//                ) {
-//                    Text(
-//                        text = stringResource(R.string.sign_in),
-//                        color = Color.White,
-//                        fontWeight = FontWeight.Bold
-//                    )
-//                }
-//                TwoLineDivider(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(start = 32.dp, top = 32.dp, end = 32.dp, bottom = 4.dp)
-//                ) {
-//                    Text(
-//                        modifier = Modifier.padding(horizontal = 16.dp),
-//                        text = stringResource(R.string.sign_in_alternative),
-//                        style = MaterialTheme.typography.titleMedium,
-//                        color = Color.White
-//                    )
-//                }
-//
-//                NavigateToSignUpButton(
-//                    modifier = Modifier.padding(vertical = 32.dp),
-//                    onClick = onNavigateToSignUpScreen
-//                )
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    enabled = isFulfilled && !isLoading,
+                    onClick = onClickButtonSubmit,
+                    colors = ButtonDefaults.buttonColors(colorResource(id = R.color.button))
+
+                ) {
+                    Text(
+                        text = "Submit",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+
             }
 
             if (isLoading) {
@@ -440,30 +371,26 @@ fun FormScreenPreview() {
     MentorhealTheme {
         FormScreen(
             snackBarHostState = remember { SnackbarHostState() },
-            usernameState = MutableStateFlow("Fulan"),
             onChangeUmur = { },
             onChangeGender = { },
-            onChangeSemester = { },
             onChangeBidang = { },
-            onChangeKebutuhanKhusus = { },
-            onChangePanic = { },
-            onChangeDepresi = { },
+            onChangeSemester = { },
             onChangeCGPA = { },
             onChangePernikahan = { },
+            onChangeDepresi = { },
+            onChangePanic = { },
             onChangeKecemasan = { },
+            onChangeKebutuhanKhusus = { },
             umurFieldState = MutableStateFlow("fulan" to null),
-            genderFieldState = MutableStateFlow("Laki-Laki" to null),
             bidangFieldState = MutableStateFlow("Laki-Laki" to null),
             semesterFieldState = MutableStateFlow("Laki-Laki" to null),
             cgpaFieldState = MutableStateFlow("Laki-Laki" to null),
-            depresiFieldState = MutableStateFlow("Laki-Laki" to null),
-            panicFieldState = MutableStateFlow("Laki-Laki" to null),
-            pernikahanFieldState = MutableStateFlow("Laki-Laki" to null),
-            kecemasanFieldState = MutableStateFlow("Laki-Laki" to null),
-            kebutuhankhususFieldState = MutableStateFlow("Laki-Laki" to null),
+            depresiFieldState = MutableStateFlow("YA" to null),
+            panicFieldState = MutableStateFlow("YA" to null),
+            kecemasanFieldState = MutableStateFlow("YA" to null),
+            kebutuhankhususFieldState = MutableStateFlow("YA" to null),
             fulfilledState = MutableStateFlow(true),
-            loadingState = MutableStateFlow(true),
-
-            )
+            loadingState = MutableStateFlow(true)
+        ) { }
     }
 }

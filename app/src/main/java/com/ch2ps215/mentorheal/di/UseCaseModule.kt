@@ -3,9 +3,11 @@ package com.ch2ps215.mentorheal.di
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
+import com.ch2ps215.mentorheal.domain.repository.IFormRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
+import com.ch2ps215.mentorheal.domain.usecase.FormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
@@ -64,33 +66,37 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideValidateFormUseCase(): ValidateFormUseCase {
         return ValidateFormUseCase(
-            errorBlankMessage = R.string.error_field_required,
-            errorMinMessage = R.string.error_name_min_char,
-            errorMaxMessage = R.string.error_name_max_char
+            errorBlankMessage = R.string.error_field_required
         )
     }
 
     @Provides
     @ViewModelScoped
-    fun provideGenderUseCase(): ValidateGenderUseCase {
+    fun provideValidateGenderUseCase(): ValidateGenderUseCase {
         return ValidateGenderUseCase(
-            errorBlankMessage = R.string.error_field_required,
-            errorInvalidMessage = R.string.error_field_required
+            errorBlankMessage = R.string.error_field_required
         )
     }
 
     @Provides
     @ViewModelScoped
-    fun provideYesNoUseCase(): ValidateYesNoUseCase {
+    fun provideValidateYesNoUseCase(): ValidateYesNoUseCase {
         return ValidateYesNoUseCase(
-            errorBlankMessage = R.string.error_field_required,
-            errorInvalidMessage = R.string.error_field_required
+            errorBlankMessage = R.string.error_field_required
         )
     }
 
     @Provides
     @ViewModelScoped
-    fun provideSignInUseCase(userRepository: UserRepository): SignInUseCase {
+    fun provideFormUseCase(formRepository: IFormRepository): FormUseCase {
+        return FormUseCase(formRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSignInUseCase(
+        userRepository: UserRepository
+    ): SignInUseCase {
         return SignInUseCase(userRepository)
     }
 
