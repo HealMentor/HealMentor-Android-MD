@@ -2,7 +2,6 @@ package com.ch2ps215.mentorheal.domain.repository
 
 import com.ch2ps215.mentorheal.domain.model.Detection
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface DetectionRepository {
 

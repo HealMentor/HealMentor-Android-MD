@@ -1,10 +1,16 @@
 package com.ch2ps215.mentorheal.presentation.home.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +24,7 @@ import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.presentation.common.component.noRippleClickable
 import com.ch2ps215.mentorheal.presentation.common.component.shimmer
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
-import java.util.*
+import java.util.Date
 
 private val ContentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
 

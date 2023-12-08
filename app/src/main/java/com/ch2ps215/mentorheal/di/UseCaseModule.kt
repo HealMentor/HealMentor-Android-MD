@@ -1,7 +1,6 @@
 package com.ch2ps215.mentorheal.di
 
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.data.DefaultDetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
@@ -16,8 +15,11 @@ import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignUpUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateEmailUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateNameUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidatePasswordUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateYesNoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +57,34 @@ object UseCaseModule {
         return ValidateEmailUseCase(
             errorBlankEmail = R.string.error_email_is_required,
             errorIncorrectMessage = R.string.error_invalid_email
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideValidateFormUseCase(): ValidateFormUseCase {
+        return ValidateFormUseCase(
+            errorBlankMessage = R.string.error_field_required,
+            errorMinMessage = R.string.error_name_min_char,
+            errorMaxMessage = R.string.error_name_max_char
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGenderUseCase(): ValidateGenderUseCase {
+        return ValidateGenderUseCase(
+            errorBlankMessage = R.string.error_field_required,
+            errorInvalidMessage = R.string.error_field_required
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideYesNoUseCase(): ValidateYesNoUseCase {
+        return ValidateYesNoUseCase(
+            errorBlankMessage = R.string.error_field_required,
+            errorInvalidMessage = R.string.error_field_required
         )
     }
 
@@ -123,4 +153,6 @@ object UseCaseModule {
     ): SaveDetectionUseCase {
         return SaveDetectionUseCase(userRepository, detectionRepository)
     }
+
+
 }

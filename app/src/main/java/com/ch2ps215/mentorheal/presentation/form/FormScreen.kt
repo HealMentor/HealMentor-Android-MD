@@ -1,32 +1,18 @@
 package com.ch2ps215.mentorheal.presentation.form
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -36,25 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.presentation.common.component.OutlinedTextFieldPassword
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
-import com.ch2ps215.mentorheal.presentation.common.component.TwoLineDivider
 import com.ch2ps215.mentorheal.presentation.form.component.RadioGroup
-import com.ch2ps215.mentorheal.presentation.navgraph.Route
-import com.ch2ps215.mentorheal.presentation.signin.component.NavigateToSignUpButton
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -191,7 +168,10 @@ fun FormScreen(
 
                 // Radio buttons for gender selection
                 RadioGroup(
-                    options = listOf(stringResource(id = R.string.laki), stringResource(id = R.string.perempuan)),
+                    options = listOf(
+                        stringResource(id = R.string.laki),
+                        stringResource(id = R.string.perempuan)
+                    ),
                     selectedOption = selectedGender,
                     onOptionSelected = {
                         selectedGender = it
@@ -410,8 +390,6 @@ fun FormScreen(
                 }
 
 
-
-
                 val isFulfilled by fulfilledState.collectAsState()
 
 //                Button(
@@ -454,7 +432,6 @@ fun FormScreen(
         }
     }
 }
-
 
 
 @Preview

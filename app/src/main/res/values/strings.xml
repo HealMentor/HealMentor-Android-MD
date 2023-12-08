@@ -50,6 +50,7 @@
     <string name="profile">Profile</string>
 
     <!-- Error -->
+    <string name="error_field_required">This field is required</string>
     <string name="error_name_is_required">Name is required</string>
     <string name="error_name_min_char">Minimum characters is 3</string>
     <string name="error_name_max_char">Maximum characters is 50</string>
@@ -66,5 +67,19 @@
     <string name="cd_search">Search</string>
     <string name="cd_back">back</string>
     <string name="cd_notification">Notification</string>
+    <string name="title_activity_template">Template</string>
+
+    <!-- Form -->
+    <string name="umur">Sebutkan Umur Anda</string>
+    <string name="laki">Laki-Laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="bidang">Sebutkan Bidang Anda</string>
+    <string name="semester">Sebutkan Semester Anda</string>
+    <string name="CGPA">Sebutkan CGPA Anda</string>
+    <string name="perkawinan">Status Perkawinan Anda</string>
+    <string name="depresi">Apakah Anda Memiliki Depresi</string>
+    <string name="panic">Apakah Anda Memiliki Panic Attack</string>
+    <string name="cemas">Apakah Anda Sering Cemas</string>
+    <string name="kebutuhankhusus">Apakah Anda Memiliki Kebutuhan Khusus</string>
 
 </resources>

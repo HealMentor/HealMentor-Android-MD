@@ -16,8 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +30,7 @@ class FormViewModel @Inject constructor(
         .map { it?.name }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    private val _umurField= MutableStateFlow<Pair<String, Int?>>("" to null)
+    private val _umurField = MutableStateFlow<Pair<String, Int?>>("" to null)
     val umurField = _umurField.asStateFlow()
 
     private val _genderField = MutableStateFlow<Pair<String, Int?>>("" to null)

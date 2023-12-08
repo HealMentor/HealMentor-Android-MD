@@ -27,7 +27,12 @@ class DefaultDetectionRepository(
         return detectionRemoteDataSource.getDetection(token, detectionId)
     }
 
-    override suspend fun save(token: String, label: String, scores: Float, idUser: String): Boolean {
+    override suspend fun save(
+        token: String,
+        label: String,
+        scores: Float,
+        idUser: String
+    ): Boolean {
         val req = SaveDetectionRequest(
             id = "",
             label = label,

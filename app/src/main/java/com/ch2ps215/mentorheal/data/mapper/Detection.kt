@@ -12,6 +12,7 @@ fun Detection.asEntity(): DetectionEntity {
         createdAt = createdAt
     )
 }
+
 fun DetectionEntity.asModel(): Detection {
     return Detection(
         id = id,

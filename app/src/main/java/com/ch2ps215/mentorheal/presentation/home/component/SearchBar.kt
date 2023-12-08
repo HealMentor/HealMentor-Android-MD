@@ -41,7 +41,7 @@ fun SearchBar(
             }
         },
         modifier = modifier
-    ){}
+    ) {}
 }
 
 

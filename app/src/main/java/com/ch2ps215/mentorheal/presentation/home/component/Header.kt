@@ -1,13 +1,10 @@
 package com.ch2ps215.mentorheal.presentation.home.component
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -17,18 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.ch2ps215.mentorheal.R
-import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun Header(
@@ -40,7 +32,7 @@ fun Header(
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
-        ) {
+    ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = modifier

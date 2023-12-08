@@ -1,6 +1,6 @@
 package com.ch2ps215.mentorheal.domain.model
 
-import java.util.*
+import java.util.Date
 
 data class Article(
     val id: Int,

@@ -4,6 +4,7 @@ import com.ch2ps215.mentorheal.data.remote.payload.Api
 import com.ch2ps215.mentorheal.data.remote.payload.ArticleResponse
 import retrofit2.Response
 import retrofit2.http.*
+
 interface ArticleService {
 
     @GET("/api/articles")

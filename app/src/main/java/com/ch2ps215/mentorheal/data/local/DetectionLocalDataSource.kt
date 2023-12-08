@@ -3,6 +3,7 @@ package com.ch2ps215.mentorheal.data.local
 import com.ch2ps215.mentorheal.data.local.entity.DetectionEntity
 import com.ch2ps215.mentorheal.data.local.room.DetectionDao
 import kotlinx.coroutines.flow.Flow
+
 class DetectionLocalDataSource(
     private val detectionDao: DetectionDao
 ) {

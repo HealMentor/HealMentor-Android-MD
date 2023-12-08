@@ -2,7 +2,6 @@ package com.ch2ps215.mentorheal.presentation.profile.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -25,17 +24,17 @@ fun Photo(
     size: Dp = 120.dp,
     onClick: () -> Unit
 ) {
-        AsyncImage(
-            model = photo,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            fallback = painterResource(R.drawable.ic_profile_placeholder),
-            modifier = modifier
-                .size(size)
-                .clip(CircleShape)
-                .background(Color.Gray.copy(alpha = 0.5F))
-                .clickable(onClick = onClick)
-        )
+    AsyncImage(
+        model = photo,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        fallback = painterResource(R.drawable.ic_profile_placeholder),
+        modifier = modifier
+            .size(size)
+            .clip(CircleShape)
+            .background(Color.Gray.copy(alpha = 0.5F))
+            .clickable(onClick = onClick)
+    )
 }
 
 @Preview(showBackground = true)
