@@ -9,7 +9,7 @@ import com.ch2ps215.mentorheal.data.local.UserLocalDataSource
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
-import com.ch2ps215.mentorheal.data.repository.FormRepository
+import com.ch2ps215.mentorheal.data.repository.DefaultFormRepository
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.IFormRepository
@@ -53,6 +53,6 @@ object RepositoryModule {
     fun provideFormRepository(
         formLocalDataSource: FormLocalDataSource
     ): IFormRepository {
-        return FormRepository(formLocalDataSource)
+        return DefaultFormRepository(formLocalDataSource)
     }
 }

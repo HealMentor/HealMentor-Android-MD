@@ -69,7 +69,6 @@ fun SignUpScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
     snackBarHostState: SnackbarHostState,

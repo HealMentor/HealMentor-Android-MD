@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ch2ps215.data.local.entity.FormEntity
+import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

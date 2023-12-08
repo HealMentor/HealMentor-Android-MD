@@ -1,6 +1,6 @@
 package com.ch2ps215.mentorheal.domain.repository
 
-import com.ch2ps215.data.local.entity.FormEntity
+import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import com.ch2ps215.mentorheal.domain.model.Form
 import kotlinx.coroutines.flow.Flow
 

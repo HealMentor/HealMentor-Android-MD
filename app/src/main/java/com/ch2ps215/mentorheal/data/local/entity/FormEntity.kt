@@ -1,4 +1,4 @@
-package com.ch2ps215.data.local.entity
+package com.ch2ps215.mentorheal.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

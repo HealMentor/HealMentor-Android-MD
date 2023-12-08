@@ -1,12 +1,12 @@
 package com.ch2ps215.mentorheal.data.repository
 
 import com.ch2ps215.data.local.FormLocalDataSource
-import com.ch2ps215.data.local.entity.FormEntity
+import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.domain.repository.IFormRepository
 import kotlinx.coroutines.flow.Flow
 
-class FormRepository(
+class DefaultFormRepository(
     private val formLocalDataSource: FormLocalDataSource
 ) : IFormRepository {
 
