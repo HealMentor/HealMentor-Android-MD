@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">mentorheal</string>
+
+    <!-- Onboarding -->
+    <string name="title_onboarding1">Solve Your\nProblem!!</string>
+    <string name="subtitle_onboarding1">Peace of mind brings many benefits such as success and mindfulness. Awareness in choosing something more mature so as to avoid or prevent problems. let\'s think about your soul</string>
+    <string name="get_started">Get Started</string>
+
+    <!-- Auth -->
+    <string name="welcome">Welcome to Mentor Heal</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="password">Password</string>
+    <string name="sign_in_alternative">or sign in with</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up_now">Sign up now</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_account">Already have an account?</string>
+
+    <!-- Home -->
+    <string name="welcome_home">Hi %1$s!</string>
+    <string name="healer">Healer</string>
+    <string name="date_format">%1$s %2$s %3$s</string>
+    <string name="ongoing_activity">Ongoing Activity</string>
+    <string name="activity_recommendation">Activity Recommendation</string>
+
+    <!-- Profile -->
+    <string name="appearance">Appearance</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="system_default">System Default</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="dialog_sign_out">Are you sure want to sign out?</string>
+    <string name="logout">Logout</string>
+
+    <!-- Articles -->
+    <string name="latest_articles">Latest Articles</string>
+    <string name="see_more">See More</string>
+    <string name="favorite_article">Favorite Article</string>
+    <string name="reduce">Reduce</string>
+
+    <!-- Bottom Navigation -->
+    <string name="home">Home</string>
+    <string name="detection">Detection</string>
+    <string name="tracker">Tracker</string>
+    <string name="profile">Profile</string>
+    <string name="search_hint">Search..</string>
+
+    <!-- Error -->
+    <string name="error_field_required">This field is required</string>
+    <string name="error_name_is_required">Name is required</string>
+    <string name="error_name_min_char">Minimum characters is 3</string>
+    <string name="error_name_max_char">Maximum characters is 50</string>
+    <string name="error_invalid_email">Email is invalid</string>
+    <string name="error_password_is_required">Password is required</string>
+    <string name="error_password_min_char">Minimum characters is 8</string>
+    <string name="error_password_max_char">Maximum characters is 50</string>
+    <string name="error_password_not_match">Password doesn\'t match</string>
+    <string name="error_email_is_required">Email is required</string>
+    <string name="error_form_is_required">Required</string>
+    <string name="error_invalid_is_required">Required</string>
+
+    <!-- Content Description -->
+    <string name="cd_pass_visibility">Password Visibility</string>
+    <string name="cd_sign_out">Sign Out</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_back">back</string>
+    <string name="cd_notification">Notification</string>
+    <string name="title_activity_template">Template</string>
+
+    <!-- Form -->
+    <string name="umur">Sebutkan Umur Anda</string>
+    <string name="laki">Laki-Laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="bidang">Sebutkan Bidang Anda</string>
+    <string name="semester">Sebutkan Semester Anda</string>
+    <string name="CGPA">Sebutkan CGPA Anda</string>
+    <string name="perkawinan">Status Perkawinan Anda</string>
+    <string name="sudah">Sudah</string>
+    <string name="belum">Belum</string>
+    <string name="depresi">Apakah Anda Depresi  </string>
+    <string name="panic">Apakah Anda Panicattack  </string>
+    <string name="cemas">Apakah Anda Cemas  </string>
+    <string name="kebutuhankhusus">Sedang Ada Kebutuhan</string>
+    <string name="please_choose">Pilih Salah Satu</string>
+
+</resources>
