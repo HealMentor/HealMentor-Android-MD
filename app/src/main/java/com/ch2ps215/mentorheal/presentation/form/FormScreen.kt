@@ -41,7 +41,7 @@ import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
-import com.ch2ps215.mentorheal.presentation.form.component.MyExposedDropdownMenuBox
+import com.ch2ps215.mentorheal.presentation.form.component.ExposedDropdownMenuBox
 import com.ch2ps215.mentorheal.presentation.form.component.RadioGroup
 import com.ch2ps215.mentorheal.presentation.form.component.TextFieldGroup
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
@@ -259,7 +259,7 @@ fun FormScreen(
                 val pernikahanField by perkawinanFieldState.collectAsState()
                 val (pernikahan, pernikahanError) = pernikahanField
 
-                MyExposedDropdownMenuBox(
+                ExposedDropdownMenuBox(
                     modifier = Modifier,
                     options = options,
                     selectedOption = pernikahan,

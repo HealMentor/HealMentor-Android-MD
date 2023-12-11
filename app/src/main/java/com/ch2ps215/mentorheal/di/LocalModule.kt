@@ -3,7 +3,6 @@ package com.ch2ps215.mentorheal.di
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
-import com.ch2ps215.data.local.FormLocalDataSource
 import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
 import com.ch2ps215.mentorheal.data.local.UserLocalDataSource
 import com.ch2ps215.mentorheal.data.local.datastore.UserPreferences
@@ -52,17 +51,5 @@ object LocalModule {
             .databaseBuilder(context, MentorHealDatabase::class.java, "mentorheal.db")
             .fallbackToDestructiveMigration()
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideFormDaoDatabase(mentorhealDatabase: MentorHealDatabase): FormDao {
-        return mentorhealDatabase.getFormDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideFormLocalDataSource(formDao: FormDao): FormLocalDataSource {
-        return FormLocalDataSource(formDao)
     }
 }

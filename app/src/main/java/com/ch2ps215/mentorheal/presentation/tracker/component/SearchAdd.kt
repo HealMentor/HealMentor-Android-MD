@@ -60,7 +60,6 @@ fun SearchWithAddButton(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Add")
         }
     }
 }

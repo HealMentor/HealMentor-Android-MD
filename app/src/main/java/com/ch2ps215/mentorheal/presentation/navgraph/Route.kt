@@ -43,7 +43,7 @@ sealed class Route(
         operator fun invoke() = route
     }
 
-    object Detection : Route("detection") {
+    object Twos : Route("twos") {
         operator fun invoke() = route
     }
 
@@ -62,6 +62,10 @@ sealed class Route(
         operator fun invoke() = route
     }
 
+    object Detection : Route("detection") {
+        operator fun invoke() = route
+    }
+
     object Problems : Route("kemungkinan") {
         operator fun invoke() = route
     }
@@ -69,6 +73,15 @@ sealed class Route(
     object AtasiKecemasan : Route("atasikecemasan") {
         operator fun invoke() = route
     }
+
+    object AddTracker : Route("adddata") {
+        operator fun invoke() = route
+    }
+
+    object Detail : Route("detail") {
+        operator fun invoke() = route
+    }
+
 
     companion object {
         const val LIST_ARTICLE_TYPE = "list_article_type"

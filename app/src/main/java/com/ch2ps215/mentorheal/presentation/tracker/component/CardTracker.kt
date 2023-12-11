@@ -5,44 +5,43 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ch2ps215.mentorheal.R
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
-fun CardWithFavorite(
+fun CardTracker(
     title: String,
-    description: String,
-    onFavoriteToggle: () -> Unit,
-    isFavorited: Boolean,
+    starCount: Int,
     onClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(Color(0xFFF4F4F4))
+            .background(Color(0xFF24B0C1)) // Set the background color to blue
             .clip(RoundedCornerShape(16.dp)),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable { onClick() }
-                .padding(16.dp)
+                .background(Color(0xFF24B0C1)) // Set the background color to blue
+                .clip(RoundedCornerShape(16.dp))
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(2f)
@@ -55,50 +54,40 @@ fun CardWithFavorite(
                         .fillMaxWidth()
                         .padding(bottom = 4.dp)
                 )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                )
+
             }
-            Column  {
-                FavoriteButton(onFavoriteToggle, isFavorited)
+            Column {
+                StarButton(starCount)
             }
         }
     }
 }
 
-
 @Composable
-fun FavoriteButton(
-    onFavoriteToggle: () -> Unit,
-    isFavorited: Boolean
+fun StarButton(
+    starCount: Int
 ) {
-    var isFavorite by remember { mutableStateOf(isFavorited) }
-
-    Icon(
-        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-        contentDescription = null,
-        tint = colorResource(id = if (isFavorite) R.color.red else R.color.black),
-        modifier = Modifier
-            .size(24.dp)
-            .clickable {
-                isFavorite = !isFavorite
-                onFavoriteToggle()
-            }
-    )
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        repeat(starCount) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = colorResource(id = R.color.yellow),
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
 }
 
 @Preview
 @Composable
-fun CardWithFavoritePreview() {
-    CardWithFavorite(
+fun CardTrackerPreview() {
+    CardTracker(
         title = "Card Title",
-        description = "This is a sample card description. You can replace it with your own content.",
-        onFavoriteToggle = {},
-        isFavorited = false,
+        starCount = 3,
         onClick = {}
     )
 }

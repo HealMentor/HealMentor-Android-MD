@@ -31,9 +31,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun AtasiKecemasanScreen(
     navController: NavHostController,
     viewModel: AtasiKecemasanViewModel = hiltViewModel(),
-    title: String,
-    description: String,
-    steps: List<String>
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -41,11 +38,17 @@ fun AtasiKecemasanScreen(
         viewModel.snackbar.collectLatest(snackBarHostState::showSnackbar)
     }
 
+    val title = "title"
+    val description = "description"
+    val steps = listOf<String>("1")
+
+
     AtasiKecemasanScreen(
         snackBarHostState = snackBarHostState,
         title = title,
         description = description,
-        steps = steps
+        steps = steps,
+        onNavigationBack = navController::popBackStack,
     )
 }
 
@@ -54,15 +57,15 @@ fun AtasiKecemasanScreen(
     snackBarHostState: SnackbarHostState,
     title: String,
     description: String,
-    steps: List<String>
+    steps: List<String>,
+    onNavigationBack: () -> Unit,
 ) {
-    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = "Atasi Kecemasanmu",
-                onNavigationBack = { navController.popBackStack() }
+                onNavigationBack = onNavigationBack
             )
         },
         snackbarHost = {
@@ -101,7 +104,8 @@ fun AtasiKecemasanScreenPreview() {
                 "Step 1: Do something",
                 "Step 2: Do something else",
                 "Step 3: Final step"
-            )
+            ),
+            onNavigationBack = {  }
         )
     }
 }

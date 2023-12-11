@@ -43,7 +43,7 @@ val BotNavMenus = listOf(
     Triple(
         R.string.detection,
         Icons.Outlined.DocumentScanner to Icons.Filled.DocumentScanner,
-        Route.Detection()
+        Route.Twos()
     ),
     Triple(R.string.tracker, Icons.Outlined.Timeline to Icons.Filled.Timeline, Route.Tracker()),
     Triple(

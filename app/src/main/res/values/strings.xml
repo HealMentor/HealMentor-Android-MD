@@ -49,6 +49,7 @@
     <string name="tracker">Tracker</string>
     <string name="profile">Profile</string>
     <string name="search_hint">Search..</string>
+    <string name="keluhan">Form Keluhan</string>
 
     <!-- Error -->
     <string name="error_field_required">This field is required</string>
@@ -87,5 +88,10 @@
     <string name="cemas">Apakah Anda Cemas  </string>
     <string name="kebutuhankhusus">Sedang Ada Kebutuhan</string>
     <string name="please_choose">Pilih Salah Satu</string>
+
+    <!--  Tracker  -->
+    <string name="title">Proses Perkembangan Diri</string>
+    <string name="subtitle">Catat Secara Mandiri Progres Perkembangan Kesehatan Anda</string>
+    <string name="title_list">Perkembangan Harian</string>
 
 </resources>

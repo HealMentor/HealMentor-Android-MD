@@ -44,20 +44,23 @@ fun KemungkinanScreen(
 
     KemungkinanScreen(
         snackBarHostState = snackBarHostState,
+        onNavigateBack = navController::popBackStack,
+        onClickFavorite = { navController.navigate(Route.AtasiKecemasan()) }
     )
 }
 
 @Composable
 fun KemungkinanScreen(
     snackBarHostState: SnackbarHostState,
+    onNavigateBack: () -> Unit = { },
+    onClickFavorite: () -> Unit = { }
 ) {
-    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = "Kemungkinan masalah",
-                onNavigationBack = { navController.popBackStack() }
+                onNavigationBack = onNavigateBack
             )
         },
         snackbarHost = {
@@ -74,9 +77,7 @@ fun KemungkinanScreen(
                     description = "This is a sample card description for Card $it.",
                     onFavoriteToggle = { },
                     isFavorited = false,
-                    onClick = {
-                        navController.navigate(Route.AtasiKecemasan())
-                    }
+                    onClick = onClickFavorite
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }

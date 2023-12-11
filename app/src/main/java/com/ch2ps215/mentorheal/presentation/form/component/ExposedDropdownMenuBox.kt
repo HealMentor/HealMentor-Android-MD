@@ -20,7 +20,7 @@ import com.ch2ps215.mentorheal.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyExposedDropdownMenuBox(
+fun ExposedDropdownMenuBox(
     modifier: Modifier = Modifier,
     options: List<String>,
     selectedOption: String?,
@@ -79,7 +79,7 @@ fun MyExposedDropdownMenuBox(
 @Preview(showBackground = true)
 @Composable
 fun DropdownGroupPreview() {
-    MyExposedDropdownMenuBox(
+    ExposedDropdownMenuBox(
         options = listOf("Option 1", "Option 2", "Option 3"),
         selectedOption = "Option 1",
         onOptionSelected = { },
