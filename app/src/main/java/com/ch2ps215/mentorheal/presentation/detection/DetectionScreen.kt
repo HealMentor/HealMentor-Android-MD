@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -20,9 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.ch2ps215.mentorheal.presentation.Camera.CameraMain
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanViewModel
 import com.ch2ps215.mentorheal.presentation.detection.component.ImagePicker
 import com.ch2ps215.mentorheal.presentation.detection.component.imageCaptureFromCamera
+import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -76,7 +79,15 @@ fun DetectionScreen(
 
                 // Ambil dari kamera
                 // Placeholder untuk ambil dari kamera (ganti dengan implementasi yang sesuai)
-                imageCaptureFromCamera()
+                Button(
+                    onClick = {
+                        navController.navigate(Route.DetectionCamera())
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text(text = "Deteksi With Camera", color = Color.Black)
+                }
             }
 
 
@@ -95,17 +106,7 @@ fun DetectionScreen(
 
             // Tombol deteksi (contoh)
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    // Implementasi logika deteksi
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("Deteksi")
-            }
+
         }
     }
 }
@@ -115,6 +116,6 @@ fun DetectionScreen(
 //@Composable
 //fun DetectionScreenPreview() {
 //    MentorhealTheme {
-//        DetectionScreen(onBack = { /* Handle back navigation in preview if needed */ })
+//        DetectionScreenView(onBack = { /* Handle back navigation in preview if needed */ })
 //    }
 //}
