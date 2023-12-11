@@ -57,7 +57,7 @@ fun KemungkinanScreen(
         topBar = {
             TopAppBar(
                 title = "Kemungkinan masalah",
-                onClickNavigation = { navController.popBackStack() }
+                onNavigationBack = { navController.popBackStack() }
             )
         },
         snackbarHost = {

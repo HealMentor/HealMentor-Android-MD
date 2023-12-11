@@ -19,12 +19,12 @@ import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.User
 import com.ch2ps215.mentorheal.presentation.profile.component.AppearanceDialog
 import com.ch2ps215.mentorheal.presentation.profile.component.Photo
+import com.ch2ps215.mentorheal.presentation.profile.component.ProfileMenuItem
 import com.ch2ps215.mentorheal.presentation.profile.component.SignOutDialog
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import com.ch2ps215.mentorheal.presentation.profile.component.ProfileMenuItem
 
 @Composable
 fun ProfileScreen(

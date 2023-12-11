@@ -11,8 +11,6 @@ interface ArticleRepository {
         size: Int
     ): List<Article>
 
-    suspend fun getArticle(token: String, articleId: Int): Article
-
     suspend fun getFavoriteArticle(token: String): List<Article>
 
     suspend fun like(token: String, articleId: Int): Article

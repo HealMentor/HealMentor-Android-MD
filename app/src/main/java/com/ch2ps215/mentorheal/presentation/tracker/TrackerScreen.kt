@@ -52,7 +52,7 @@ fun TrackerScreen(
         topBar = {
             TopAppBar(
                 title = "Tracker",
-                onClickNavigation = { navController.popBackStack() }
+                onNavigationBack = { navController.popBackStack() }
             )
         },
         snackbarHost = {

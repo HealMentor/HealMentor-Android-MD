@@ -55,6 +55,9 @@ sealed class Route(
         operator fun invoke() = route
     }
 
+    /**
+     * This navigation is used to navigate to sub-flows of the home flow.
+     */
     object Form : Route("form") {
         operator fun invoke() = route
     }
@@ -66,7 +69,6 @@ sealed class Route(
     object AtasiKecemasan : Route("atasikecemasan") {
         operator fun invoke() = route
     }
-
 
     companion object {
         const val LIST_ARTICLE_TYPE = "list_article_type"

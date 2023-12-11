@@ -2,7 +2,7 @@ package com.ch2ps215.mentorheal.presentation.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ch2ps215.mentorheal.domain.usecase.FormUseCase
+import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
@@ -28,11 +28,8 @@ class FormViewModel @Inject constructor(
     private val validateGenderUseCase: ValidateGenderUseCase,
     private val validateYesNoUseCase: ValidateYesNoUseCase,
     private val dispatcher: CoroutineDispatcher,
-    private val saveFormUseCase: FormUseCase,
+    private val detectFormUseCase: DetectFormUseCase,
 ) : ViewModel() {
-    val username = getUserUseCase()
-        .map { it?.name }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val userId = getUserUseCase()
         .map { it?.id }
@@ -150,7 +147,7 @@ class FormViewModel @Inject constructor(
             val kebutuhanKhusus = _kebutuhankhususField.value.first
             val userIdValue = userId.value ?: ""
 
-            saveFormUseCase.invoke(
+            detectFormUseCase.invoke(
                 umur,
                 gender,
                 bidang,

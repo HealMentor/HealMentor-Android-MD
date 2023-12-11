@@ -62,7 +62,7 @@ fun AtasiKecemasanScreen(
         topBar = {
             TopAppBar(
                 title = "Atasi Kecemasanmu",
-                onClickNavigation = { navController.popBackStack() }
+                onNavigationBack = { navController.popBackStack() }
             )
         },
         snackbarHost = {

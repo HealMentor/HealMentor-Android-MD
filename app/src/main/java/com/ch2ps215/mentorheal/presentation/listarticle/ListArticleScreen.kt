@@ -59,7 +59,7 @@ fun ListArticleScreen(
                         text = when (type) {
                             ListArticleType.Favorite -> stringResource(R.string.favorite_article)
                             ListArticleType.Latest -> stringResource(R.string.latest_articles)
-                            ListArticleType.Reduce -> stringResource(R.string.reduce)
+                            ListArticleType.Reduce -> stringResource(R.string.form)
                         }
                     )
                 },
@@ -92,15 +92,15 @@ fun ListArticleScreen(
             ) {
                 items(articles, key = { it.id }) { article ->
                     Article(
+                        id = article.id,
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .animateItemPlacement(),
                         title = article.title,
-                        description = article.body,
                         onClick = {
 
                         },
-                        photo = article.photo.getOrNull(0)
+                        photo = article.photo.getOrNull(0)!!
                     )
                 }
             }
