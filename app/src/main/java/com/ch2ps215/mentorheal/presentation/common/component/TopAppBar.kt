@@ -15,14 +15,14 @@ import com.ch2ps215.mentorheal.R
 @Composable
 fun TopAppBar(
     title: String?,
-    onClickNavigation: () -> Unit
+    onNavigationBack: () -> Unit
 ) {
     TopAppBar(
         title = {
             Text(text = title ?: "")
         },
         navigationIcon = {
-            IconButton(onClick = onClickNavigation) {
+            IconButton(onClick = onNavigationBack) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBackIos,
                     contentDescription = stringResource(R.string.cd_back)

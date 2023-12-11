@@ -13,6 +13,7 @@ import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
+import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 
 @Composable
 fun NavGraph(
@@ -56,7 +57,7 @@ fun NavGraph(
             }
 
             composable(Route.Detection()) {
-                FormScreen(LocalNavController.current)
+                TwosScreen(LocalNavController.current)
             }
 
             composable(Route.Tracker()) {
@@ -65,6 +66,10 @@ fun NavGraph(
 
             composable(Route.Profile()) {
                 ProfileScreen(LocalNavController.current)
+            }
+
+            composable(Route.Form()) {
+                FormScreen(LocalNavController.current)
             }
         }
     }

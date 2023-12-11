@@ -28,8 +28,8 @@ import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.presentation.home.component.Articles
-import com.ch2ps215.mentorheal.presentation.home.component.Header
 import com.ch2ps215.mentorheal.presentation.home.component.SearchBar
+import com.ch2ps215.mentorheal.presentation.home.component.TopHeader
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleType
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,8 +53,8 @@ fun HomeScreen(
         querySearchState = viewModel.querySearch,
         usernameState = viewModel.username,
         latestArticlesState = viewModel.latestArticles,
-        articlesReduce = viewModel.articlesReduce,
-        articlesReuse = viewModel.articleReuse,
+        articlesActivity = viewModel.articlesReduce,
+        articlesRecommendation = viewModel.articleReuse,
         onClickShowMoreChart = {
 
         },
@@ -75,8 +75,8 @@ fun HomeScreen(
     usernameState: StateFlow<String?>,
     querySearchState: StateFlow<String>,
     latestArticlesState: StateFlow<List<Article>>,
-    articlesReduce: StateFlow<List<Article>>,
-    articlesReuse: StateFlow<List<Article>>,
+    articlesActivity: StateFlow<List<Article>>,
+    articlesRecommendation: StateFlow<List<Article>>,
     onClickShowMoreChart: () -> Unit,
     onClickShowMoreArticle: (ListArticleType) -> Unit,
     onNavigateToDetailArticle: (Int) -> Unit,
@@ -114,12 +114,10 @@ fun HomeScreen(
                     TopAppBar(
                         title = {
                             val username by usernameState.collectAsState()
-                            Header(
-                                // jika username empty string, maka akan menampilkan string "Hello"
+                            TopHeader(
                                 name = username ?: stringResource(R.string.healer),
                                 photo = null,
-                                onClickShowMore = onClickShowMoreChart,
-                                onClickProfileImage = { }
+                                onClickProfileImage = { /*TODO*/ }
                             )
                         },
                         actions = {
@@ -151,7 +149,7 @@ fun HomeScreen(
         ) {
 
             val latestArticles by latestArticlesState.collectAsState()
-            val reuse by articlesReuse.collectAsState()
+            val reuse by articlesRecommendation.collectAsState()
 
             Articles(
                 label = stringResource(R.string.ongoing_activity),
@@ -179,11 +177,11 @@ fun HomeScreenPreview() {
             querySearchState = MutableStateFlow(""),
             usernameState = MutableStateFlow("Fulan"),
             latestArticlesState = MutableStateFlow(emptyList()),
-            articlesReuse = MutableStateFlow(emptyList()),
-            articlesReduce = MutableStateFlow(emptyList()),
-            onNavigateToDetailArticle = { },
+            articlesRecommendation = MutableStateFlow(emptyList()),
+            articlesActivity = MutableStateFlow(emptyList()),
             onClickShowMoreChart = { },
-            onClickShowMoreArticle = { }
+            onClickShowMoreArticle = { },
+            onNavigateToDetailArticle = { }
         )
     }
 }

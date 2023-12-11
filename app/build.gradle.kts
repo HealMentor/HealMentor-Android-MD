@@ -87,7 +87,7 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     // Paging
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
@@ -105,6 +105,9 @@ dependencies {
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")
 
+    // Compose Constraint Layout
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
     // Lottie
     implementation ("com.airbnb.android:lottie-compose:5.2.0")
 
@@ -116,6 +119,9 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-paging:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Paging 3
+    implementation ("androidx.paging:paging-compose:3.3.0-alpha02")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))

@@ -2,7 +2,6 @@ package com.ch2ps215.mentorheal.data.local
 
 import com.ch2ps215.mentorheal.data.local.entity.DetectionEntity
 import com.ch2ps215.mentorheal.data.local.room.DetectionDao
-import kotlinx.coroutines.flow.Flow
 
 class DetectionLocalDataSource(
     private val detectionDao: DetectionDao
@@ -14,10 +13,6 @@ class DetectionLocalDataSource(
 
     suspend fun save(detections: List<DetectionEntity>) {
         detectionDao.save(detections)
-    }
-
-    fun getDetections(): Flow<List<DetectionEntity>> {
-        return detectionDao.getDetections()
     }
 
     suspend fun delete(detectionEntity: DetectionEntity) {

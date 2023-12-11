@@ -1,24 +1,13 @@
 package com.ch2ps215.mentorheal.data.mapper
 
-import com.ch2ps215.mentorheal.data.local.entity.DetectionEntity
+import com.ch2ps215.mentorheal.data.remote.payload.DetectionResponse
 import com.ch2ps215.mentorheal.domain.model.Detection
 
-fun Detection.asEntity(): DetectionEntity {
-    return DetectionEntity(
-        id = id,
-        label = label,
-        scores = scores,
-        idUser = idUser,
-        createdAt = createdAt
-    )
-}
-
-fun DetectionEntity.asModel(): Detection {
+fun DetectionResponse.asModel(idUser: String): Detection {
     return Detection(
-        id = id,
-        label = label,
-        scores = scores,
+        id = "",
+        label = data?.depression ?: "",
+        scores = data?.prediction ?: 0,
         idUser = idUser,
-        createdAt = createdAt
     )
 }

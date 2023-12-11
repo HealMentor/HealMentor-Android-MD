@@ -1,11 +1,13 @@
 package com.ch2ps215.mentorheal.di
 
 import com.ch2ps215.mentorheal.BuildConfig
+import com.ch2ps215.mentorheal.core.Constants.ARTICLE
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
+import com.ch2ps215.mentorheal.data.remote.service.DetectionService
 import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -22,6 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -66,21 +69,38 @@ object RemoteModule {
         return UserRemoteDataSource(userService)
     }
 
+
     @Provides
     @Singleton
-    fun provideArticleRemoteDataSource(retrofit: Retrofit): ArticleRemoteDataSource {
-        val articleService = retrofit.create<ArticleService>()
-        return ArticleRemoteDataSource(articleService)
+    @Named("detectionsRef")
+    fun provideDetectionsRef(): CollectionReference {
+        return Firebase.firestore.collection(DETECTIONS)
     }
 
     @Provides
-    fun provideBooksRef() = Firebase.firestore.collection(DETECTIONS)
+    @Singleton
+    @Named("articlesRef")
+    fun provideArticlesRef(): CollectionReference {
+        return Firebase.firestore.collection(ARTICLE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideArticleRemoteDataSource(
+        @Named("articlesRef") firebaseFirestore: CollectionReference,
+        retrofit: Retrofit
+    ): ArticleRemoteDataSource {
+        val detectionService = retrofit.create<ArticleService>()
+        return ArticleRemoteDataSource(detectionService)
+    }
 
     @Provides
     @Singleton
     fun provideDetectionRemoteDataSource(
-        firebaseFirestore: CollectionReference
+        @Named("detectionsRef") firebaseFirestore: CollectionReference,
+        retrofit: Retrofit
     ): DetectionRemoteDataSource {
-        return DetectionRemoteDataSource(firebaseFirestore)
+        val detectionService = retrofit.create<DetectionService>()
+        return DetectionRemoteDataSource(firebaseFirestore, detectionService)
     }
 }

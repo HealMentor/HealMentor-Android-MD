@@ -38,7 +38,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
@@ -85,6 +84,7 @@ fun FormScreen(
         kebutuhankhususFieldState = viewModel.kebutuhankhususField,
         fulfilledState = viewModel.fulfilled,
         loadingState = viewModel.loading,
+        onNavigationBack = navController::popBackStack,
     ) {
         viewModel.submit()
         navController.navigate(Route.Problems())
@@ -115,16 +115,15 @@ fun FormScreen(
     kebutuhankhususFieldState: StateFlow<Pair<String, Int?>>,
     fulfilledState: StateFlow<Boolean>,
     loadingState: StateFlow<Boolean>,
+    onNavigationBack: () -> Unit,
     onClickButtonSubmit: () -> Unit,
-
-    ) {
-    val navController = rememberNavController()
+) {
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = "Form Keluhan",
-                onClickNavigation = { navController.navigateUp() }
+                onNavigationBack = onNavigationBack
             )
         },
         snackbarHost = {
@@ -391,7 +390,8 @@ fun FormScreenPreview() {
             kecemasanFieldState = MutableStateFlow("YA" to null),
             kebutuhankhususFieldState = MutableStateFlow("YA" to null),
             fulfilledState = MutableStateFlow(true),
-            loadingState = MutableStateFlow(true)
+            loadingState = MutableStateFlow(true),
+            onNavigationBack = { },
         ) { }
     }
 }

@@ -1,0 +1,185 @@
+{
+  ConstraintSets: {
+    start: {
+      form: {
+        width: 'preferWrap',
+        height: 100,
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'camera',
+          'end'
+        ]
+      },
+      camera: {
+        width: 'preferWrap',
+        height: 100,
+        start: [
+          'form',
+          'start'
+        ],
+        top: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      tab2twos: {
+        width: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'form',
+          'bottom',
+          32
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      pager2twos: {
+        width: 'spread',
+        height: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'tab2twos',
+          'bottom'
+        ],
+        end: [
+          'parent',
+          'end'
+        ],
+        bottom: [
+          'parent',
+          'bottom'
+        ]
+      }
+    },
+    end: {
+      form: {
+        width: 'preferWrap',
+        height: 100,
+        start: [
+          'parent',
+          'start'
+        ],
+        bottom: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'camera',
+          'end'
+        ]
+      },
+      camera: {
+        width: 'preferWrap',
+        height: 100,
+        start: [
+          'form',
+          'start'
+        ],
+        bottom: [
+          'parent',
+          'top'
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      tab2twos: {
+        width: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'form',
+          'bottom',
+          0
+        ],
+        end: [
+          'parent',
+          'end'
+        ]
+      },
+      pager2twos: {
+        width: 'spread',
+        height: 'spread',
+        start: [
+          'parent',
+          'start'
+        ],
+        top: [
+          'tab2twos',
+          'bottom'
+        ],
+        end: [
+          'parent',
+          'end'
+        ],
+        bottom: [
+          'parent',
+          'bottom'
+        ]
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontally',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: [
+              'form'
+            ],
+            frames: [
+              0,
+              50,
+              100
+            ],
+            alpha: [
+              1,
+              0,
+              0
+            ],
+          },
+          {
+            target: [
+              'camera'
+            ],
+            frames: [
+              0,
+              50,
+              100
+            ],
+            alpha: [
+              1,
+              0,
+              0
+            ],
+          },
+        ]
+      }
+    }
+  }
+}

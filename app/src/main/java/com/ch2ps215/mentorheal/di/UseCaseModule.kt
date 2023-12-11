@@ -3,12 +3,12 @@ package com.ch2ps215.mentorheal.di
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
-import com.ch2ps215.mentorheal.domain.repository.IFormRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
+import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
-import com.ch2ps215.mentorheal.domain.usecase.FormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
@@ -16,6 +16,7 @@ import com.ch2ps215.mentorheal.domain.usecase.SaveDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignUpUseCase
+import com.ch2ps215.mentorheal.domain.usecase.UpdateDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateEmailUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
@@ -88,8 +89,8 @@ object UseCaseModule {
 
     @Provides
     @ViewModelScoped
-    fun provideFormUseCase(formRepository: IFormRepository): FormUseCase {
-        return FormUseCase(formRepository)
+    fun provideDetectFormUseCase(detectionRepository: DetectionRepository): DetectFormUseCase {
+        return DetectFormUseCase(detectionRepository)
     }
 
     @Provides
@@ -140,6 +141,24 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideGetArticlesUseCase(articleRepository: ArticleRepository): GetArticlesUseCase {
         return GetArticlesUseCase(articleRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetDetectionUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): GetDetectionUseCase {
+        return GetDetectionUseCase(userRepository, detectionRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideUpdateDetectionUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): UpdateDetectionUseCase {
+        return UpdateDetectionUseCase(userRepository, detectionRepository)
     }
 
     @Provides
