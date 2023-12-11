@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
@@ -34,7 +35,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun KemungkinanScreen(
     navController: NavHostController,
-    viewModel: KemungkinanViewModel
+    viewModel: KemungkinanViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -42,16 +43,17 @@ fun KemungkinanScreen(
         viewModel.snackbar.collectLatest(snackBarHostState::showSnackbar)
     }
 
-    KemungkinanScreen(
+    KemungkinanScreenview(
         snackBarHostState = snackBarHostState,
+        navController = navController
     )
 }
 
 @Composable
-fun KemungkinanScreen(
+fun KemungkinanScreenview(
     snackBarHostState: SnackbarHostState,
+    navController: NavHostController,
 ) {
-    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
@@ -104,12 +106,14 @@ fun FavoriteButton(
     )
 }
 
-@Preview
-@Composable
-fun KemungkinanScreenPreview() {
-    MentorhealTheme {
-        KemungkinanScreen(
-            snackBarHostState = remember { SnackbarHostState() },
-        )
-    }
-}
+//@Preview
+//@Composable
+//fun KemungkinanScreenPreview() {
+//    val navController = rememberNavController()
+//    val viewModel = KemungkinanViewModel
+//    MentorhealTheme {
+//        KemungkinanScreen(
+//            navController = navController,
+//        )
+//    }
+//}

@@ -32,9 +32,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun AtasiKecemasanScreen(
     navController: NavHostController,
     viewModel: AtasiKecemasanViewModel = hiltViewModel(),
-    title: String,
-    description: String,
-    steps: List<String>
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -42,7 +39,12 @@ fun AtasiKecemasanScreen(
         viewModel.snackbar.collectLatest(snackBarHostState::showSnackbar)
     }
 
-    AtasiKecemasanScreen(
+    val title = "title"
+    val description = "description"
+    val steps = listOf<String>("1")
+
+
+    AtasiKecemasanScreenview(
         snackBarHostState = snackBarHostState,
         title = title,
         description = description,
@@ -50,9 +52,8 @@ fun AtasiKecemasanScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AtasiKecemasanScreen(
+fun AtasiKecemasanScreenview(
     snackBarHostState: SnackbarHostState,
     title: String,
     description: String,
@@ -95,7 +96,7 @@ fun AtasiKecemasanScreen(
 @Composable
 fun AtasiKecemasanScreenPreview() {
     MentorhealTheme {
-        AtasiKecemasanScreen(
+        AtasiKecemasanScreenview(
             snackBarHostState = remember { SnackbarHostState() },
             title = "Kecemasan",
             description = "This is a sample description for the Task Screen.",
