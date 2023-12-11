@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
+import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
 import com.ch2ps215.mentorheal.presentation.kemungkinan.KemungkinanScreen
@@ -60,7 +61,7 @@ fun NavGraph(
             }
 
             composable(Route.Detection()) {
-                FormScreen(LocalNavController.current)
+                DetectionScreen(LocalNavController.current)
             }
 
             composable(Route.Tracker()) {

@@ -17,12 +17,20 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanViewModel
 import com.ch2ps215.mentorheal.presentation.detection.component.ImagePicker
+import com.ch2ps215.mentorheal.presentation.detection.component.imageCaptureFromCamera
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun DetectionScreen(onBack: () -> Unit) {
+fun DetectionScreen(
+    navController: NavHostController,
+    viewModel: DetectionViewModel = hiltViewModel(),
+    ) {
 
     var selectedImage by remember { mutableStateOf<ImageBitmap?>(null) }
 
@@ -68,16 +76,7 @@ fun DetectionScreen(onBack: () -> Unit) {
 
                 // Ambil dari kamera
                 // Placeholder untuk ambil dari kamera (ganti dengan implementasi yang sesuai)
-                Button(
-                    onClick = {
-                        // Implementasi ambil dari kamera
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                ) {
-                    Text(text = "Ambil dari Kamera")
-                }
+                imageCaptureFromCamera()
             }
 
 
@@ -112,10 +111,10 @@ fun DetectionScreen(onBack: () -> Unit) {
 }
 
 
-@Preview
-@Composable
-fun DetectionScreenPreview() {
-    MentorhealTheme {
-        DetectionScreen(onBack = { /* Handle back navigation in preview if needed */ })
-    }
-}
+//@Preview
+//@Composable
+//fun DetectionScreenPreview() {
+//    MentorhealTheme {
+//        DetectionScreen(onBack = { /* Handle back navigation in preview if needed */ })
+//    }
+//}
