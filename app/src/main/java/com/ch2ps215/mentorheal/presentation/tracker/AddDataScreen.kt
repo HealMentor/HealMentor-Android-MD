@@ -5,8 +5,6 @@ package com.ch2ps215.mentorheal.presentation.tracker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Star
@@ -25,18 +23,20 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AddTrackerScreen(onBack: () -> Unit) {
+fun AddTrackerScreen(
+    navController: NavHostController
+) {
     val context = LocalContext.current
     val density = LocalDensity.current.density
     val keyboardController = LocalSoftwareKeyboardController.current
     val persaanOptions = listOf("Good", "Great", "Bad", "Biasa Saja")
-    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
@@ -152,7 +152,10 @@ fun AddTrackerScreen(onBack: () -> Unit) {
 @Preview
 @Composable
 fun AddTrackerScreenPreview() {
+    val navController = rememberNavController()
     MentorhealTheme {
-        AddTrackerScreen(onBack = { /* Handle back navigation in preview if needed */ })
+        AddTrackerScreen(
+            navController = navController
+        )
     }
 }

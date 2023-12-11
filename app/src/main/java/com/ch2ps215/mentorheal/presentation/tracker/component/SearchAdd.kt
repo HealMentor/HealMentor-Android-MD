@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ch2ps215.mentorheal.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchWithAddButton(
     onSearchClick: () -> Unit,
@@ -52,7 +51,6 @@ fun SearchWithAddButton(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Add")
         }
     }
 }

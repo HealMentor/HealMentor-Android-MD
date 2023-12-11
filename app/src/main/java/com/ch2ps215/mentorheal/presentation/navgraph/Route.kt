@@ -67,6 +67,14 @@ sealed class Route(
         operator fun invoke() = route
     }
 
+    object AddTracker : Route("adddata") {
+        operator fun invoke() = route
+    }
+
+    object Detail : Route("detail") {
+        operator fun invoke() = route
+    }
+
 
     companion object {
         const val LIST_ARTICLE_TYPE = "list_article_type"

@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -90,6 +91,7 @@ fun FormScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormScreen(
     snackBarHostState: SnackbarHostState,
@@ -120,9 +122,13 @@ fun FormScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = "Form Keluhan",
-                onClickNavigation = { navController.navigateUp() }
+            androidx.compose.material3.TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.keluhan),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             )
         },
         snackbarHost = {

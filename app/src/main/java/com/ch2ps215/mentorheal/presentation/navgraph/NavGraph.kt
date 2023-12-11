@@ -12,6 +12,8 @@ import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
+import com.ch2ps215.mentorheal.presentation.tracker.AddTrackerScreen
+import com.ch2ps215.mentorheal.presentation.tracker.DetailScreen
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
 
 @Composable
@@ -65,6 +67,14 @@ fun NavGraph(
 
             composable(Route.Profile()) {
                 ProfileScreen(LocalNavController.current)
+            }
+
+            composable(Route.AddTracker()) {
+                AddTrackerScreen(LocalNavController.current)
+            }
+
+            composable(Route.Detail()) {
+                DetailScreen(LocalNavController.current)
             }
         }
     }
