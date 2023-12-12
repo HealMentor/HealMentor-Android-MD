@@ -84,7 +84,10 @@ fun TrackerScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text(text = stringResource(id = R.string.title), style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = stringResource(id = R.string.title),
+                style = MaterialTheme.typography.titleMedium
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(id = R.string.subtitle),

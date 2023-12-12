@@ -7,6 +7,7 @@ import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
 import com.ch2ps215.mentorheal.data.local.UserLocalDataSource
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
+import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
@@ -34,9 +35,14 @@ object RepositoryModule {
     @Singleton
     fun provideDetectionRepository(
         detectionLocalDataSource: DetectionLocalDataSource,
-        detectionRemoteDataSource: DetectionRemoteDataSource
+        detectionRemoteDataSource: DetectionRemoteDataSource,
+        tfLiteUserClassifierDataSource: TfLiteUserClassifierDataSource
     ): DetectionRepository {
-        return DefaultDetectionRepository(detectionLocalDataSource, detectionRemoteDataSource)
+        return DefaultDetectionRepository(
+            detectionLocalDataSource,
+            detectionRemoteDataSource,
+            tfLiteUserClassifierDataSource
+        )
     }
 
     @Provides

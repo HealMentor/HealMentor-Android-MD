@@ -2,7 +2,7 @@ package com.ch2ps215.mentorheal.data.remote.payload
 
 import com.squareup.moshi.Json
 
-data class DetectionResponse(
+data class FormDetectionResponse(
 
     @Json(name = "data")
     val data: Data? = null,

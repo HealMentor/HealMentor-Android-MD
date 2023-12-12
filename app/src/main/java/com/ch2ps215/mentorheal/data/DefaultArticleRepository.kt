@@ -1,7 +1,7 @@
 package com.ch2ps215.mentorheal.data
 
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionRequest
+import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 
@@ -9,7 +9,7 @@ class DefaultArticleRepository(
     private val articleRemoteDataSource: ArticleRemoteDataSource
 ) : ArticleRepository {
 
-    suspend fun save(req: SaveDetectionRequest): Boolean {
+    suspend fun save(req: SaveDetectionFormRequest): Boolean {
         TODO()
     }
 

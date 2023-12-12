@@ -5,6 +5,7 @@ import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
+import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
@@ -150,6 +151,16 @@ object UseCaseModule {
         detectionRepository: DetectionRepository
     ): GetDetectionUseCase {
         return GetDetectionUseCase(userRepository, detectionRepository)
+    }
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideDetectExpressionUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): DetectExpressionUseCase {
+        return DetectExpressionUseCase(userRepository, detectionRepository)
     }
 
     @Provides

@@ -4,15 +4,19 @@ import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
 import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import com.ch2ps215.mentorheal.data.mapper.asModel
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionRequest
-import com.ch2ps215.mentorheal.domain.model.Detection
+import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
+import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionExpressionRequest
+import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
 import com.ch2ps215.mentorheal.domain.model.Form
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.google.firebase.firestore.Query
+import java.io.File
 
 class DefaultDetectionRepository(
     private val detectionLocalDataSource: DetectionLocalDataSource,
-    private val detectionRemoteDataSource: DetectionRemoteDataSource
+    private val detectionRemoteDataSource: DetectionRemoteDataSource,
+    private val tfLiteUserClassifierDataSource: TfLiteUserClassifierDataSource
 ) : DetectionRepository {
     override suspend fun getDetections(idUser: String): Query {
         return detectionRemoteDataSource.getDetections(idUser)
@@ -30,7 +34,7 @@ class DefaultDetectionRepository(
         panic: String,
         kebutuhankhusus: String,
         userId: String
-    ): Detection {
+    ): FormDetection {
         val detect = Form(
             umur = umur,
             gender = gender,
@@ -47,6 +51,25 @@ class DefaultDetectionRepository(
 
         val res = detectionRemoteDataSource.detectForm(detect)
         return res.asModel(userId)
+    }
+
+    override suspend fun detectExpression(idUser: String, file: File) {
+        val result = tfLiteUserClassifierDataSource.classify(file).firstOrNull() ?: throw Exception(
+            "Zero result, Model can't classify"
+        )
+
+
+        detectionRemoteDataSource.uploadImage(file)
+        detectionRemoteDataSource.saveExpression(
+            SaveDetectionExpressionRequest(
+                id = "",
+                label = result.label,
+                scores = result.scores,
+                image = file.name,
+                idUser = idUser
+            )
+        )
+
     }
 
     private fun FormEntity.toModel(): Form {
@@ -71,21 +94,21 @@ class DefaultDetectionRepository(
         scores: Float,
         idUser: String
     ): Boolean {
-        val req = SaveDetectionRequest(
+        val req = SaveDetectionFormRequest(
             id = "",
             label = label,
             scores = scores,
             idUser = idUser
         )
 
-        return detectionRemoteDataSource.save(req)
+        return detectionRemoteDataSource.saveForm(req)
     }
 
-    override suspend fun update(token: String, detectionId: Int, total: Int): Detection {
+    override suspend fun update(token: String, detectionId: Int, total: Int): FormDetection {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(token: String, detectionId: Int): Detection {
+    override suspend fun delete(token: String, detectionId: Int): FormDetection {
         TODO("Not yet implemented")
     }
 }

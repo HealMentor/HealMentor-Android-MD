@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ch2ps215.mentorheal.domain.model.Detection
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 
 @Composable
 fun DetectionCard(
-    detection: Detection,
-    onDetectionClick: (Detection) -> Unit
+    formDetection: FormDetection,
+    onDetectionClick: (FormDetection) -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -37,11 +37,11 @@ fun DetectionCard(
                 .fillMaxWidth()
                 .padding(all = 12.dp)
                 .clickable {
-                    onDetectionClick(detection)
+                    onDetectionClick(formDetection)
                 },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val productName = detection.label
+            val productName = formDetection.label
             Text(
                 text = productName ?: "Unknown",
                 color = Color.DarkGray,

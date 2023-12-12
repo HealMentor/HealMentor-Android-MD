@@ -45,9 +45,10 @@
 
     <!-- Bottom Navigation -->
     <string name="home">Home</string>
-    <string name="detection">Detection</string>
+    <string name="formDetection">Detection</string>
     <string name="tracker">Tracker</string>
     <string name="profile">Profile</string>
+    <string name="detection">Detection</string>
     <string name="search_hint">Search..</string>
     <string name="keluhan">Form Keluhan</string>
 
@@ -65,13 +66,10 @@
     <string name="error_form_is_required">Required</string>
     <string name="error_invalid_is_required">Required</string>
 
-    <!-- Content Description -->
-    <string name="cd_pass_visibility">Password Visibility</string>
-    <string name="cd_sign_out">Sign Out</string>
-    <string name="cd_search">Search</string>
-    <string name="cd_back">back</string>
-    <string name="cd_notification">Notification</string>
-    <string name="title_activity_template">Template</string>
+    <!--  Tracker  -->
+    <string name="title">Proses Perkembangan Diri</string>
+    <string name="subtitle">Catat Secara Mandiri Progres Perkembangan Kesehatan Anda</string>
+    <string name="title_list">Perkembangan Harian</string>
 
     <!-- Form -->
     <string name="umur">Sebutkan Umur Anda</string>
@@ -89,9 +87,15 @@
     <string name="kebutuhankhusus">Sedang Ada Kebutuhan</string>
     <string name="please_choose">Pilih Salah Satu</string>
 
-    <!--  Tracker  -->
-    <string name="title">Proses Perkembangan Diri</string>
-    <string name="subtitle">Catat Secara Mandiri Progres Perkembangan Kesehatan Anda</string>
-    <string name="title_list">Perkembangan Harian</string>
+    <!--  Camera  -->
+    <string name="available_objects">Berikut beberapa ekspresi yang di deteksi marah, tidak suka, menjijikan, takut, gembira, sedih, dan terkejut</string>
+    <string name="unknown_error">Error has occurred</string>
 
+    <!-- Content Description -->
+    <string name="cd_pass_visibility">Password Visibility</string>
+    <string name="cd_sign_out">Sign Out</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_back">back</string>
+    <string name="cd_notification">Notification</string>
+    <string name="camera_permission">You must allow camera permission to use this feature</string>
 </resources>

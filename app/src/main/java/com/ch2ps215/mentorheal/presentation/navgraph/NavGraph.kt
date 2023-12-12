@@ -6,21 +6,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.ch2ps215.mentorheal.presentation.Camera.CameraMain
+import com.ch2ps215.mentorheal.presentation.camera.CameraMain
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
-import com.ch2ps215.mentorheal.presentation.kemungkinan.KemungkinanScreen
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
-import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
-import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 import com.ch2ps215.mentorheal.presentation.tracker.AddTrackerScreen
 import com.ch2ps215.mentorheal.presentation.tracker.DetailScreen
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
+import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 
 @Composable
 fun NavGraph(
@@ -95,11 +93,11 @@ fun NavGraph(
             }
 
             composable(Route.AtasiKecemasan()) {
-                AtasiKecemasanScreen(LocalNavController.current )
+                AtasiKecemasanScreen(LocalNavController.current)
             }
 
             composable(Route.DetectionCamera()) {
-                CameraMain(LocalNavController.current )
+                CameraMain(LocalNavController.current)
             }
         }
     }

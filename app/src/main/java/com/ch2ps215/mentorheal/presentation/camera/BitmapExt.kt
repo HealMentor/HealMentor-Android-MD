@@ -1,9 +1,8 @@
-package com.ch2ps215.mentorheal.presentation.Camera
+package com.ch2ps215.mentorheal.presentation.camera
 
 import android.graphics.Bitmap
-import java.lang.IllegalArgumentException
 
-fun Bitmap.centerCrop(desiredWidth : Int, desiredHeigh: Int) :Bitmap {
+fun Bitmap.centerCrop(desiredWidth: Int, desiredHeigh: Int): Bitmap {
     val xStart = (width - desiredWidth) / 2
     val yStart = (height - desiredHeigh) / 2
 

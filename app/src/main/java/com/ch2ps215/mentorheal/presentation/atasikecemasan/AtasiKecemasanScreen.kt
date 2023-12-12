@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -105,7 +104,7 @@ fun AtasiKecemasanScreenPreview() {
                 "Step 2: Do something else",
                 "Step 3: Final step"
             ),
-            onNavigationBack = {  }
+            onNavigationBack = { }
         )
     }
 }

@@ -87,10 +87,10 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Paging
-    implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.30.1")
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -106,10 +106,10 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Compose Constraint Layout
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     // Lottie
-    implementation ("com.airbnb.android:lottie-compose:5.2.0")
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
 
     // Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
@@ -121,12 +121,30 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
 
     // Paging 3
-    implementation ("androidx.paging:paging-compose:3.3.0-alpha02")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    // Permission
+    implementation("com.google.accompanist:accompanist-permissions:0.28.0")
+
+    // CameraX
+    val cameraxVersion = "1.4.0-alpha02"
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-extensions:$cameraxVersion")
+
+    // TensorFlow Lite
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.14.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
@@ -137,18 +155,4 @@ dependencies {
     // Debug
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
-    val cameraxVersion = "1.3.0-rc01"
-
-    implementation("androidx.camera:camera-core:$cameraxVersion")
-    implementation("androidx.camera:camera-camera2:$cameraxVersion")
-    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
-    implementation("androidx.camera:camera-video:$cameraxVersion")
-
-    implementation("androidx.camera:camera-view:$cameraxVersion")
-    implementation("androidx.camera:camera-extensions:$cameraxVersion")
-
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
-    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0")
-    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
 }

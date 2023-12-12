@@ -1,10 +1,10 @@
 package com.ch2ps215.mentorheal.data.mapper
 
-import com.ch2ps215.mentorheal.data.remote.payload.DetectionResponse
-import com.ch2ps215.mentorheal.domain.model.Detection
+import com.ch2ps215.mentorheal.data.remote.payload.FormDetectionResponse
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 
-fun DetectionResponse.asModel(idUser: String): Detection {
-    return Detection(
+fun FormDetectionResponse.asModel(idUser: String): FormDetection {
+    return FormDetection(
         id = "",
         label = data?.depression ?: "",
         scores = data?.prediction ?: 0,

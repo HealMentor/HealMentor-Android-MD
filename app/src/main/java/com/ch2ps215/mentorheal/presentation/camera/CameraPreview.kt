@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.Camera
+package com.ch2ps215.mentorheal.presentation.camera
 
 import android.Manifest
 import android.app.Activity
@@ -33,7 +33,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
-import com.ch2ps215.mentorheal.data.local.TfLiteUserClassifier
+import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
 import com.ch2ps215.mentorheal.domain.model.Classification
 
 @Composable
@@ -60,7 +60,7 @@ fun CameraMain(
     if (hasCameraPermission(context)) {
         val analyzer = remember {
             UserImageAnalyzer(
-                classifier = TfLiteUserClassifier(
+                classifier = TfLiteUserClassifierDataSource(
                     context = context
                 ),
                 onResult = {
@@ -78,6 +78,8 @@ fun CameraMain(
                 )
             }
         }
+
+
         Box(
             modifier = Modifier.fillMaxSize()
         ) {

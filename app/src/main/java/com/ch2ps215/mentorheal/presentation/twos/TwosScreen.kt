@@ -1,5 +1,10 @@
 package com.ch2ps215.mentorheal.presentation.twos
 
+import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,12 +30,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.PagingData
-import com.ch2ps215.mentorheal.domain.model.Article
-import com.ch2ps215.mentorheal.domain.model.Detection
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.twos.component.ArticlesList
 import com.ch2ps215.mentorheal.presentation.twos.component.FaceDetectionsContent
@@ -41,6 +46,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.ch2ps215.mentorheal.presentation.camera.CameraActivity
+import java.io.File
 
 private val DefaultLazyColumnContentPadding = PaddingValues(16.dp)
 
@@ -49,6 +56,7 @@ fun TwosScreen(
     navController: NavHostController,
     viewModel: TwosViewModel = hiltViewModel()
 ) {
+
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
@@ -58,14 +66,10 @@ fun TwosScreen(
     TwosScreen(
         snackbarHostState = snackbarHostState,
         loadingState = viewModel.loading,
-        detectionState = viewModel.detections,
-        articlesReduceState = viewModel.articlesReduce,
-        articlesReuseState = viewModel.articleReuse,
+        formDetectionState = viewModel.detections,
+        onDetect = viewModel::detectExpression,
         onClickFeatureForm = {
             navController.navigate(Route.Form.invoke())
-        },
-        onClickFeatureCamera = {
-            navController.navigate(Route.Detection.invoke())
         },
         onNavigateToDetailArticle = { detection ->
 
@@ -81,13 +85,20 @@ fun TwosScreen(
 fun TwosScreen(
     snackbarHostState: SnackbarHostState,
     loadingState: StateFlow<Boolean>,
-    detectionState: Flow<PagingData<Detection>>,
-    articlesReduceState: StateFlow<List<Article>>,
-    articlesReuseState: StateFlow<List<Article>>,
+    formDetectionState: Flow<PagingData<FormDetection>>,
+    onDetect: (File) -> Unit,
     onClickFeatureForm: () -> Unit,
-    onClickFeatureCamera: () -> Unit,
-    onNavigateToDetailArticle: (Detection) -> Unit
+    onNavigateToDetailArticle: (FormDetection) -> Unit
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val cameraLauncher = rememberCameraLauncher(
+        onSuccess = onDetect,
+        onFailed = {
+            scope.launch { snackbarHostState.showSnackbar("Failed to take picture") }
+        }
+    )
+
     val pagerState = rememberPagerState {
         ArticlesList.size
     }
@@ -95,7 +106,7 @@ fun TwosScreen(
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
-            TopAppBar(title = { Text(text = "Detection") })
+            TopAppBar(title = { Text(text = "FormDetection") })
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -117,7 +128,10 @@ fun TwosScreen(
                 }
 
                 IconButton(
-                    onClick = onClickFeatureCamera,
+                    onClick = {
+                        val intent = Intent(context, CameraActivity::class.java)
+                        cameraLauncher.launch(intent)
+                    },
                     modifier = Modifier
                         .layoutId("camera")
                 ) {
@@ -161,4 +175,24 @@ fun TwosScreen(
             }
         }
     }
+}
+
+@Composable
+private fun rememberCameraLauncher(
+    onFailed: () -> Unit = { },
+    onSuccess: (File) -> Unit = { }
+): ManagedActivityResultLauncher<Intent, ActivityResult> {
+    return rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            if (result.resultCode != CameraActivity.RESULT_SUCCESS) {
+                onFailed()
+                return@rememberLauncherForActivityResult
+            }
+
+            val data = result.data
+            val imageFile = data?.getSerializableExtra(CameraActivity.KEY_IMAGE_RESULT) as File
+            onSuccess(imageFile)
+        }
+    )
 }

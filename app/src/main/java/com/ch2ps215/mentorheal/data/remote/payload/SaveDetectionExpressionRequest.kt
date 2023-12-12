@@ -1,8 +1,9 @@
 package com.ch2ps215.mentorheal.data.remote.payload
 
-data class SaveDetectionRequest(
+data class SaveDetectionExpressionRequest(
     val id: String,
     val label: String,
-    val scores: Float,
+    val scores: Int,
+    val image: String,
     val idUser: String,
 )

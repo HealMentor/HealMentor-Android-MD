@@ -3,8 +3,8 @@ package com.ch2ps215.mentorheal.data.local.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import com.ch2ps215.mentorheal.data.local.entity.DetectionEntity
+import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 
 @Database(
     version = 1,

@@ -63,7 +63,7 @@ fun CardWithFavorite(
                         .padding(bottom = 16.dp)
                 )
             }
-            Column  {
+            Column {
                 FavoriteButton(onFavoriteToggle, isFavorited)
             }
         }

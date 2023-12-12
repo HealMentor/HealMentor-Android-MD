@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.Camera
+package com.ch2ps215.mentorheal.presentation.camera
 
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -6,7 +6,7 @@ import com.ch2ps215.mentorheal.domain.model.Classification
 import com.ch2ps215.mentorheal.domain.repository.UserClassification
 
 class UserImageAnalyzer(
-    private val classifier : UserClassification,
+    private val classifier: UserClassification,
     private val onResult: (List<Classification>) -> Unit
 ) : ImageAnalysis.Analyzer {
 

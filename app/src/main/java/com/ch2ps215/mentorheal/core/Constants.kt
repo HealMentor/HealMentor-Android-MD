@@ -6,6 +6,7 @@ object Constants {
 
     //Firestore
     const val DETECTIONS = "detections"
+    const val DETECTIONS_EXPRESSION = "detections_expression"
     const val ARTICLE = "article"
     const val TITLE = "title"
 }
