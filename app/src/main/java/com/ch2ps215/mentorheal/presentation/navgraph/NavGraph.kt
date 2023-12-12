@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.ch2ps215.mentorheal.presentation.Camera.CameraMain
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
@@ -95,6 +96,10 @@ fun NavGraph(
 
             composable(Route.AtasiKecemasan()) {
                 AtasiKecemasanScreen(LocalNavController.current )
+            }
+
+            composable(Route.DetectionCamera()) {
+                CameraMain(LocalNavController.current )
             }
         }
     }
