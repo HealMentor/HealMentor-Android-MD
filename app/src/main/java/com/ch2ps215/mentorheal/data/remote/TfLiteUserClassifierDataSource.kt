@@ -71,10 +71,36 @@ class TfLiteUserClassifierDataSource(
     }
 
     override fun classify(bitmap: Bitmap, rotation: Int): List<Classification> {
-        TODO("Not yet implemented")
+        if (classifier == null) {
+            setupClassifier()
+        }
+
+        val imageprocessor = ImageProcessor.Builder().build()
+        val tensorImage = imageprocessor.process(TensorImage.fromBitmap(bitmap))
+
+
+        val imageProcessingOptions = ImageProcessingOptions.builder()
+            .setOrientation(getOrientationFromRotation(rotation))
+            .build()
+
+        val result = classifier?.classify(tensorImage, imageProcessingOptions)
+
+        return result?.flatMap { classification ->
+            classification.categories.map { category ->
+                Classification(
+                    label = category.label,
+                    scores = category.score.toInt()
+                )
+            }
+        }?.distinctBy { it.label } ?: emptyList()
     }
 
     private fun getOrientationFromRotation(rotation: Int): ImageProcessingOptions.Orientation {
-        TODO()
+        return when (rotation) {
+            Surface.ROTATION_270 -> ImageProcessingOptions.Orientation.BOTTOM_RIGHT
+            Surface.ROTATION_90 -> ImageProcessingOptions.Orientation.TOP_LEFT
+            Surface.ROTATION_180 -> ImageProcessingOptions.Orientation.RIGHT_BOTTOM
+            else -> ImageProcessingOptions.Orientation.RIGHT_TOP
+        }
     }
 }

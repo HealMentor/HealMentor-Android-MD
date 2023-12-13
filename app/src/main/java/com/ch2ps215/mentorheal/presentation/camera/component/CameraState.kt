@@ -1,16 +1,30 @@
 package com.ch2ps215.mentorheal.presentation.camera.component
 
 import android.content.Context
+import android.util.Size
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
+import androidx.camera.core.resolutionselector.ResolutionSelector
+import androidx.camera.core.resolutionselector.ResolutionSelector.PREFER_HIGHER_RESOLUTION_OVER_CAPTURE_RATE
+import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
+import com.ch2ps215.mentorheal.domain.model.Classification
+import com.ch2ps215.mentorheal.presentation.camera.UserImageAnalyzer
 import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import java.io.File
@@ -23,6 +37,8 @@ class CameraState(
     selector: CameraSelector,
     val preview: Preview,
     val imageCapture: ImageCapture,
+    val imageAnalysis: ImageAnalysis,
+    val analyzer: UserImageAnalyzer,
     private val lifecycleOwner: LifecycleOwner,
     private val context: Context
 ) {
@@ -30,6 +46,13 @@ class CameraState(
     private val Context.executor: Executor
         get() = ContextCompat.getMainExecutor(this)
 
+    init {
+        setupImageAnalysis()
+    }
+
+    private fun setupImageAnalysis() {
+        imageAnalysis.setAnalyzer(context.executor, analyzer)
+    }
 
     suspend fun unbind() {
         val cameraProvider = getCameraProvider()
@@ -42,7 +65,8 @@ class CameraState(
             lifecycleOwner,
             selector,
             preview,
-            imageCapture
+            imageCapture,
+            imageAnalysis
         )
     }
 
@@ -91,21 +115,41 @@ class CameraState(
 fun rememberCameraState(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     context: Context = LocalContext.current,
+    onResult: (List<Classification>) -> Unit,
 ) = remember {
 
     val preview = Preview
         .Builder()
         .build()
+
     val imageCapture = ImageCapture
         .Builder()
         .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
         .build()
+
+    val resolutionSelector = ResolutionSelector.Builder()
+        .setResolutionStrategy(ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
+
+    val imageAnalysis = ImageAnalysis
+        .Builder()
+        .setResolutionSelector(resolutionSelector.build())
+        .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+        .build()
+
+    val analyzer = UserImageAnalyzer(
+        classifier = TfLiteUserClassifierDataSource(
+            context = context
+        ),
+        onResult = onResult
+    )
 
     CameraState(
         selector = CameraSelector.DEFAULT_BACK_CAMERA,
         lifecycleOwner = lifecycleOwner,
         context = context,
         preview = preview,
-        imageCapture = imageCapture
+        imageCapture = imageCapture,
+        imageAnalysis = imageAnalysis,
+        analyzer = analyzer
     )
 }

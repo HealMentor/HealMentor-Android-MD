@@ -14,6 +14,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -24,12 +25,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ch2ps215.mentorheal.R
+import com.ch2ps215.mentorheal.domain.model.Classification
 import com.ch2ps215.mentorheal.presentation.camera.component.CameraCapture
 import com.ch2ps215.mentorheal.presentation.camera.component.rememberCameraState
 import com.ch2ps215.mentorheal.presentation.common.toast
@@ -53,7 +57,12 @@ fun CameraScreen(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current
-        val cameraState = rememberCameraState()
+        var classification by remember {
+            mutableStateOf(emptyList<Classification>())
+        }
+        val cameraState = rememberCameraState{
+            classification = it
+        }
         val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(false) }
         val permission = rememberPermissionState(permission.CAMERA) { isGranted ->
@@ -96,7 +105,6 @@ fun CameraScreen(
                         val backCamera = cameraState.selector == CameraSelector.DEFAULT_BACK_CAMERA
 
                         onImageTakenFromCamera(capturedImage, backCamera)
-
                         isLoading = false
                     }
                 },
@@ -109,6 +117,19 @@ fun CameraScreen(
             )
         }
 
+        classification.forEach {
+            Text(
+                text = it.label,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(8.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+        }
+
         var isHelperDialogOpen by remember { mutableStateOf(false) }
 
         Row(
@@ -117,7 +138,7 @@ fun CameraScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 16.dp)
         ) {
-            Spacer(modifier = Modifier.weight(1F))
+
             IconButton(
                 modifier = Modifier
                     .clip(CircleShape),
