@@ -8,7 +8,8 @@ import androidx.paging.cachedIn
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.UpdateDetectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,7 +29,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TwosViewModel @Inject constructor(
-    getDetectionUseCase: GetDetectionUseCase,
+    getFormDetectionUseCase: GetFormDetectionUseCase,
+    getExpressionDetectionUseCase: GetExpressionDetectionUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val detectExpressionUseCase: DetectExpressionUseCase,
     private val updateDetectionUseCase: UpdateDetectionUseCase,
@@ -36,7 +38,20 @@ class TwosViewModel @Inject constructor(
 ) : ViewModel() {
 
     val detections = Pager(
-        pagingSourceFactory = { DetectionPagingSource(getDetectionUseCase) },
+        pagingSourceFactory = { DetectionPagingSource(getFormDetectionUseCase) },
+        config = PagingConfig(pageSize = 10)
+    ).flow.onStart {
+        detectionLoading.value = true
+    }.onEach {
+        detectionLoading.value = false
+    }.catch { e ->
+        Timber.e(e)
+        detectionLoading.value = false
+        _snackbar.emit("Failed to load detections")
+    }.flowOn(dispatcher).cachedIn(viewModelScope)
+
+    val expressionDetections = Pager(
+        pagingSourceFactory = { DetectionExpressionPagingSource(getExpressionDetectionUseCase) },
         config = PagingConfig(pageSize = 10)
     ).flow.onStart {
         detectionLoading.value = true

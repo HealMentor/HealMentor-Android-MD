@@ -11,6 +11,7 @@ import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
+import com.ch2ps215.mentorheal.presentation.kemungkinan.KemungkinanScreen
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
@@ -90,6 +91,7 @@ fun NavGraph(
             }
 
             composable(Route.Problems()) {
+                KemungkinanScreen(LocalNavController.current)
             }
 
             composable(Route.AtasiKecemasan()) {

@@ -23,6 +23,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
+import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
 import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 
@@ -30,9 +31,9 @@ import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 fun FaceDetectionsContent(
     viewModel: TwosViewModel = hiltViewModel(),
     padding: PaddingValues,
-    navigateToDetectionScreen: (detection: FormDetection) -> Unit
+    navigateToDetectionExpressionScreen: (detection: ExpressionDetection) -> Unit,
 ) {
-    val pagingDetections = viewModel.detections.collectAsLazyPagingItems()
+    val pagingDetections = viewModel.expressionDetections.collectAsLazyPagingItems()
     val refresh = pagingDetections.loadState.refresh
     val append = pagingDetections.loadState.append
     val composition by rememberLottieComposition(
@@ -52,9 +53,9 @@ fun FaceDetectionsContent(
                 contentType = pagingDetections.itemContentType { "FormDetection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
-                    DetectionCard(
-                        formDetection = detection,
-                        onDetectionClick = navigateToDetectionScreen
+                    DetectionCardExpression(
+                        expressionDetection = detection,
+                        onDetectionClick = navigateToDetectionExpressionScreen
                     )
                 }
             }

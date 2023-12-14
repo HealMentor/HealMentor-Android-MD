@@ -6,11 +6,10 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface DetectionService {
-    @POST("/api/detection/detect")
-    @Multipart
+    @POST("/prediction")
     suspend fun detect(
-        @Query("form")
-        form: Form,
+        @Body form: Form
+
     ): Response<FormDetectionResponse>
 
 }

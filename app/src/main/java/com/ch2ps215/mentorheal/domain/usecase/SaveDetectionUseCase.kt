@@ -14,6 +14,6 @@ class SaveDetectionUseCase constructor(
         score: Float,
     ): Result<Boolean> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw RuntimeException("Unauthorized")
-        detectionRepository.save(user.token, label, score, user.id)
+        detectionRepository.save(user.token, label, score.toInt(), user.id)
     }
 }

@@ -18,7 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +64,13 @@ fun TrackerScreen(
     trackerItems: List<TrackerItem>,
 ) {
 
+    var searchQuery by remember { mutableStateOf("") }
+
+    // Menyaring item berdasarkan judul (title)
+    val filteredItems = trackerItems.filter { item ->
+        item.title.contains(searchQuery, ignoreCase = true)
+    }
+
     Scaffold(
         topBar = {
             androidx.compose.material3.TopAppBar(
@@ -95,8 +104,8 @@ fun TrackerScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             SearchWithAddButton(
-                onSearchClick = {
-                    // Aksi untuk klik pencarian
+                onSearchClick = { query ->
+                    searchQuery = query
                 },
                 onAddClick = {
                     navController.navigate(Route.AddTracker())
@@ -109,8 +118,8 @@ fun TrackerScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Create CardTracker for each item in the list
-            trackerItems.forEach { item ->
+            // Menampilkan item yang sudah disaring
+            filteredItems.forEach { item ->
                 CardTracker(
                     title = item.title,
                     starCount = item.starCount,

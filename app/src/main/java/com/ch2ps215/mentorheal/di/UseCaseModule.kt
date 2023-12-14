@@ -9,7 +9,8 @@ import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
@@ -90,8 +91,11 @@ object UseCaseModule {
 
     @Provides
     @ViewModelScoped
-    fun provideDetectFormUseCase(detectionRepository: DetectionRepository): DetectFormUseCase {
-        return DetectFormUseCase(detectionRepository)
+    fun provideDetectFormUseCase(
+        detectionRepository: DetectionRepository,
+        userRepository: UserRepository
+    ): DetectFormUseCase {
+        return DetectFormUseCase(detectionRepository, userRepository)
     }
 
     @Provides
@@ -149,8 +153,17 @@ object UseCaseModule {
     fun provideGetDetectionUseCase(
         userRepository: UserRepository,
         detectionRepository: DetectionRepository
-    ): GetDetectionUseCase {
-        return GetDetectionUseCase(userRepository, detectionRepository)
+    ): GetFormDetectionUseCase {
+        return GetFormDetectionUseCase(userRepository, detectionRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetExpressionDetectionUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): GetExpressionDetectionUseCase {
+        return GetExpressionDetectionUseCase(userRepository, detectionRepository)
     }
 
 

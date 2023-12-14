@@ -11,6 +11,7 @@ import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
 import com.ch2ps215.mentorheal.data.remote.service.DetectionService
+import com.ch2ps215.mentorheal.data.remote.service.FormService
 import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -39,6 +40,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
+    @Named("retrofitFirestore")
     fun provideRetrofit(): Retrofit {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
@@ -69,8 +71,41 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideUserRemoteDataSource(retrofit: Retrofit): UserRemoteDataSource {
-        val userService = retrofit.create<UserService>()
+    @Named("retrofitForm")
+    fun providePredictionRetrofit(): Retrofit {
+        val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+            if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val callFactory = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://healmentor-model-api-reuadfy3ia-et.a.run.app")
+            .callFactory(callFactory)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(client)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRemoteDataSource(
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+    ): UserRemoteDataSource {
+        val userService = retrofitFirestore.create<UserService>()
         return UserRemoteDataSource(userService)
     }
 
@@ -106,9 +141,9 @@ object RemoteModule {
     @Singleton
     fun provideArticleRemoteDataSource(
         @Named("articlesRef") firebaseFirestore: CollectionReference,
-        retrofit: Retrofit
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
     ): ArticleRemoteDataSource {
-        val detectionService = retrofit.create<ArticleService>()
+        val detectionService = retrofitFirestore.create<ArticleService>()
         return ArticleRemoteDataSource(detectionService)
     }
 
@@ -118,14 +153,17 @@ object RemoteModule {
         @Named("detectionsFormRef") detectionsFormRef: CollectionReference,
         @Named("detectionsExpressionRef") detectionsExpressionRef: CollectionReference,
         firebaseStorage: FirebaseStorage,
-        retrofit: Retrofit
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+        @Named("retrofitForm") retrofitForm: Retrofit
     ): DetectionRemoteDataSource {
-        val detectionService = retrofit.create<DetectionService>()
+        val detectionService = retrofitFirestore.create<DetectionService>()
+        val formService = retrofitForm.create<FormService>()
         return DetectionRemoteDataSource(
             detectionsFormRef,
             detectionsExpressionRef,
             firebaseStorage,
-            detectionService
+            detectionService,
+            formService
         )
     }
 

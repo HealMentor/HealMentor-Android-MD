@@ -23,18 +23,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FormViewModel @Inject constructor(
-    getUserUseCase: GetUserUseCase,
     private val validateFormUseCase: ValidateFormUseCase,
     private val validateGenderUseCase: ValidateGenderUseCase,
     private val validateYesNoUseCase: ValidateYesNoUseCase,
     private val dispatcher: CoroutineDispatcher,
     private val detectFormUseCase: DetectFormUseCase,
 ) : ViewModel() {
-
-    val userId = getUserUseCase()
-        .map { it?.id }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
-
 
     private val _umurField = MutableStateFlow<Pair<String, Int?>>("" to null)
     val umurField = _umurField.asStateFlow()
@@ -145,20 +139,18 @@ class FormViewModel @Inject constructor(
             val kecemasan = _kecemasanField.value.first
             val panic = _panicField.value.first
             val kebutuhanKhusus = _kebutuhankhususField.value.first
-            val userIdValue = userId.value ?: ""
 
             detectFormUseCase.invoke(
-                umur,
+                umur.toInt(),
                 gender,
                 bidang,
-                semester,
-                cgpa,
+                semester.toInt(),
+                cgpa.toInt(),
                 pernikahan,
                 depresi,
                 kecemasan,
                 panic,
                 kebutuhanKhusus,
-                userIdValue
             ).onFailure { e ->
                 Timber.e(e)
                 _snackbar.emit(e.message ?: "Failed to submit the form. Try again later")

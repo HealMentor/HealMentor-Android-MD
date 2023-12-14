@@ -85,10 +85,11 @@ fun FormScreen(
         fulfilledState = viewModel.fulfilled,
         loadingState = viewModel.loading,
         onNavigationBack = navController::popBackStack,
-    ) {
-        viewModel.submit()
-        navController.navigate(Route.Problems())
-    }
+        onClickButtonSubmit = {
+            viewModel.submit()
+            navController.navigate(Route.Problems())
+        }
+    )
 }
 
 @Composable

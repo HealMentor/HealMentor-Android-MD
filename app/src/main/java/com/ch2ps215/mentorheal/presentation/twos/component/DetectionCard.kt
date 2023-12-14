@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @Composable
 fun DetectionCard(
@@ -42,11 +44,35 @@ fun DetectionCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             val productName = formDetection.label
-            Text(
-                text = productName ?: "Unknown",
-                color = Color.DarkGray,
-                fontSize = 25.sp
-            )
+            val scores = formDetection.scores.toString()
+                Text(
+                    text = productName ?: "Unknown",
+                    style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(bottom = 4.dp)
+                )
+                Text(
+                    text = scores ?: "Unknown",
+                    style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = 4.dp)
+                )
+
+
         }
+    }
+}
+
+@Preview
+@Composable
+fun cardDetectionPreview() {
+    val formDetection = FormDetection()
+    MentorhealTheme {
+        DetectionCard(formDetection = formDetection, onDetectionClick = {})
     }
 }
