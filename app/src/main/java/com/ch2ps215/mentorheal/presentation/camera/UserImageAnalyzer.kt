@@ -1,5 +1,6 @@
 package com.ch2ps215.mentorheal.presentation.camera
 
+import android.graphics.Bitmap
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.ch2ps215.mentorheal.domain.model.Classification
@@ -14,11 +15,11 @@ class UserImageAnalyzer(
     override fun analyze(image: ImageProxy) {
         if (framecounter % 60 == 0) {
             val rotationDegrees = image.imageInfo.rotationDegrees
-            val bitmap = image
-                .toBitmap()
+
+            val bmp = image.toBitmap()
                 .centerCrop(224, 224)
 
-            val result = classifier.classify(bitmap, rotationDegrees)
+            val result = classifier.classify(bmp, rotationDegrees)
             onResult(result)
         }
 

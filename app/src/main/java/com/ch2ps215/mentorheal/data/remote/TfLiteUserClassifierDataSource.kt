@@ -3,12 +3,10 @@ package com.ch2ps215.mentorheal.data.remote
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.Surface
-import androidx.core.graphics.createBitmap
 import com.ch2ps215.mentorheal.domain.model.Classification
 import com.ch2ps215.mentorheal.domain.repository.UserClassification
-import com.ch2ps215.mentorheal.presentation.common.BitmapUtils
+import com.ch2ps215.mentorheal.presentation.camera.centerCrop
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.core.BaseOptions
@@ -29,6 +27,7 @@ class TfLiteUserClassifierDataSource(
         val baseOptions = BaseOptions.builder()
             .setNumThreads(2)
             .build()
+
         val options = ImageClassifier.ImageClassifierOptions.builder()
             .setBaseOptions(baseOptions)
             .setMaxResults(maxResult)
@@ -51,7 +50,7 @@ class TfLiteUserClassifierDataSource(
             setupClassifier()
         }
 
-        val bmp = BitmapFactory.decodeFile(file.path)
+        val bmp = BitmapFactory.decodeFile(file.path).centerCrop(224, 224)
 
         val imageprocessor = ImageProcessor.Builder().build()
         val tensorImage = imageprocessor.process(TensorImage.fromBitmap(bmp))
@@ -76,8 +75,8 @@ class TfLiteUserClassifierDataSource(
         }
 
         val imageprocessor = ImageProcessor.Builder().build()
-        val tensorImage = imageprocessor.process(TensorImage.fromBitmap(bitmap))
 
+        val tensorImage = imageprocessor.process(TensorImage.fromBitmap(bitmap))
 
         val imageProcessingOptions = ImageProcessingOptions.builder()
             .setOrientation(getOrientationFromRotation(rotation))
