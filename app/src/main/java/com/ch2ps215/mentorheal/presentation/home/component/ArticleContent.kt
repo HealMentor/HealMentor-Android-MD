@@ -23,12 +23,12 @@ import coil.request.ImageRequest
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @Composable
-fun Article(
+fun ArticleContent(
     modifier: Modifier = Modifier,
-    id: Int,
+    id: String,
     title: String,
     photo: String,
-    onClick: (Int) -> Unit = { }
+    onClick: (String) -> Unit = { }
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -38,10 +38,10 @@ fun Article(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(photo)
-                    .crossfade(500)
+                    .crossfade(400)
                     .build(),
-                contentDescription = null,
                 contentScale = ContentScale.Crop,
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(120.dp)
@@ -56,10 +56,10 @@ fun Article(
                         .padding(8.dp)
                         .align(Alignment.CenterStart),
                     text = title,
-                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    style = MaterialTheme.typography.titleSmall,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
                 )
             }
         }
@@ -87,8 +87,8 @@ fun ArticlePlaceholder(
 @Composable
 fun ArticlePreview() {
     MentorhealTheme {
-        Article(
-            id = 0,
+        ArticleContent(
+            id = "0",
             title = "lorem ipsum dolor sit amet",
             photo = "https://images.unsplash.com/photo-1621574539437-8b9b7b0b9b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dHJhc2hpbmd8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
         )

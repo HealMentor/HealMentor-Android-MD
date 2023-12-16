@@ -109,7 +109,7 @@ object RemoteModule {
         retrofit: Retrofit
     ): ArticleRemoteDataSource {
         val detectionService = retrofit.create<ArticleService>()
-        return ArticleRemoteDataSource(detectionService)
+        return ArticleRemoteDataSource(firebaseFirestore, detectionService)
     }
 
     @Provides

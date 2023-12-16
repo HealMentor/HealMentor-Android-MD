@@ -115,7 +115,7 @@ fun TrackerScreen(
                     title = item.title,
                     starCount = item.starCount,
                     onClick = {
-                        navController.navigate(Route.Detail())
+                        navController.navigate(Route.DetailTracker())
                     }
                 )
             }

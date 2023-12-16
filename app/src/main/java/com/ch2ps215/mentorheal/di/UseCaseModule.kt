@@ -8,10 +8,12 @@ import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
 import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetArticleUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
+import com.ch2ps215.mentorheal.domain.usecase.LikingArticleUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SaveDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
@@ -174,11 +176,28 @@ object UseCaseModule {
 
     @Provides
     @ViewModelScoped
+    fun provideGetArticleUseCase(
+        articleRepository: ArticleRepository
+    ): GetArticleUseCase {
+        return GetArticleUseCase(articleRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
     fun provideGetFavoriteArticlesUseCase(
         userRepository: UserRepository,
         articleRepository: ArticleRepository
     ): GetFavoriteArticlesUseCase {
         return GetFavoriteArticlesUseCase(userRepository, articleRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideLikingArticleUseCase(
+        userRepository: UserRepository,
+        articleRepository: ArticleRepository
+    ): LikingArticleUseCase {
+        return LikingArticleUseCase(userRepository, articleRepository)
     }
 
     @Provides

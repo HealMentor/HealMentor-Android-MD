@@ -50,7 +50,7 @@ fun FormDetectionsContent(
             items(
                 count = pagingDetections.itemCount,
                 key = pagingDetections.itemKey { detection -> detection.id!! },
-                contentType = pagingDetections.itemContentType { "FormDetection" }
+                contentType = pagingDetections.itemContentType { "Form Detection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
                     DetectionCard(

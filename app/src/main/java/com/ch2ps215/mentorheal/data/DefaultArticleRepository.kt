@@ -1,25 +1,26 @@
 package com.ch2ps215.mentorheal.data
 
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 
 class DefaultArticleRepository(
     private val articleRemoteDataSource: ArticleRemoteDataSource
 ) : ArticleRepository {
-
-    suspend fun save(req: SaveDetectionFormRequest): Boolean {
-        TODO()
+    override suspend fun getArticles(): Query {
+        return articleRemoteDataSource.getArticles()
     }
 
     override suspend fun getArticles(
-        category: String?,
-        garbageCategory: String?,
-        page: Int,
-        size: Int
-    ): List<Article> {
-        TODO()
+        category: String
+    ): Query {
+        return articleRemoteDataSource.getArticles(category)
+    }
+
+    override suspend fun getArticleById(id: String): DocumentReference {
+        return articleRemoteDataSource.getArticleById(id)
     }
 
     override suspend fun getFavoriteArticle(token: String): List<Article> {

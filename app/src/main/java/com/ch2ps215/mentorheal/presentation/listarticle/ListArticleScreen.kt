@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -30,12 +31,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.home.component.Article
+import com.ch2ps215.mentorheal.presentation.home.component.ArticleContent
+import com.ch2ps215.mentorheal.presentation.navgraph.Route
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -59,7 +65,6 @@ fun ListArticleScreen(
                         text = when (type) {
                             ListArticleType.Favorite -> stringResource(R.string.favorite_article)
                             ListArticleType.Latest -> stringResource(R.string.latest_articles)
-                            ListArticleType.Reduce -> stringResource(R.string.form)
                         }
                     )
                 },
@@ -78,8 +83,8 @@ fun ListArticleScreen(
             )
         }
     ) { innerPadding ->
-        val articles by viewModel.articles.collectAsState()
 
+        val articles = viewModel.articles.collectAsLazyPagingItems()
         Box(
             modifier = Modifier
                 .padding(innerPadding)
@@ -90,18 +95,24 @@ fun ListArticleScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
-                items(articles, key = { it.id }) { article ->
-                    Article(
-                        id = article.id,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .animateItemPlacement(),
-                        title = article.title,
-                        onClick = {
+                items(
+                    count = articles.itemCount,
+                    key = articles.itemKey { article -> article.id!! },
+                    contentType = articles.itemContentType { "Article" }
+                ) { index: Int ->
+                    articles[index]?.let { article ->
+                        ArticleContent(
+                            id = article.id!!,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .animateItemPlacement(),
+                            title = article.title!!,
+                            onClick = {
 
-                        },
-                        photo = article.photo.getOrNull(0)!!
-                    )
+                            },
+                            photo = article.photo.getOrNull(0)!!
+                        )
+                    }
                 }
             }
 
@@ -110,7 +121,7 @@ fun ListArticleScreen(
                 LottieCompositionSpec.RawRes(R.raw.empty_box)
             )
 
-            if (articles.isEmpty() && !isLoading) {
+            if (articles.itemCount <= 0 && !isLoading) {
                 LottieAnimation(
                     modifier = Modifier
                         .padding(32.dp)

@@ -98,4 +98,5 @@
     <string name="cd_back">back</string>
     <string name="cd_notification">Notification</string>
     <string name="camera_permission">You must allow camera permission to use this feature</string>
+    <string name="cd_favorite_article">Favorite Article</string>
 </resources>

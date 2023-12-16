@@ -49,7 +49,7 @@ fun FaceDetectionsContent(
             items(
                 count = pagingDetections.itemCount,
                 key = pagingDetections.itemKey { detection -> detection.id!! },
-                contentType = pagingDetections.itemContentType { "FormDetection" }
+                contentType = pagingDetections.itemContentType { "Face Detection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
                     DetectionCard(

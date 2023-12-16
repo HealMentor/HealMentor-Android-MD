@@ -18,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
 
 @Composable
-fun DetailScreen(
+fun DetailTrackerScreen(
     navHostController: NavHostController
 ) {
 
@@ -55,5 +55,5 @@ fun DetailScreen(
 @Composable
 fun DetailScreenPreview() {
     val navHostController = rememberNavController()
-    DetailScreen(navHostController)
+    DetailTrackerScreen(navHostController)
 }

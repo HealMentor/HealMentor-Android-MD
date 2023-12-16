@@ -25,13 +25,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.presentation.home.component.Articles
 import com.ch2ps215.mentorheal.presentation.home.component.SearchBar
 import com.ch2ps215.mentorheal.presentation.home.component.TopHeader
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleType
+import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -50,21 +54,19 @@ fun HomeScreen(
     HomeScreen(
         snackbarHostState = snackbarHostState,
         onChangeQuerySearch = viewModel::changeQuerySearch,
-        querySearchState = viewModel.querySearch,
         usernameState = viewModel.username,
-        latestArticlesState = viewModel.latestArticles,
-        articlesActivity = viewModel.articlesReduce,
-        articlesRecommendation = viewModel.articleReuse,
+        querySearchState = viewModel.querySearch,
+        articlesActivity = viewModel.latestArticles,
+        articlesRecommendation = viewModel.articles,
         onClickShowMoreChart = {
 
         },
         onClickShowMoreArticle = { type ->
-
-        },
-        onNavigateToDetailArticle = { id ->
-
+            navController.navigate(Route.ListArticle(type))
         }
-    )
+    ) { id ->
+        navController.navigate(Route.DetailArticle(id))
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,12 +76,11 @@ fun HomeScreen(
     onChangeQuerySearch: (String) -> Unit,
     usernameState: StateFlow<String?>,
     querySearchState: StateFlow<String>,
-    latestArticlesState: StateFlow<List<Article>>,
-    articlesActivity: StateFlow<List<Article>>,
-    articlesRecommendation: StateFlow<List<Article>>,
+    articlesActivity: Flow<PagingData<Article>>,
+    articlesRecommendation: Flow<PagingData<Article>>,
     onClickShowMoreChart: () -> Unit,
     onClickShowMoreArticle: (ListArticleType) -> Unit,
-    onNavigateToDetailArticle: (Int) -> Unit,
+    onNavigateToDetailArticle: (String) -> Unit,
 ) {
     var isSearchBarOpen by remember { mutableStateOf(false) }
 
@@ -148,18 +149,19 @@ fun HomeScreen(
                 .padding(innerPadding)
         ) {
 
-            val latestArticles by latestArticlesState.collectAsState()
-            val reuse by articlesRecommendation.collectAsState()
+            val activity = articlesActivity.collectAsLazyPagingItems()
+            val recommendation = articlesRecommendation.collectAsLazyPagingItems()
 
             Articles(
                 label = stringResource(R.string.ongoing_activity),
-                articles = latestArticles,
+                articles = activity,
                 onClickShowMore = { onClickShowMoreArticle(ListArticleType.Latest) },
                 onClickArticle = onNavigateToDetailArticle
             )
+            
             Articles(
                 label = stringResource(R.string.activity_recommendation),
-                articles = reuse,
+                articles = recommendation,
                 onClickShowMore = { onClickShowMoreArticle(ListArticleType.Favorite) },
                 onClickArticle = onNavigateToDetailArticle
             )
@@ -174,14 +176,12 @@ fun HomeScreenPreview() {
         HomeScreen(
             snackbarHostState = remember { SnackbarHostState() },
             onChangeQuerySearch = { },
-            querySearchState = MutableStateFlow(""),
             usernameState = MutableStateFlow("Fulan"),
-            latestArticlesState = MutableStateFlow(emptyList()),
-            articlesRecommendation = MutableStateFlow(emptyList()),
-            articlesActivity = MutableStateFlow(emptyList()),
+            querySearchState = MutableStateFlow(""),
+            articlesActivity = MutableStateFlow(PagingData.empty()),
+            articlesRecommendation = MutableStateFlow(PagingData.empty()),
             onClickShowMoreChart = { },
-            onClickShowMoreArticle = { },
-            onNavigateToDetailArticle = { }
-        )
+            onClickShowMoreArticle = { }
+        ) { }
     }
 }
