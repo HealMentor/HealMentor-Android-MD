@@ -3,20 +3,24 @@ package com.ch2ps215.mentorheal.presentation.navgraph
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.ch2ps215.mentorheal.presentation.camera.CameraMain
+import com.ch2ps215.mentorheal.presentation.article.DetailArticleScreen
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
+import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleScreen
+import com.ch2ps215.mentorheal.presentation.navgraph.Route.Companion.LIST_ARTICLE_TYPE
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
 import com.ch2ps215.mentorheal.presentation.tracker.AddTrackerScreen
-import com.ch2ps215.mentorheal.presentation.tracker.DetailScreen
+import com.ch2ps215.mentorheal.presentation.tracker.DetailTrackerScreen
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
 import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 
@@ -57,6 +61,7 @@ fun NavGraph(
             route = Route.AppMainNavigation(),
             startDestination = Route.Home()
         ) {
+            // Buttom Navigation
             composable(Route.Home()) {
                 HomeScreen(LocalNavController.current)
             }
@@ -73,6 +78,29 @@ fun NavGraph(
                 ProfileScreen(LocalNavController.current)
             }
 
+            // Home Content
+            composable(
+                Route.ListArticle(),
+                listOf(
+                    navArgument(LIST_ARTICLE_TYPE) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                ListArticleScreen(LocalNavController.current)
+            }
+
+            composable(
+                Route.DetailArticle(),
+                listOf(
+                    navArgument(Route.KEY_ARTICLE_ID) {
+                        type = NavType.StringType
+                    })
+            ) {
+                DetailArticleScreen(LocalNavController.current)
+            }
+
+            // Detection Content
             composable(Route.Detection()) {
                 DetectionScreen(LocalNavController.current)
             }
@@ -81,12 +109,13 @@ fun NavGraph(
                 FormScreen(LocalNavController.current)
             }
 
+            // Tracker Content
             composable(Route.AddTracker()) {
                 AddTrackerScreen(LocalNavController.current)
             }
 
-            composable(Route.Detail()) {
-                DetailScreen(LocalNavController.current)
+            composable(Route.DetailTracker()) {
+                DetailTrackerScreen(LocalNavController.current)
             }
 
             composable(Route.Problems()) {
@@ -94,10 +123,6 @@ fun NavGraph(
 
             composable(Route.AtasiKecemasan()) {
                 AtasiKecemasanScreen(LocalNavController.current)
-            }
-
-            composable(Route.DetectionCamera()) {
-                CameraMain(LocalNavController.current)
             }
         }
     }

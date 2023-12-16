@@ -1,5 +1,9 @@
 package com.ch2ps215.mentorheal.presentation.navgraph
 
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleType
+
 sealed class Route(
     protected val route: String
 ) {
@@ -35,7 +39,7 @@ sealed class Route(
      * Home is the navigation that is shown after the user has signed in.
      * This navigation is used to navigate to the home flow.
      */
-    object AppMainNavigation : Route("appmainavigation") {
+    object AppMainNavigation : Route("appmainnavigation") {
         operator fun invoke() = route
     }
 
@@ -58,6 +62,20 @@ sealed class Route(
     /**
      * This navigation is used to navigate to sub-flows of the home flow.
      */
+
+    // Home Content
+    object ListArticle : Route("list_article/{$LIST_ARTICLE_TYPE}") {
+        operator fun invoke() = route
+        operator fun invoke(listArticle: ListArticleType) = "list_article/${listArticle.name}"
+    }
+
+    object DetailArticle : Route("detail_article/{$KEY_ARTICLE_ID}") {
+
+        operator fun invoke() = route
+        operator fun invoke(articleId: String) = "detail_article/$articleId"
+    }
+
+    // Detection Content
     object Form : Route("form") {
         operator fun invoke() = route
     }
@@ -66,6 +84,8 @@ sealed class Route(
         operator fun invoke() = route
     }
 
+
+    // Tracker Content
     object Problems : Route("kemungkinan") {
         operator fun invoke() = route
     }
@@ -74,20 +94,18 @@ sealed class Route(
         operator fun invoke() = route
     }
 
+    // Tracker
     object AddTracker : Route("adddata") {
         operator fun invoke() = route
     }
 
-    object Detail : Route("detail") {
-        operator fun invoke() = route
-    }
-
-    object DetectionCamera : Route("camerammain") {
+    object DetailTracker : Route("detailtraker") {
         operator fun invoke() = route
     }
 
 
     companion object {
         const val LIST_ARTICLE_TYPE = "list_article_type"
+        const val KEY_ARTICLE_ID = "article_id"
     }
 }
