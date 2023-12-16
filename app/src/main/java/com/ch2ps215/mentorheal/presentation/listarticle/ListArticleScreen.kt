@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIos
 import androidx.compose.material3.CircularProgressIndicator
@@ -39,7 +37,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.presentation.home.component.Article
 import com.ch2ps215.mentorheal.presentation.home.component.ArticleContent
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
 
@@ -108,7 +105,7 @@ fun ListArticleScreen(
                                 .animateItemPlacement(),
                             title = article.title!!,
                             onClick = {
-
+                                navController.navigate(Route.DetailArticle(article.id))
                             },
                             photo = article.photo.getOrNull(0)!!
                         )
