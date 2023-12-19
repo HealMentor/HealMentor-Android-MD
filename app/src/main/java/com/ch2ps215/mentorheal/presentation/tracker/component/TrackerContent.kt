@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.twos.component
+package com.ch2ps215.mentorheal.presentation.tracker.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,15 +24,17 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.domain.model.Tracker
+import com.ch2ps215.mentorheal.presentation.tracker.TrackerViewModel
 import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 
 @Composable
-fun FormDetectionsContent(
-    viewModel: TwosViewModel = hiltViewModel(),
+fun TrackerContent(
+    viewModel: TrackerViewModel = hiltViewModel(),
     padding: PaddingValues,
-    navigateToDetectionScreen: (formDetection: FormDetection) -> Unit
+    navigateToDetectionScreen: (tracker: Tracker) -> Unit
 ) {
-    val pagingDetections = viewModel.detections.collectAsLazyPagingItems()
+    val pagingDetections = viewModel.trackers.collectAsLazyPagingItems()
     val refresh = pagingDetections.loadState.refresh
     val append = pagingDetections.loadState.append
     val composition by rememberLottieComposition(
@@ -52,8 +54,8 @@ fun FormDetectionsContent(
                 contentType = pagingDetections.itemContentType { "FormDetection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
-                    DetectionCard(
-                        formDetection = detection,
+                    TrackerCard(
+                        tracker = detection,
                         onDetectionClick = navigateToDetectionScreen
                     )
                 }

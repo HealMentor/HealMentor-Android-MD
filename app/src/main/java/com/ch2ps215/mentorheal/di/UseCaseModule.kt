@@ -3,6 +3,7 @@ package com.ch2ps215.mentorheal.di
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
+import com.ch2ps215.mentorheal.domain.repository.TrackerRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.ch2ps215.mentorheal.domain.usecase.DarkThemeUseCase
 import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
@@ -12,9 +13,11 @@ import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SaveDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.SaveTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignUpUseCase
@@ -24,6 +27,7 @@ import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateNameUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidatePasswordUseCase
+import com.ch2ps215.mentorheal.domain.usecase.ValidateTitleUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateYesNoUseCase
 import dagger.Module
 import dagger.Provides
@@ -39,6 +43,16 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideValidateNameUseCase(): ValidateNameUseCase {
         return ValidateNameUseCase(
+            errorBlankMessage = R.string.error_name_is_required,
+            errorMinMessage = R.string.error_name_min_char,
+            errorMaxMessage = R.string.error_name_max_char
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideValidateTitleUseCase(): ValidateTitleUseCase {
+        return ValidateTitleUseCase(
             errorBlankMessage = R.string.error_name_is_required,
             errorMinMessage = R.string.error_name_min_char,
             errorMaxMessage = R.string.error_name_max_char
@@ -159,6 +173,15 @@ object UseCaseModule {
 
     @Provides
     @ViewModelScoped
+    fun provideGetTrackerUseCase(
+        userRepository: UserRepository,
+        trackerRepository: TrackerRepository
+    ): GetTrackerUseCase {
+        return GetTrackerUseCase(userRepository, trackerRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
     fun provideGetExpressionDetectionUseCase(
         userRepository: UserRepository,
         detectionRepository: DetectionRepository
@@ -201,6 +224,15 @@ object UseCaseModule {
         detectionRepository: DetectionRepository
     ): SaveDetectionUseCase {
         return SaveDetectionUseCase(userRepository, detectionRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSaveTrackerUseCase(
+        userRepository: UserRepository,
+        trackerRepository: TrackerRepository
+    ): SaveTrackerUseCase {
+        return SaveTrackerUseCase(userRepository, trackerRepository)
     }
 
 

@@ -5,13 +5,16 @@ import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS_EXPRESSION
+import com.ch2ps215.mentorheal.core.Constants.TRACKER
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
+import com.ch2ps215.mentorheal.data.remote.TrackerRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.service.ArticleService
 import com.ch2ps215.mentorheal.data.remote.service.DetectionService
 import com.ch2ps215.mentorheal.data.remote.service.FormService
+import com.ch2ps215.mentorheal.data.remote.service.TrackerService
 import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -119,6 +122,13 @@ object RemoteModule {
 
     @Provides
     @Singleton
+    @Named("trackerRef")
+    fun provideTrackerRef(): CollectionReference {
+        return Firebase.firestore.collection(TRACKER)
+    }
+
+    @Provides
+    @Singleton
     @Named("detectionsExpressionRef")
     fun provideDetectionsExpressionRef(): CollectionReference {
         return Firebase.firestore.collection(DETECTIONS_EXPRESSION)
@@ -164,6 +174,19 @@ object RemoteModule {
             firebaseStorage,
             detectionService,
             formService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackerRemoteDataSource(
+        @Named("trackerRef") trackerRef: CollectionReference,
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+    ): TrackerRemoteDataSource {
+        val trackerService = retrofitFirestore.create<TrackerService>()
+        return TrackerRemoteDataSource(
+            trackerRef,
+            trackerService
         )
     }
 

@@ -1,11 +1,15 @@
 package com.ch2ps215.mentorheal.presentation.tracker
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,13 +34,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.presentation.kemungkinan.component.CardTracker
+import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import com.ch2ps215.mentorheal.presentation.tracker.component.SearchWithAddButton
+import com.ch2ps215.mentorheal.presentation.tracker.component.TrackerContent
 import com.ch2ps215.mentorheal.presentation.tracker.component.TrackerItem
+import com.ch2ps215.mentorheal.presentation.twos.component.TrackerList
 import kotlinx.coroutines.flow.collectLatest
 
+private val DefaultLazyColumnContentPadding = PaddingValues(16.dp)
 
 @Composable
 fun TrackerScreen(
@@ -49,19 +57,23 @@ fun TrackerScreen(
         viewModel.snackbar.collectLatest(snackBarHostState::showSnackbar)
     }
 
-    TrackerScreen(
+    TrackerScreenView(
         navController = navController,
         snackBarHostState = snackBarHostState,
         trackerItems = trackerItems,
+        onNavigateToDetail = { tracker ->
+
+        },
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun TrackerScreen(
+fun TrackerScreenView(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     trackerItems: List<TrackerItem>,
+    onNavigateToDetail: (Tracker) -> Unit
 ) {
 
     var searchQuery by remember { mutableStateOf("") }
@@ -69,6 +81,10 @@ fun TrackerScreen(
     // Menyaring item berdasarkan judul (title)
     val filteredItems = trackerItems.filter { item ->
         item.title.contains(searchQuery, ignoreCase = true)
+    }
+
+    val pagerState = rememberPagerState {
+        TrackerList
     }
 
     Scaffold(
@@ -88,7 +104,6 @@ fun TrackerScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
                 .fillMaxSize()
                 .padding(16.dp)
@@ -118,16 +133,17 @@ fun TrackerScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Menampilkan item yang sudah disaring
-            filteredItems.forEach { item ->
-                CardTracker(
-                    title = item.title,
-                    starCount = item.starCount,
-                    onClick = {
-                        navController.navigate(Route.Detail())
-                    }
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.layoutId("pager2twos"),
+            ) { page ->
+                TrackerContent(
+                    padding = DefaultLazyColumnContentPadding,
+                    navigateToDetectionScreen = onNavigateToDetail
                 )
             }
+            // Menampilkan item yang sudah disaring
+
         }
     }
 }
@@ -144,9 +160,7 @@ fun TrackerScreenPreview() {
 
     MentorhealTheme {
         TrackerScreen(
-            navController = navController,
-            snackBarHostState = remember { SnackbarHostState() },
-            trackerItems = sampleData
+            navController = navController
         )
     }
 }
