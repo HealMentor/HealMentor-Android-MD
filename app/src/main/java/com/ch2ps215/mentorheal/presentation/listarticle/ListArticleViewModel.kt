@@ -58,12 +58,20 @@ class ListArticleViewModel @Inject constructor(
                 ListArticleType.Latest -> {
                     _articles.value = latestArticles
                 }
+
+                ListArticleType.Happy -> {
+                    _articles.value = latestArticles
+                }
+
+                ListArticleType.Depression -> {
+                    _articles.value = latestArticles
+                }
             }
         }
     }
 
     private val articlesFavorite = createFirestorePager(Article::class.java) {
-        getArticlesUseCase().getOrThrow()
+        getFavoriteArticlesUseCase().getOrThrow()
     }.flow.onStart {
         _loading.value = true
     }.onEach {

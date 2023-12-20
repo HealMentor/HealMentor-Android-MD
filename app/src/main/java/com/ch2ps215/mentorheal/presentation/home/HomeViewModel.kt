@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     }.flow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
     val articles = createFirestorePager(Article::class.java) {
-        getArticlesUseCase("depression").getOrThrow()
+        getArticlesUseCase().getOrThrow()
     }.flow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
     fun changeQuerySearch(querySearch: String) {

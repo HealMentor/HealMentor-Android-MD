@@ -39,7 +39,7 @@ fun AtasiKecemasanScreen(
 
     val title = "title"
     val description = "description"
-    val steps = listOf<String>("1")
+    val steps = listOf("1")
 
 
     AtasiKecemasanScreen(

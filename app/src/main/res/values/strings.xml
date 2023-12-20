@@ -40,6 +40,7 @@
     <!-- Articles -->
     <string name="latest_articles">Latest Articles</string>
     <string name="see_more">See More</string>
+    <string name="article">Article</string>
     <string name="favorite_article">Favorite Article</string>
     <string name="form">Form</string>
 

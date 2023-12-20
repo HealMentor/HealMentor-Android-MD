@@ -162,14 +162,14 @@ fun HomeScreen(
             Articles(
                 label = stringResource(R.string.favorite_article),
                 articles = favoriteArticle,
-                onClickShowMore = { onClickShowMoreArticle(ListArticleType.Latest) },
+                onClickShowMore = { onClickShowMoreArticle(ListArticleType.Favorite) },
                 onClickArticle = onNavigateToDetailArticle
             )
 
             Articles(
                 label = stringResource(R.string.latest_articles),
                 articles = latestArticle,
-                onClickShowMore = { onClickShowMoreArticle(ListArticleType.Favorite) },
+                onClickShowMore = { onClickShowMoreArticle(ListArticleType.Latest) },
                 onClickArticle = onNavigateToDetailArticle
             )
         }

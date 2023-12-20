@@ -62,6 +62,8 @@ fun ListArticleScreen(
                         text = when (type) {
                             ListArticleType.Favorite -> stringResource(R.string.favorite_article)
                             ListArticleType.Latest -> stringResource(R.string.latest_articles)
+                            ListArticleType.Happy -> stringResource(R.string.article)
+                            ListArticleType.Depression -> stringResource(R.string.article)
                         }
                     )
                 },
