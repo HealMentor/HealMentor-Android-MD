@@ -1,5 +1,7 @@
 package com.ch2ps215.mentorheal.presentation.navgraph
 
+import com.ch2ps215.mentorheal.domain.model.Tracker
+
 sealed class Route(
     protected val route: String
 ) {
@@ -78,7 +80,7 @@ sealed class Route(
         operator fun invoke() = route
     }
 
-    object Detail : Route("detail") {
+    object DetailTracker : Route("detailtracker") {
         operator fun invoke() = route
     }
 

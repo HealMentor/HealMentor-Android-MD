@@ -18,6 +18,7 @@ class DefaultTrackerRepository(
         title: String,
         starCount: Int,
         description: String,
+        feel: String,
         idUser: String
     ): Boolean {
         val req = SaveTrackerRequest(

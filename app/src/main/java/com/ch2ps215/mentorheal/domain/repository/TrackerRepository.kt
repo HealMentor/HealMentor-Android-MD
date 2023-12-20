@@ -11,6 +11,6 @@ interface TrackerRepository {
 
     suspend fun getTracker(idUser: String): Query
 
-    suspend fun saveTracker( title: String, starCount: Int, description: String, idUser: String): Boolean
+    suspend fun saveTracker( title: String, starCount: Int, description: String,feel: String,  idUser: String): Boolean
 
 }

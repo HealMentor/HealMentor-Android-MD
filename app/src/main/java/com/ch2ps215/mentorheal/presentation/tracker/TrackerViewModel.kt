@@ -62,8 +62,8 @@ class TrackerViewModel @Inject constructor(
     private val _loading = MutableStateFlow(false)
     val loading : StateFlow<Boolean> = _loading.asStateFlow()
 
-    private val _trackerItems = MutableStateFlow<List<TrackerItem>>(emptyList())
-    val trackerItems: StateFlow<List<TrackerItem>> = _trackerItems
+    private val _trackerItems = MutableStateFlow<List<Tracker>>(emptyList())
+    val trackerItems: StateFlow<List<Tracker>> = _trackerItems
 
     private val _trackerReduce = MutableStateFlow(emptyList<Tracker>())
     val trackerReduce = _trackerReduce.asStateFlow()
@@ -77,18 +77,28 @@ class TrackerViewModel @Inject constructor(
     private val _description = MutableStateFlow<Pair<String, Int?>>("" to null)
     val description = _description.asStateFlow()
 
-    val fulfilled = combine(_titleField, _starCount, _description) { (title, starCount, description) ->
+    private val _feel = MutableStateFlow<Pair<String, Int?>>("" to null)
+    val feel = _feel.asStateFlow()
+
+    val fulfilled = combine(_titleField, _starCount, _description, _feel) { (title, starCount, description, feel) ->
         title.first.isNotBlank()
                 && title.second == null
                 && starCount.first.isNotBlank()
                 && starCount.second == null
                 && description.first.isNotBlank()
                 && description.second == null
+                && feel.first.isNotBlank()
+                && feel.second == null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
     fun changeTitle(title: String) {
         val error = validateFormUseCase(title)
         _titleField.value = title to error
+    }
+
+    fun changeFeel(feel: String) {
+        val error = validateFormUseCase(feel)
+        _feel.value = feel to error
     }
 
     fun changeDescription(description: String) {
@@ -107,7 +117,8 @@ class TrackerViewModel @Inject constructor(
             val title = _titleField.value.first
             val starCount = _starCount.value.first.toFloat()
             val description = _description.value.first
-            saveTrackerUseCase.invoke(title, starCount, description).onFailure { e ->
+            val feel = _feel.value.first
+            saveTrackerUseCase.invoke(title, starCount, description, feel).onFailure { e ->
                 Timber.e(e)
                 _snackbar.emit(e.message ?: "Failed to sign in. Try again later")
             }
@@ -115,10 +126,10 @@ class TrackerViewModel @Inject constructor(
         }
     }
 
-    init {
-        // Replace this with your actual data fetching logic from the database
-        // For now, we'll use the dummy data
-        _trackerItems.value = dummyTrackerItems
-    }
+//    init {
+//        // Replace this with your actual data fetching logic from the database
+//        // For now, we'll use the dummy data
+//        _trackerItems.value = dummyTrackerItems
+//    }
 
 }

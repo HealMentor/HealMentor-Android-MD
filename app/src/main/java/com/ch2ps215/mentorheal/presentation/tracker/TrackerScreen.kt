@@ -43,7 +43,7 @@ import com.ch2ps215.mentorheal.presentation.tracker.component.TrackerItem
 import com.ch2ps215.mentorheal.presentation.twos.component.TrackerList
 import kotlinx.coroutines.flow.collectLatest
 
-private val DefaultLazyColumnContentPadding = PaddingValues(16.dp)
+private val DefaultLazyColumnContentPadding = PaddingValues(4.dp)
 
 @Composable
 fun TrackerScreen(
@@ -62,7 +62,7 @@ fun TrackerScreen(
         snackBarHostState = snackBarHostState,
         trackerItems = trackerItems,
         onNavigateToDetail = { tracker ->
-
+//            navController.navigate(Route.DetailTracker(tracker))
         },
     )
 }
@@ -72,15 +72,14 @@ fun TrackerScreen(
 fun TrackerScreenView(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
-    trackerItems: List<TrackerItem>,
+    trackerItems: List<Tracker>,
     onNavigateToDetail: (Tracker) -> Unit
 ) {
-
     var searchQuery by remember { mutableStateOf("") }
 
     // Menyaring item berdasarkan judul (title)
     val filteredItems = trackerItems.filter { item ->
-        item.title.contains(searchQuery, ignoreCase = true)
+        item.title?.contains(searchQuery, ignoreCase = true) ?: false
     }
 
     val pagerState = rememberPagerState {
@@ -137,9 +136,13 @@ fun TrackerScreenView(
                 state = pagerState,
                 modifier = Modifier.layoutId("pager2twos"),
             ) { page ->
+
+                println("dataFilter, $filteredItems")
+
                 TrackerContent(
                     padding = DefaultLazyColumnContentPadding,
-                    navigateToDetectionScreen = onNavigateToDetail
+                    navigateToDetailTracker = onNavigateToDetail,
+                    filteredItems = filteredItems
                 )
             }
             // Menampilkan item yang sudah disaring

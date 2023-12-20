@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.kemungkinan.component
+package com.ch2ps215.mentorheal.presentation.tracker.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,13 +26,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ch2ps215.mentorheal.R
+import com.ch2ps215.mentorheal.domain.model.Tracker
+import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @Composable
 fun CardTracker(
-    title: String,
-    starCount: Int,
-    onClick: () -> Unit
+    tracker: Tracker,
+    onDetectionClick: (Tracker) -> Unit
 ) {
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,10 +42,13 @@ fun CardTracker(
             .background(Color(0xFF24B0C1)) // Set the background color to blue
             .clip(RoundedCornerShape(16.dp)),
     ) {
+        val productName = tracker.title
+        val scores = tracker.starCount?.toInt() ?: 1
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onClick() }
+                .clickable { onDetectionClick(tracker) }
                 .background(Color(0xFF24B0C1)) // Set the background color to blue
                 .clip(RoundedCornerShape(16.dp))
                 .padding(16.dp),
@@ -53,7 +58,7 @@ fun CardTracker(
                 modifier = Modifier.weight(2f)
             ) {
                 Text(
-                    text = title,
+                    text = productName ?: "Title Card",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -63,7 +68,7 @@ fun CardTracker(
 
             }
             Column {
-                StarButton(starCount)
+                StarButton(scores)
             }
         }
     }
@@ -91,9 +96,8 @@ fun StarButton(
 @Preview
 @Composable
 fun CardTrackerPreview() {
-    CardTracker(
-        title = "Card Title",
-        starCount = 3,
-        onClick = {}
-    )
+    val formDetection = Tracker()
+    MentorhealTheme {
+        CardTracker(tracker = formDetection, onDetectionClick = {})
+    }
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState.Error
@@ -32,7 +33,8 @@ import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 fun TrackerContent(
     viewModel: TrackerViewModel = hiltViewModel(),
     padding: PaddingValues,
-    navigateToDetectionScreen: (tracker: Tracker) -> Unit
+    navigateToDetailTracker: (tracker: Tracker) -> Unit,
+    filteredItems: List<Tracker>,
 ) {
     val pagingDetections = viewModel.trackers.collectAsLazyPagingItems()
     val refresh = pagingDetections.loadState.refresh
@@ -54,9 +56,9 @@ fun TrackerContent(
                 contentType = pagingDetections.itemContentType { "FormDetection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
-                    TrackerCard(
+                    CardTracker(
                         tracker = detection,
-                        onDetectionClick = navigateToDetectionScreen
+                        onDetectionClick = navigateToDetailTracker
                     )
                 }
             }
@@ -84,4 +86,11 @@ fun TrackerContent(
             append is Error -> print(append)
         }
     }
+}
+
+@Composable
+@Preview
+fun TrackerContentPreview() {
+    val padding = PaddingValues(16.dp)
+    TrackerContent(padding = padding, navigateToDetailTracker = {}, filteredItems = listOf() )
 }

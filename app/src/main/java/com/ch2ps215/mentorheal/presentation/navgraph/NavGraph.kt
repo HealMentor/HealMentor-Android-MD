@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.camera.CameraMain
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
@@ -17,7 +18,7 @@ import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
 import com.ch2ps215.mentorheal.presentation.tracker.AddTrackerScreen
-import com.ch2ps215.mentorheal.presentation.tracker.DetailScreen
+import com.ch2ps215.mentorheal.presentation.tracker.DetailScreenTracker
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
 import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 
@@ -86,8 +87,8 @@ fun NavGraph(
                 AddTrackerScreen(LocalNavController.current)
             }
 
-            composable(Route.Detail()) {
-                DetailScreen(LocalNavController.current)
+            composable(Route.DetailTracker()) {
+                DetailScreenTracker(LocalNavController.current)
             }
 
             composable(Route.Problems()) {

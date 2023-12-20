@@ -13,8 +13,9 @@ class SaveTrackerUseCase constructor(
         title: String,
         starCount: Float,
         description: String,
+        feel: String
     ): Result<Boolean> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw RuntimeException("Unauthorized")
-        trackerRepository.saveTracker( title, starCount.toInt(), description, user.id)
+        trackerRepository.saveTracker( title, starCount.toInt(), description, feel, user.id)
     }
 }
