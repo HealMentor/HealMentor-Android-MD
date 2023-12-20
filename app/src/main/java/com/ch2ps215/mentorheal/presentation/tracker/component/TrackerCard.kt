@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.twos.component
+package com.ch2ps215.mentorheal.presentation.tracker.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -22,13 +22,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun DetectionCard(
-    formDetection: FormDetection,
-    onDetectionClick: (FormDetection) -> Unit
+fun TrackerCard(
+    tracker: Tracker,
+    onDetectionClick: (Tracker) -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -47,12 +48,12 @@ fun DetectionCard(
                 .fillMaxWidth()
                 .padding(all = 12.dp)
                 .clickable {
-                    onDetectionClick(formDetection)
+                    onDetectionClick(tracker)
                 },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val productName = formDetection.label
-            val scores = formDetection.scores?.toFloat() ?: 51F
+            val productName = tracker.title
+            val scores = tracker.starCount?.toFloat() ?: 0F
 
             Column(
                 modifier = Modifier
@@ -85,8 +86,8 @@ fun DetectionCard(
 @Preview
 @Composable
 fun cardDetectionPreview() {
-    val formDetection = FormDetection()
+    val formDetection = Tracker()
     MentorhealTheme {
-        DetectionCard(formDetection = formDetection, onDetectionClick = {})
+        TrackerCard(tracker = formDetection, onDetectionClick = {})
     }
 }

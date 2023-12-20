@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
+import com.ch2ps215.mentorheal.data.local.TrackerLocalDataSource
 import com.ch2ps215.mentorheal.data.local.UserLocalDataSource
 import com.ch2ps215.mentorheal.data.local.datastore.UserPreferences
 import com.ch2ps215.mentorheal.data.local.room.MentorHealDatabase
@@ -38,6 +39,12 @@ object LocalModule {
     @Singleton
     fun provideDetectionLocalDataSource(database: MentorHealDatabase): DetectionLocalDataSource {
         return DetectionLocalDataSource(database.getDetectionDao())
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackerLocalDataSource(database: MentorHealDatabase): TrackerLocalDataSource {
+        return TrackerLocalDataSource(database.getTrackerDao())
     }
 
     @Provides

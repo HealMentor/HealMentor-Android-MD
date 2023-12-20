@@ -34,17 +34,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.PagingData
+import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
 import com.ch2ps215.mentorheal.domain.model.FormDetection
-import com.ch2ps215.mentorheal.presentation.camera.CameraActivity
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.twos.component.ArticlesList
 import com.ch2ps215.mentorheal.presentation.twos.component.FaceDetectionsContent
 import com.ch2ps215.mentorheal.presentation.twos.component.FormDetectionsContent
 import com.ch2ps215.mentorheal.presentation.twos.component.SwipeableContainer
 import com.ch2ps215.mentorheal.presentation.twos.component.TabRow2Twos
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.ch2ps215.mentorheal.presentation.camera.CameraActivity
 import java.io.File
 
 private val DefaultLazyColumnContentPadding = PaddingValues(16.dp)
@@ -64,13 +67,19 @@ fun TwosScreen(
     TwosScreen(
         snackbarHostState = snackbarHostState,
         loadingState = viewModel.loading,
+        formDetectionState = viewModel.detections,
+        expressionDetectionState = viewModel.expressionDetections,
         onDetect = viewModel::detectExpression,
         onClickFeatureForm = {
             navController.navigate(Route.Form.invoke())
-        }
-    ) { detection ->
+        },
+        onNavigateToDetailArticle = { detection ->
 
-    }
+        },
+        onNavigateToDetailExpressionArticle = { detection ->
+
+        }
+    )
 }
 
 @OptIn(
@@ -81,9 +90,12 @@ fun TwosScreen(
 fun TwosScreen(
     snackbarHostState: SnackbarHostState,
     loadingState: StateFlow<Boolean>,
+    formDetectionState: Flow<PagingData<FormDetection>>,
+    expressionDetectionState: Flow<PagingData<ExpressionDetection>>,
     onDetect: (File) -> Unit,
     onClickFeatureForm: () -> Unit,
-    onNavigateToDetailArticle: (FormDetection) -> Unit
+    onNavigateToDetailArticle: (FormDetection) -> Unit,
+    onNavigateToDetailExpressionArticle: (ExpressionDetection) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -163,7 +175,7 @@ fun TwosScreen(
                     if (page == 1) {
                         FaceDetectionsContent(
                             padding = DefaultLazyColumnContentPadding,
-                            navigateToDetectionScreen = onNavigateToDetailArticle
+                            navigateToDetectionExpressionScreen = onNavigateToDetailExpressionArticle
                         )
                     }
                 }

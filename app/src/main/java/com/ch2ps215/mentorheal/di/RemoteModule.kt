@@ -3,7 +3,6 @@ package com.ch2ps215.mentorheal.di
 import android.content.Context
 import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE
-import com.ch2ps215.mentorheal.core.Constants.ARTICLE_LIKES
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS_EXPRESSION
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
@@ -40,6 +39,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
+    @Named("retrofitFirestore")
     fun provideRetrofit(): Retrofit {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
@@ -70,8 +70,41 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideUserRemoteDataSource(retrofit: Retrofit): UserRemoteDataSource {
-        val userService = retrofit.create<UserService>()
+    @Named("retrofitForm")
+    fun providePredictionRetrofit(): Retrofit {
+        val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+            if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val callFactory = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://healmentor-model-api-reuadfy3ia-et.a.run.app")
+            .callFactory(callFactory)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(client)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRemoteDataSource(
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+    ): UserRemoteDataSource {
+        val userService = retrofitFirestore.create<UserService>()
         return UserRemoteDataSource(userService)
     }
 
@@ -81,6 +114,13 @@ object RemoteModule {
     @Named("detectionsFormRef")
     fun provideDetectionsFormRef(): CollectionReference {
         return Firebase.firestore.collection(DETECTIONS)
+    }
+
+    @Provides
+    @Singleton
+    @Named("trackerRef")
+    fun provideTrackerRef(): CollectionReference {
+        return Firebase.firestore.collection(TRACKER)
     }
 
     @Provides
@@ -115,7 +155,7 @@ object RemoteModule {
     fun provideArticleRemoteDataSource(
         @Named("articlesRef") articlesRef: CollectionReference,
         @Named("articlesLikesRef") articlesLikesRef: CollectionReference,
-        retrofit: Retrofit
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
     ): ArticleRemoteDataSource {
         return ArticleRemoteDataSource(articlesRef, articlesLikesRef)
     }
@@ -126,14 +166,30 @@ object RemoteModule {
         @Named("detectionsFormRef") detectionsFormRef: CollectionReference,
         @Named("detectionsExpressionRef") detectionsExpressionRef: CollectionReference,
         firebaseStorage: FirebaseStorage,
-        retrofit: Retrofit
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+        @Named("retrofitForm") retrofitForm: Retrofit
     ): DetectionRemoteDataSource {
-        val detectionService = retrofit.create<DetectionService>()
+        val detectionService = retrofitFirestore.create<DetectionService>()
+        val formService = retrofitForm.create<FormService>()
         return DetectionRemoteDataSource(
             detectionsFormRef,
             detectionsExpressionRef,
             firebaseStorage,
-            detectionService
+            detectionService,
+            formService
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackerRemoteDataSource(
+        @Named("trackerRef") trackerRef: CollectionReference,
+        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+    ): TrackerRemoteDataSource {
+        val trackerService = retrofitFirestore.create<TrackerService>()
+        return TrackerRemoteDataSource(
+            trackerRef,
+            trackerService
         )
     }
 

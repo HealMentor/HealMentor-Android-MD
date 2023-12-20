@@ -1,7 +1,6 @@
 package com.ch2ps215.mentorheal.data
 
 import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
-import com.ch2ps215.mentorheal.data.local.entity.FormEntity
 import com.ch2ps215.mentorheal.data.mapper.asModel
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
@@ -18,16 +17,20 @@ class DefaultDetectionRepository(
     private val detectionRemoteDataSource: DetectionRemoteDataSource,
     private val tfLiteUserClassifierDataSource: TfLiteUserClassifierDataSource
 ) : DetectionRepository {
-    override suspend fun getDetections(idUser: String): Query {
-        return detectionRemoteDataSource.getDetections(idUser)
+    override suspend fun getFormDetections(idUser: String): Query {
+        return detectionRemoteDataSource.getFormDetections(idUser)
+    }
+
+    override suspend fun getDetectionExpression(idUser: String) : Query {
+        return detectionRemoteDataSource.getDetectionExpression(idUser)
     }
 
     override suspend fun detectForm(
-        umur: String,
+        umur: Int,
         gender: String,
         bidang: String,
-        semester: String,
-        cgpa: String,
+        semester: Int,
+        cgpa: Int,
         pernikahan: String,
         depresi: String,
         kecemasan: String,
@@ -36,20 +39,25 @@ class DefaultDetectionRepository(
         userId: String
     ): FormDetection {
         val detect = Form(
-            umur = umur,
+            age = umur,
             gender = gender,
-            bidang = bidang,
-            semester = semester,
+            major = bidang,
+            year = semester,
             cgpa = cgpa,
-            pernikahan = pernikahan,
-            depresi = depresi,
-            kecemasan = kecemasan,
+            marriage = pernikahan,
+            anxiety = kecemasan,
             panic = panic,
-            kebutuhanKhusus = kebutuhankhusus,
-            userId = userId
+            treatment = kebutuhankhusus,
         )
 
         val res = detectionRemoteDataSource.detectForm(detect)
+        detectionRemoteDataSource.saveForm(SaveDetectionFormRequest(
+            id = "",
+            label = res.data?.depression ?: "",
+            scores = res.data?.prediction ?: 0,
+            idUser = userId,
+        ), idUser = userId
+        )
         return res.asModel(userId)
     }
 
@@ -72,26 +80,10 @@ class DefaultDetectionRepository(
 
     }
 
-    private fun FormEntity.toModel(): Form {
-        return Form(
-            umur = umur,
-            gender = gender,
-            bidang = bidang,
-            semester = semester,
-            cgpa = cgpa,
-            pernikahan = pernikahan,
-            depresi = depresi,
-            kecemasan = kecemasan,
-            panic = panic,
-            kebutuhanKhusus = kebutuhanKhusus,
-            userId = userId
-        )
-    }
-
     override suspend fun save(
         token: String,
         label: String,
-        scores: Float,
+        scores: Int,
         idUser: String
     ): Boolean {
         val req = SaveDetectionFormRequest(
@@ -101,7 +93,7 @@ class DefaultDetectionRepository(
             idUser = idUser
         )
 
-        return detectionRemoteDataSource.saveForm(req)
+        return detectionRemoteDataSource.saveForm(req, idUser)
     }
 
     override suspend fun update(token: String, detectionId: Int, total: Int): FormDetection {

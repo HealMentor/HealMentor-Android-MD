@@ -3,6 +3,7 @@ package com.ch2ps215.mentorheal.presentation.navgraph
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleType
+import com.ch2ps215.mentorheal.domain.model.Tracker
 
 sealed class Route(
     protected val route: String
@@ -99,7 +100,11 @@ sealed class Route(
         operator fun invoke() = route
     }
 
-    object DetailTracker : Route("detailtraker") {
+    object DetailTracker : Route("detailtracker") {
+        operator fun invoke() = route
+    }
+
+    object DetectionCamera : Route("camerammain") {
         operator fun invoke() = route
     }
 

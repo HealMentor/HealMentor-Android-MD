@@ -1,19 +1,21 @@
 package com.ch2ps215.mentorheal.domain.usecase
 
-import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
+import com.ch2ps215.mentorheal.domain.repository.TrackerRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import kotlinx.coroutines.flow.firstOrNull
 
-class SaveDetectionUseCase constructor(
+class SaveTrackerUseCase constructor(
     private val userRepository: UserRepository,
-    private val detectionRepository: DetectionRepository
+    private val trackerRepository: TrackerRepository
 ) {
 
     suspend operator fun invoke(
-        label: String,
-        score: Float,
+        title: String,
+        starCount: Float,
+        description: String,
+        feel: String
     ): Result<Boolean> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw RuntimeException("Unauthorized")
-        detectionRepository.save(user.token, label, score.toInt(), user.id)
+        trackerRepository.saveTracker( title, starCount.toInt(), description, feel, user.id)
     }
 }

@@ -9,18 +9,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.ch2ps215.mentorheal.presentation.article.DetailArticleScreen
+import com.ch2ps215.mentorheal.domain.model.Tracker
+import com.ch2ps215.mentorheal.presentation.camera.CameraMain
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
 import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleScreen
 import com.ch2ps215.mentorheal.presentation.navgraph.Route.Companion.LIST_ARTICLE_TYPE
+import com.ch2ps215.mentorheal.presentation.kemungkinan.KemungkinanScreen
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
 import com.ch2ps215.mentorheal.presentation.signin.SignInScreen
 import com.ch2ps215.mentorheal.presentation.signup.SignUpScreen
 import com.ch2ps215.mentorheal.presentation.tracker.AddTrackerScreen
 import com.ch2ps215.mentorheal.presentation.tracker.DetailTrackerScreen
+import com.ch2ps215.mentorheal.presentation.tracker.DetailScreenTracker
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerScreen
 import com.ch2ps215.mentorheal.presentation.twos.TwosScreen
 
@@ -119,6 +123,7 @@ fun NavGraph(
             }
 
             composable(Route.Problems()) {
+                KemungkinanScreen(LocalNavController.current)
             }
 
             composable(Route.AtasiKecemasan()) {

@@ -5,7 +5,7 @@ import com.ch2ps215.mentorheal.domain.model.Form
 import retrofit2.Response
 import retrofit2.http.*
 
-interface DetectionService {
+interface FormService {
     @POST("/prediction")
     suspend fun detect(
         @Body form: Form

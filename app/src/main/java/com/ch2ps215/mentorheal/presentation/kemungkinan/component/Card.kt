@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -62,11 +63,24 @@ fun CardWithFavorite(
                         .fillMaxWidth()
                         .padding(bottom = 16.dp)
                 )
+
+                val rating = 60.toFloat()
+                LinearProgressIndicator(
+                    progress = rating / 100F,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .height(7.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                    backgroundColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+                )
             }
             Column {
                 FavoriteButton(onFavoriteToggle, isFavorited)
             }
+
+
         }
+
     }
 }
 
