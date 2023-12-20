@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
@@ -76,7 +75,9 @@ fun TrackerCard(
                         .clip(RoundedCornerShape(5.dp))
                         .height(7.dp),
                     color = androidx.compose.material3.MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                    backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+                    backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.secondary.copy(
+                        alpha = 0.3f
+                    )
                 )
             }
         }

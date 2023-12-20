@@ -1,9 +1,6 @@
 package com.ch2ps215.mentorheal.presentation.navgraph
 
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleType
-import com.ch2ps215.mentorheal.domain.model.Tracker
 
 sealed class Route(
     protected val route: String

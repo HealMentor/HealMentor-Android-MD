@@ -5,7 +5,6 @@ import com.ch2ps215.mentorheal.data.remote.payload.SaveArticleLikesRequest
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
-import okhttp3.internal.wait
 
 class ArticleRemoteDataSource(
     private val articlesRef: CollectionReference,

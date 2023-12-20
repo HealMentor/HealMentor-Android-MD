@@ -3,8 +3,6 @@ package com.ch2ps215.mentorheal.data
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.payload.DeleteArticleLikesRequest
 import com.ch2ps215.mentorheal.data.remote.payload.SaveArticleLikesRequest
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
-import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query

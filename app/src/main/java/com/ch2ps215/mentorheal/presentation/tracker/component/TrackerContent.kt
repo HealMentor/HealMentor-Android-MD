@@ -24,10 +24,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.tracker.TrackerViewModel
-import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 
 @Composable
 fun TrackerContent(
@@ -37,6 +35,7 @@ fun TrackerContent(
     filteredItems: List<Tracker>,
 ) {
     val pagingDetections = viewModel.trackers.collectAsLazyPagingItems()
+
     val refresh = pagingDetections.loadState.refresh
     val append = pagingDetections.loadState.append
     val composition by rememberLottieComposition(
@@ -92,5 +91,5 @@ fun TrackerContent(
 @Preview
 fun TrackerContentPreview() {
     val padding = PaddingValues(16.dp)
-    TrackerContent(padding = padding, navigateToDetailTracker = {}, filteredItems = listOf() )
+    TrackerContent(padding = padding, navigateToDetailTracker = {}, filteredItems = listOf())
 }

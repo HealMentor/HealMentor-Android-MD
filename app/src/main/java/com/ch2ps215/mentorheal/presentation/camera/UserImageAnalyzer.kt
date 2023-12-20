@@ -1,6 +1,5 @@
 package com.ch2ps215.mentorheal.presentation.camera
 
-import android.graphics.Bitmap
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.ch2ps215.mentorheal.domain.model.Classification

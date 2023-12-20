@@ -16,7 +16,7 @@ class GetFavoriteArticlesUseCase(
         articleRepository.getFavoriteArticle(user.id)
     }
 
-    suspend operator fun invoke(idArticle:String): Result<Boolean> = runCatching {
+    suspend operator fun invoke(idArticle: String): Result<Boolean> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw Exception("Unauthorized")
         articleRepository.isArticleFavorite(idArticle, user.id).get().await().exists()
     }

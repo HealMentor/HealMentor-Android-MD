@@ -14,7 +14,7 @@ import kotlinx.coroutines.tasks.await
 import java.io.File
 import javax.inject.Named
 
-class DetectionRemoteDataSource (
+class DetectionRemoteDataSource(
     @Named("detectionsFormRef") private val detectionFormRef: CollectionReference,
     @Named("detectionsExpressionRef") private val detectionExpressionRef: CollectionReference,
     private val firebaseStorage: FirebaseStorage,

@@ -4,17 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import com.ch2ps215.mentorheal.domain.model.Article
+import androidx.paging.PagingData
 import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.domain.usecase.GetTrackerUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SaveTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
-import com.ch2ps215.mentorheal.domain.usecase.ValidateTitleUseCase
-import com.ch2ps215.mentorheal.presentation.tracker.component.TrackerItem
-import com.ch2ps215.mentorheal.presentation.tracker.component.dummyTrackerItems
-import com.ch2ps215.mentorheal.presentation.twos.DetectionPagingSource
+import com.ch2ps215.mentorheal.presentation.common.BaseFirestorePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,7 +20,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -35,16 +29,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrackerViewModel @Inject constructor(
-    getUserUseCase: GetUserUseCase,
     getTrackerUseCase: GetTrackerUseCase,
     private val saveTrackerUseCase: SaveTrackerUseCase,
-    private val dispatcher: CoroutineDispatcher,
-    private val validateFormUseCase: ValidateFormUseCase
+    private val validateFormUseCase: ValidateFormUseCase,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val trackers = Pager(
-        pagingSourceFactory = { TrackerPagingSource(getTrackerUseCase) },
-        config = PagingConfig(pageSize = 10)
+        pagingSourceFactory = {
+            BaseFirestorePagingSource(Tracker::class.java) {
+                getTrackerUseCase().getOrThrow()
+            }
+        }, config = PagingConfig(pageSize = 10)
     ).flow.onStart {
         _loading.value = true
     }.onEach {
@@ -53,14 +49,14 @@ class TrackerViewModel @Inject constructor(
         Timber.e(e)
         _loading.value = false
         _snackbar.emit("Failed to load detections")
-    }.flowOn(dispatcher).cachedIn(viewModelScope)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
 
     private val _snackbar = MutableSharedFlow<String>()
     val snackbar = _snackbar.asSharedFlow()
 
     private val _loading = MutableStateFlow(false)
-    val loading : StateFlow<Boolean> = _loading.asStateFlow()
+    val loading: StateFlow<Boolean> = _loading.asStateFlow()
 
     private val _trackerItems = MutableStateFlow<List<Tracker>>(emptyList())
     val trackerItems: StateFlow<List<Tracker>> = _trackerItems
@@ -80,7 +76,12 @@ class TrackerViewModel @Inject constructor(
     private val _feel = MutableStateFlow<Pair<String, Int?>>("" to null)
     val feel = _feel.asStateFlow()
 
-    val fulfilled = combine(_titleField, _starCount, _description, _feel) { (title, starCount, description, feel) ->
+    val fulfilled = combine(
+        _titleField,
+        _starCount,
+        _description,
+        _feel
+    ) { (title, starCount, description, feel) ->
         title.first.isNotBlank()
                 && title.second == null
                 && starCount.first.isNotBlank()
@@ -125,11 +126,4 @@ class TrackerViewModel @Inject constructor(
             _loading.value = false
         }
     }
-
-//    init {
-//        // Replace this with your actual data fetching logic from the database
-//        // For now, we'll use the dummy data
-//        _trackerItems.value = dummyTrackerItems
-//    }
-
 }

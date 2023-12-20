@@ -27,7 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
 import com.ch2ps215.mentorheal.presentation.detection.component.PickImageFromGalery
-import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 

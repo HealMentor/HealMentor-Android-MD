@@ -1,6 +1,5 @@
 package com.ch2ps215.mentorheal.domain.repository
 
-import com.ch2ps215.mentorheal.domain.model.Article
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 

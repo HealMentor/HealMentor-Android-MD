@@ -33,7 +33,7 @@ fun LinearIndicatorScreen() {
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                rating.items?.let { Ratings( percentage = 60f) }
+                rating.items?.let { Ratings(percentage = 60f) }
             }
         }
     }
@@ -41,7 +41,7 @@ fun LinearIndicatorScreen() {
 
 
 @Composable
-fun Ratings( percentage: Float) {
+fun Ratings(percentage: Float) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {

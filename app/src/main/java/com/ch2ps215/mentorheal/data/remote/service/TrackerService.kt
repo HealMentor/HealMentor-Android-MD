@@ -1,7 +1,6 @@
 package com.ch2ps215.mentorheal.data.remote.service
 
 import com.ch2ps215.mentorheal.data.remote.payload.Api
-import com.ch2ps215.mentorheal.data.remote.payload.FormDetectionResponse
 import com.ch2ps215.mentorheal.data.remote.payload.TrackerResponse
 import com.ch2ps215.mentorheal.domain.model.Tracker
 import retrofit2.Response

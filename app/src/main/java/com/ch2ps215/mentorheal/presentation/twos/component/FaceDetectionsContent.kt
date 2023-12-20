@@ -24,7 +24,6 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
-import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 
 @Composable

@@ -21,7 +21,7 @@ class DefaultDetectionRepository(
         return detectionRemoteDataSource.getFormDetections(idUser)
     }
 
-    override suspend fun getDetectionExpression(idUser: String) : Query {
+    override suspend fun getDetectionExpression(idUser: String): Query {
         return detectionRemoteDataSource.getDetectionExpression(idUser)
     }
 
@@ -51,12 +51,13 @@ class DefaultDetectionRepository(
         )
 
         val res = detectionRemoteDataSource.detectForm(detect)
-        detectionRemoteDataSource.saveForm(SaveDetectionFormRequest(
-            id = "",
-            label = res.data?.depression ?: "",
-            scores = res.data?.prediction ?: 0,
-            idUser = userId,
-        ), idUser = userId
+        detectionRemoteDataSource.saveForm(
+            SaveDetectionFormRequest(
+                id = "",
+                label = res.data?.depression ?: "",
+                scores = res.data?.prediction ?: 0,
+                idUser = userId,
+            ), idUser = userId
         )
         return res.asModel(userId)
     }

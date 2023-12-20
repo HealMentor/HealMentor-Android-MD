@@ -4,24 +4,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import com.ch2ps215.mentorheal.domain.model.Article
+import androidx.paging.PagingData
+import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
-import com.ch2ps215.mentorheal.domain.usecase.UpdateDetectionUseCase
+import com.ch2ps215.mentorheal.presentation.common.BaseFirestorePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -31,14 +32,16 @@ import javax.inject.Inject
 class TwosViewModel @Inject constructor(
     getFormDetectionUseCase: GetFormDetectionUseCase,
     getExpressionDetectionUseCase: GetExpressionDetectionUseCase,
-    private val getArticlesUseCase: GetArticlesUseCase,
     private val detectExpressionUseCase: DetectExpressionUseCase,
-    private val updateDetectionUseCase: UpdateDetectionUseCase,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     val detections = Pager(
-        pagingSourceFactory = { DetectionPagingSource(getFormDetectionUseCase) },
+        pagingSourceFactory = {
+            BaseFirestorePagingSource(FormDetection::class.java) {
+                getFormDetectionUseCase().getOrThrow()
+            }
+        },
         config = PagingConfig(pageSize = 10)
     ).flow.onStart {
         detectionLoading.value = true
@@ -48,10 +51,14 @@ class TwosViewModel @Inject constructor(
         Timber.e(e)
         detectionLoading.value = false
         _snackbar.emit("Failed to load detections")
-    }.flowOn(dispatcher).cachedIn(viewModelScope)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
     val expressionDetections = Pager(
-        pagingSourceFactory = { DetectionExpressionPagingSource(getExpressionDetectionUseCase) },
+        pagingSourceFactory = {
+            BaseFirestorePagingSource(ExpressionDetection::class.java) {
+                getExpressionDetectionUseCase().getOrThrow()
+            }
+        },
         config = PagingConfig(pageSize = 10)
     ).flow.onStart {
         detectionLoading.value = true
@@ -61,16 +68,10 @@ class TwosViewModel @Inject constructor(
         Timber.e(e)
         detectionLoading.value = false
         _snackbar.emit("Failed to load detections")
-    }.flowOn(dispatcher).cachedIn(viewModelScope)
-
-    private val _articlesReduce = MutableStateFlow(emptyList<Article>())
-    val articlesReduce = _articlesReduce.asStateFlow()
-
-    private val _articleReuse = MutableStateFlow(emptyList<Article>())
-    val articleReuse = _articleReuse.asStateFlow()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), PagingData.empty())
 
     private val detectionLoading = MutableStateFlow(false)
-    val loading : StateFlow<Boolean> = detectionLoading.asStateFlow()
+    val loading: StateFlow<Boolean> = detectionLoading.asStateFlow()
 
     private val _snackbar = MutableSharedFlow<String>()
     val snackbar = _snackbar.asSharedFlow()

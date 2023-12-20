@@ -17,9 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,7 +48,7 @@ class DetailArticleViewModel @Inject constructor(
         job?.cancel()
         job = viewModelScope.launch(dispatcher) {
             delay(250)
-            toggleLikeArticleUseCase.invoke(isLiked.first()!!,articleId)
+            toggleLikeArticleUseCase.invoke(isLiked.first()!!, articleId)
             _isLiked.value = _isLiked.value?.not()
         }
     }

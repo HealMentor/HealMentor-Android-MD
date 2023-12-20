@@ -1,6 +1,5 @@
 package com.ch2ps215.mentorheal.presentation.home.component
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api

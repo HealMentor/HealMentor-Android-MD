@@ -12,8 +12,8 @@ import com.ch2ps215.mentorheal.domain.usecase.EditUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticleUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.LikingArticleUseCase

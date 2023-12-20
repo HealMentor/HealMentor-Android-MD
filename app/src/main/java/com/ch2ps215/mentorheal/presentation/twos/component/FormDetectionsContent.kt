@@ -33,6 +33,7 @@ fun FormDetectionsContent(
     navigateToDetectionScreen: (formDetection: FormDetection) -> Unit
 ) {
     val pagingDetections = viewModel.detections.collectAsLazyPagingItems()
+
     val refresh = pagingDetections.loadState.refresh
     val append = pagingDetections.loadState.append
     val composition by rememberLottieComposition(

@@ -3,7 +3,6 @@ package com.ch2ps215.mentorheal.presentation.form
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch2ps215.mentorheal.domain.usecase.DetectFormUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateGenderUseCase
 import com.ch2ps215.mentorheal.domain.usecase.ValidateYesNoUseCase
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber

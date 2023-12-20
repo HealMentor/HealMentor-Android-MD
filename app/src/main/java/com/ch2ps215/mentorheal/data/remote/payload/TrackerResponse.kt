@@ -1,7 +1,6 @@
 package com.ch2ps215.mentorheal.data.remote.payload
 
 import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.Json
 import java.util.*
 
 data class TrackerResponse(

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ch2ps215.mentorheal.data.local.entity.TrackerEntity
 import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface TrackerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

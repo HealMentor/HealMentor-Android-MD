@@ -75,7 +75,9 @@ fun DetectionCard(
                         .clip(RoundedCornerShape(5.dp))
                         .height(7.dp),
                     color = androidx.compose.material3.MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                    backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+                    backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.secondary.copy(
+                        alpha = 0.3f
+                    )
                 )
             }
         }

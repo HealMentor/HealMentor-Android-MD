@@ -10,35 +10,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ch2ps215.mentorheal.domain.model.Tracker
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
-import com.ch2ps215.mentorheal.presentation.navgraph.Route
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun DetailScreenTracker(
+fun DetailTrackerScreen(
     navController: NavHostController,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
-    DetailScreenTrackerView(
+    DetailTrackerScreen(
         navHostController = navController,
         tracker = Tracker(),
     )
 }
+
 @Composable
-fun DetailScreenTrackerView(
+fun DetailTrackerScreen(
     navHostController: NavHostController,
     tracker: Tracker,
 ) {
@@ -77,5 +72,5 @@ fun DetailScreenTrackerView(
 fun DetailScreenPreview() {
     val tracker = Tracker()
     val navHostController = rememberNavController()
-    DetailScreenTracker(navHostController)
+    DetailTrackerScreen(navHostController)
 }

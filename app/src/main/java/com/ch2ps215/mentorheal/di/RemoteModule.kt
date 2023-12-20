@@ -3,14 +3,17 @@ package com.ch2ps215.mentorheal.di
 import android.content.Context
 import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE
+import com.ch2ps215.mentorheal.core.Constants.ARTICLE_LIKES
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS_EXPRESSION
+import com.ch2ps215.mentorheal.core.Constants.TRACKER
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
+import com.ch2ps215.mentorheal.data.remote.TrackerRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.UserRemoteDataSource
-import com.ch2ps215.mentorheal.data.remote.service.ArticleService
 import com.ch2ps215.mentorheal.data.remote.service.DetectionService
+import com.ch2ps215.mentorheal.data.remote.service.FormService
 import com.ch2ps215.mentorheal.data.remote.service.UserService
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
@@ -39,7 +42,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    @Named("retrofitFirestore")
+    @Named("firestoreService")
     fun provideRetrofit(): Retrofit {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
@@ -70,7 +73,7 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    @Named("retrofitForm")
+    @Named("formService")
     fun providePredictionRetrofit(): Retrofit {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BODY
@@ -102,7 +105,7 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideUserRemoteDataSource(
-        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
+        @Named("firestoreService") retrofitFirestore: Retrofit,
     ): UserRemoteDataSource {
         val userService = retrofitFirestore.create<UserService>()
         return UserRemoteDataSource(userService)
@@ -155,7 +158,6 @@ object RemoteModule {
     fun provideArticleRemoteDataSource(
         @Named("articlesRef") articlesRef: CollectionReference,
         @Named("articlesLikesRef") articlesLikesRef: CollectionReference,
-        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
     ): ArticleRemoteDataSource {
         return ArticleRemoteDataSource(articlesRef, articlesLikesRef)
     }
@@ -166,11 +168,11 @@ object RemoteModule {
         @Named("detectionsFormRef") detectionsFormRef: CollectionReference,
         @Named("detectionsExpressionRef") detectionsExpressionRef: CollectionReference,
         firebaseStorage: FirebaseStorage,
-        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
-        @Named("retrofitForm") retrofitForm: Retrofit
+        @Named("firestoreService") retrofitFirestore: Retrofit,
+        @Named("formService") formService: Retrofit
     ): DetectionRemoteDataSource {
         val detectionService = retrofitFirestore.create<DetectionService>()
-        val formService = retrofitForm.create<FormService>()
+        val formService = formService.create<FormService>()
         return DetectionRemoteDataSource(
             detectionsFormRef,
             detectionsExpressionRef,
@@ -184,13 +186,8 @@ object RemoteModule {
     @Singleton
     fun provideTrackerRemoteDataSource(
         @Named("trackerRef") trackerRef: CollectionReference,
-        @Named("retrofitFirestore") retrofitFirestore: Retrofit,
     ): TrackerRemoteDataSource {
-        val trackerService = retrofitFirestore.create<TrackerService>()
-        return TrackerRemoteDataSource(
-            trackerRef,
-            trackerService
-        )
+        return TrackerRemoteDataSource(trackerRef)
     }
 
     @Provides

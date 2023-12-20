@@ -1,7 +1,6 @@
 package com.ch2ps215.mentorheal.domain.usecase
 
 import androidx.annotation.StringRes
-import androidx.core.util.PatternsCompat
 
 class ValidateTitleUseCase(
     /**

@@ -18,6 +18,6 @@ abstract class MentorHealDatabase : RoomDatabase() {
     abstract fun getDetectionDao(): DetectionDao
     abstract fun getFormDao(): FormDao
 
-    abstract fun getTrackerDao() : TrackerDao
+    abstract fun getTrackerDao(): TrackerDao
 
 }

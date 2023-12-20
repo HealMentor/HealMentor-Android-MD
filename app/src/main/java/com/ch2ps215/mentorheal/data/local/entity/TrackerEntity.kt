@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 )
 data class TrackerEntity(
     @PrimaryKey(autoGenerate = true)
-    val id : Int = 0,
+    val id: Int = 0,
     val title: String,
     val starCount: Int,
     val description: String,
