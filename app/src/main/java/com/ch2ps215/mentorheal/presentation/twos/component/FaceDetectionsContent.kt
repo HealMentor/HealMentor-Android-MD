@@ -30,7 +30,7 @@ import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 fun FaceDetectionsContent(
     viewModel: TwosViewModel = hiltViewModel(),
     padding: PaddingValues,
-    navigateToDetectionExpressionScreen: (detection: ExpressionDetection) -> Unit,
+    onNavigateToDetailExpression: (detection: ExpressionDetection) -> Unit,
 ) {
     val pagingDetections = viewModel.expressionDetections.collectAsLazyPagingItems()
     val refresh = pagingDetections.loadState.refresh
@@ -53,8 +53,8 @@ fun FaceDetectionsContent(
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
                     DetectionCardExpression(
-                        expressionDetection = detection,
-                        onDetectionClick = navigateToDetectionExpressionScreen
+                        detection = detection,
+                        onClick = onNavigateToDetailExpression
                     )
                 }
             }

@@ -5,13 +5,13 @@ import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.firstOrNull
 
-class GetExpressionDetectionUseCase constructor(
+class GetExpressionDetectionUseCase(
     private val userRepository: UserRepository,
     private val detectionRepository: DetectionRepository
 ) {
 
     suspend operator fun invoke(): Result<Query> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw RuntimeException("Unauthorized")
-        detectionRepository.getFormDetections(user.id)
+        detectionRepository.getDetectionExpression(user.id)
     }
 }

@@ -6,10 +6,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
-import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.domain.usecase.DetectExpressionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
-import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetFormUseCase
 import com.ch2ps215.mentorheal.presentation.common.BaseFirestorePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,16 +30,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TwosViewModel @Inject constructor(
-    getFormDetectionUseCase: GetFormDetectionUseCase,
+    getFormUseCase: GetFormUseCase,
     getExpressionDetectionUseCase: GetExpressionDetectionUseCase,
     private val detectExpressionUseCase: DetectExpressionUseCase,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    val detections = Pager(
+    val formDetections = Pager(
         pagingSourceFactory = {
-            BaseFirestorePagingSource(FormDetection::class.java) {
-                getFormDetectionUseCase().getOrThrow()
+            BaseFirestorePagingSource(Form::class.java) {
+                getFormUseCase().getOrThrow()
             }
         },
         config = PagingConfig(pageSize = 10)

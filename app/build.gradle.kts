@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -10,6 +12,9 @@ plugins {
 android {
     namespace = "com.ch2ps215.mentorheal"
     compileSdk = 34
+
+    val myProperties = Properties()
+    myProperties.load(project.rootProject.file("local.properties").inputStream())
 
     defaultConfig {
         applicationId = "com.ch2ps215.mentorheal"
@@ -26,6 +31,8 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("String", "BACKEND_BASE_URL", "\"${myProperties.getProperty("backend.base.url")}\"")
+            buildConfigField("String", "GOOGLE_API_ANDROID_KEY", "\"${myProperties.getProperty("google.api.android.key")}\"")
             isMinifyEnabled = false
         }
 

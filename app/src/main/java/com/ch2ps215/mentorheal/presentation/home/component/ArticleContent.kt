@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
 @Composable
@@ -38,7 +39,8 @@ fun ArticleContent(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(photo)
-                    .crossfade(400)
+                    .placeholder(R.drawable.register)
+                    .crossfade(500)
                     .build(),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,

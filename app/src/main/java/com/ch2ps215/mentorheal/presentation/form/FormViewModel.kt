@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -72,9 +71,9 @@ class FormViewModel @Inject constructor(
     private val _snackbar = MutableSharedFlow<String>()
     val snackbar = _snackbar.asSharedFlow()
 
-    fun changeUmur(umur: String) {
-        val error = validateFormUseCase(umur)
-        _umurField.value = umur to error
+    fun changeUmur(age: String) {
+        val error = validateFormUseCase(age)
+        _umurField.value = age to error
     }
 
     fun changeGender(gender: String) {
@@ -82,9 +81,9 @@ class FormViewModel @Inject constructor(
         _genderField.value = gender to error
     }
 
-    fun changeBidang(bidang: String) {
-        val error = validateFormUseCase(bidang)
-        _bidangField.value = bidang to error
+    fun changeBidang(major: String) {
+        val error = validateFormUseCase(major)
+        _bidangField.value = major to error
     }
 
     fun changeSemester(semester: String) {
@@ -97,19 +96,19 @@ class FormViewModel @Inject constructor(
         _cgpaField.value = cgpa to error
     }
 
-    fun changePernikahan(pernikahan: String) {
-        val error = validateYesNoUseCase(pernikahan)
-        _pernikahanField.value = pernikahan to error
+    fun changePernikahan(marriage: String) {
+        val error = validateYesNoUseCase(marriage)
+        _pernikahanField.value = marriage to error
     }
 
-    fun changeDepresi(depresi: String) {
-        val error = validateYesNoUseCase(depresi)
-        _depresiField.value = depresi to error
+    fun changeDepresi(depression: String) {
+        val error = validateYesNoUseCase(depression)
+        _depresiField.value = depression to error
     }
 
-    fun changeKecemasan(kecemasan: String) {
-        val error = validateYesNoUseCase(kecemasan)
-        _kecemasanField.value = kecemasan to error
+    fun changeKecemasan(anxiety: String) {
+        val error = validateYesNoUseCase(anxiety)
+        _kecemasanField.value = anxiety to error
     }
 
     fun changePanic(panic: String) {
@@ -117,45 +116,36 @@ class FormViewModel @Inject constructor(
         _panicField.value = panic to error
     }
 
-    fun changeKebutuhanKhusus(kebutuhankhusus: String) {
-        val error = validateYesNoUseCase(kebutuhankhusus)
-        _kebutuhankhususField.value = kebutuhankhusus to error
+    fun changeKebutuhanKhusus(treatment: String) {
+        val error = validateYesNoUseCase(treatment)
+        _kebutuhankhususField.value = treatment to error
     }
 
-    fun submit() {
-        viewModelScope.launch(dispatcher) {
-            if (!fulfilled.value) return@launch
-            _loading.value = true
+    suspend fun submit(): String? {
+        if (!fulfilled.value) return null
+        _loading.value = true
 
-            val umur = _umurField.value.first
-            val gender = _genderField.value.first
-            val bidang = _bidangField.value.first
-            val semester = _semesterField.value.first
-            val cgpa = _cgpaField.value.first
-            val pernikahan = _pernikahanField.value.first
-            val depresi = _depresiField.value.first
-            val kecemasan = _kecemasanField.value.first
-            val panic = _panicField.value.first
-            val kebutuhanKhusus = _kebutuhankhususField.value.first
-
-            detectFormUseCase.invoke(
-                umur.toInt(),
-                gender,
-                bidang,
-                semester.toInt(),
-                cgpa.toInt(),
-                pernikahan,
-                depresi,
-                kecemasan,
-                panic,
-                kebutuhanKhusus,
-            ).onFailure { e ->
-                Timber.e(e)
-                _snackbar.emit(e.message ?: "Failed to submit the form. Try again later")
-            }
-
+        detectFormUseCase.invoke(
+            age = _umurField.value.first.toInt(),
+            gender = _genderField.value.first,
+            major = _bidangField.value.first,
+            semester = _semesterField.value.first.toInt(),
+            cgpa = _cgpaField.value.first.toInt(),
+            marriage = _pernikahanField.value.first,
+            depression = _depresiField.value.first,
+            anxiety = _kecemasanField.value.first,
+            panic = _panicField.value.first,
+            treatment = _kebutuhankhususField.value.first,
+        ).onSuccess {
             _loading.value = false
+            return it
+        }.onFailure { e ->
+            Timber.e(e)
+            _snackbar.emit(e.message ?: "Failed to submit the form. Try again later")
         }
+
+        _loading.value = false
+        return null
     }
 
 }

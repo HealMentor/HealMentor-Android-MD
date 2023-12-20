@@ -27,23 +27,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ch2ps215.mentorheal.R
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun CardWithFavorite(
+    modifier: Modifier = Modifier,
     title: String,
-    description: String,
-    onFavoriteToggle: () -> Unit,
-    isFavorited: Boolean,
+    score: Float,
     onClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
             .background(Color(0xFFF4F4F4))
@@ -66,26 +63,15 @@ fun CardWithFavorite(
                         .fillMaxWidth()
                         .padding(bottom = 4.dp)
                 )
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                )
 
-                val rating = 60.toFloat()
                 LinearProgressIndicator(
-                    progress = rating / 100F,
+                    progress = score / 100F,
                     modifier = Modifier
                         .clip(RoundedCornerShape(5.dp))
                         .height(7.dp),
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
                     backgroundColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
                 )
-            }
-            Column {
-                FavoriteButton(onFavoriteToggle, isFavorited)
             }
 
 
@@ -120,9 +106,7 @@ fun FavoriteButton(
 fun CardWithFavoritePreview() {
     CardWithFavorite(
         title = "Card Title",
-        description = "This is a sample card description. You can replace it with your own content.",
-        onFavoriteToggle = {},
-        isFavorited = false,
+        score = 86F,
         onClick = {}
     )
 }

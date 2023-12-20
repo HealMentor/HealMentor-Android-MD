@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
+import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.presentation.camera.CameraActivity
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
@@ -67,12 +68,13 @@ fun TwosScreen(
         onClickFeatureForm = {
             navController.navigate(Route.Form.invoke())
         },
-        onNavigateToDetailDetections = { detection ->
-
+        onNavigateToDetailForm = { detection ->
+            navController.navigate(Route.Problems(detection.id))
+        },
+        onNavigateToDetailExpression = { detection ->
+            navController.navigate(Route.AtasiKecemasan.invoke())
         }
-    ) { detection ->
-
-    }
+    )
 }
 
 @OptIn(
@@ -84,8 +86,8 @@ fun TwosScreen(
     snackbarHostState: SnackbarHostState,
     onDetect: (File) -> Unit,
     onClickFeatureForm: () -> Unit,
-    onNavigateToDetailDetections: (FormDetection) -> Unit,
-    onNavigateToDetailExpressionArticle: (ExpressionDetection) -> Unit,
+    onNavigateToDetailForm: (Form) -> Unit,
+    onNavigateToDetailExpression: (ExpressionDetection) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -139,13 +141,13 @@ fun TwosScreen(
                     )
                 }
 
-                val scope = rememberCoroutineScope()
+                val animateScope = rememberCoroutineScope()
 
                 TabRow2Twos(
                     modifier = Modifier.layoutId("tab2twos"),
                     selectedTabIndex = pagerState.currentPage,
                     onClickTab = { index ->
-                        scope.launch {
+                        animateScope.launch {
                             pagerState.animateScrollToPage(index)
                         }
                     }
@@ -158,14 +160,14 @@ fun TwosScreen(
                     if (page == 0) {
                         FormDetectionsContent(
                             padding = DefaultLazyColumnContentPadding,
-                            navigateToDetectionScreen = onNavigateToDetailDetections
+                            onNavigateToDetailForm = onNavigateToDetailForm
                         )
                     }
 
                     if (page == 1) {
                         FaceDetectionsContent(
                             padding = DefaultLazyColumnContentPadding,
-                            navigateToDetectionExpressionScreen = onNavigateToDetailExpressionArticle
+                            onNavigateToDetailExpression = onNavigateToDetailExpression
                         )
                     }
                 }

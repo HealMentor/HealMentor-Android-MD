@@ -1,6 +1,5 @@
 package com.ch2ps215.mentorheal.domain.usecase
 
-import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
 import kotlinx.coroutines.flow.firstOrNull
@@ -10,30 +9,30 @@ class DetectFormUseCase(
     private val userRepository: UserRepository
 ) {
     suspend operator fun invoke(
-        umur: Int,
+        age: Int,
         gender: String,
-        bidang: String,
+        major: String,
         semester: Int,
         cgpa: Int,
-        pernikahan: String,
-        depresi: String,
-        kecemasan: String,
+        marriage: String,
+        depression: String,
+        anxiety: String,
         panic: String,
-        kebutuhanKhusus: String,
-    ): Result<FormDetection> = runCatching {
+        treatment: String,
+    ): Result<String> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw Exception("Unauthorized")
         formRepository.detectForm(
-            umur,
-            gender,
-            bidang,
-            semester,
-            cgpa,
-            pernikahan,
-            depresi,
-            kecemasan,
-            panic,
-            kebutuhanKhusus,
-            user.id
+            age = age,
+            gender = gender,
+            major = major,
+            semester = semester,
+            cgpa = cgpa,
+            marriage = marriage,
+            depression = depression,
+            anxiety = anxiety,
+            panic = panic,
+            treatment = treatment,
+            userId = user.id
         )
     }
 }

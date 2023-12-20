@@ -1,6 +1,5 @@
 package com.ch2ps215.mentorheal.presentation.twos.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,14 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 
-@SuppressLint("SuspiciousIndentation")
 @Composable
-fun DetectionCard(
-    formDetection: FormDetection,
-    onDetectionClick: (FormDetection) -> Unit
+fun FormDetectionCard(
+    formDetection: Form,
+    onNavigateToDetailForm: (Form) -> Unit
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -47,12 +45,11 @@ fun DetectionCard(
                 .fillMaxWidth()
                 .padding(all = 12.dp)
                 .clickable {
-                    onDetectionClick(formDetection)
+                    onNavigateToDetailForm(formDetection)
                 },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val productName = formDetection.label
-            val scores = formDetection.scores?.toFloat() ?: 51F
+            val timestamp = formDetection.timestamp
 
             Column(
                 modifier = Modifier
@@ -60,7 +57,7 @@ fun DetectionCard(
                     .padding(bottom = 4.dp)
             ) {
                 Text(
-                    text = productName ?: "Unknown",
+                    text = timestamp.toDate().toString(),
                     style = MaterialTheme.typography.h1,
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
@@ -70,7 +67,7 @@ fun DetectionCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 LinearProgressIndicator(
-                    progress = scores / 100F,
+                    progress = 100F / 100F,
                     modifier = Modifier
                         .clip(RoundedCornerShape(5.dp))
                         .height(7.dp),
@@ -86,9 +83,11 @@ fun DetectionCard(
 
 @Preview
 @Composable
-fun cardDetectionPreview() {
-    val formDetection = FormDetection()
+fun DetectionCardPreview() {
     MentorhealTheme {
-        DetectionCard(formDetection = formDetection, onDetectionClick = {})
+        FormDetectionCard(
+            formDetection = Form(),
+            onNavigateToDetailForm = {}
+        )
     }
 }

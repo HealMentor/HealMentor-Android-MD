@@ -14,11 +14,11 @@ import com.ch2ps215.mentorheal.domain.usecase.GetArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetExpressionDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFavoriteArticlesUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetFormDetectionUseCase
+import com.ch2ps215.mentorheal.domain.usecase.GetFormUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.GetUserUseCase
 import com.ch2ps215.mentorheal.domain.usecase.LikingArticleUseCase
 import com.ch2ps215.mentorheal.domain.usecase.OnboardingUseCase
-import com.ch2ps215.mentorheal.domain.usecase.SaveDetectionUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SaveTrackerUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignInUseCase
 import com.ch2ps215.mentorheal.domain.usecase.SignOutUseCase
@@ -112,6 +112,15 @@ object UseCaseModule {
         userRepository: UserRepository
     ): DetectFormUseCase {
         return DetectFormUseCase(detectionRepository, userRepository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetFormUseCase(
+        userRepository: UserRepository,
+        detectionRepository: DetectionRepository
+    ): GetFormUseCase {
+        return GetFormUseCase(userRepository,detectionRepository)
     }
 
     @Provides
@@ -234,15 +243,6 @@ object UseCaseModule {
         articleRepository: ArticleRepository
     ): LikingArticleUseCase {
         return LikingArticleUseCase(userRepository, articleRepository)
-    }
-
-    @Provides
-    @ViewModelScoped
-    fun provideSaveDetectionUseCase(
-        userRepository: UserRepository,
-        detectionRepository: DetectionRepository
-    ): SaveDetectionUseCase {
-        return SaveDetectionUseCase(userRepository, detectionRepository)
     }
 
     @Provides

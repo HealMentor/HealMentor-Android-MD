@@ -1,38 +1,47 @@
 package com.ch2ps215.mentorheal.data.remote
 
 import androidx.core.net.toUri
+import com.ch2ps215.mentorheal.core.Constants.FORM_DETECTION_RESULT
+import com.ch2ps215.mentorheal.data.remote.payload.DetectFormRequest
 import com.ch2ps215.mentorheal.data.remote.payload.FormDetectionResponse
 import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionExpressionRequest
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
 import com.ch2ps215.mentorheal.data.remote.service.DetectionService
 import com.ch2ps215.mentorheal.data.remote.service.FormService
 import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
 import com.ch2ps215.mentorheal.domain.model.Form
+import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.dataObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import javax.inject.Named
 
 class DetectionRemoteDataSource(
-    @Named("detectionsFormRef") private val detectionFormRef: CollectionReference,
-    @Named("detectionsExpressionRef") private val detectionExpressionRef: CollectionReference,
+    private val detectionFormRef: CollectionReference,
+    private val detectionExpressionRef: CollectionReference,
     private val firebaseStorage: FirebaseStorage,
     private val detectionService: DetectionService,
     private val formService: FormService
 ) {
-    fun getFormDetections(idUser: String) = detectionFormRef
+    fun getForm(idUser: String) = detectionFormRef
         .whereEqualTo("idUser", idUser)
         .limit(10)
+
+    fun getFormDetectionsResult(idForm: String) = detectionFormRef
+        .document(idForm).collection(FORM_DETECTION_RESULT).limit(20)
 
     fun getDetectionExpression(idUser: String) = detectionExpressionRef
         .whereEqualTo("idUser", idUser)
         .limit(10)
 
-    suspend fun saveForm(req: SaveDetectionFormRequest, idUser: String): Boolean {
+    suspend fun saveForm(req: Form): String {
         val id = detectionFormRef.document().id
-        detectionFormRef.document(id).set(req.copy(id = id, idUser = idUser)).await()
-        return true
+        detectionFormRef.document(id).set(req.copy(id = id)).await()
+        return id
+    }
+
+    suspend fun saveFormDetections(idForm: String, req: FormDetection) {
+        detectionFormRef.document(idForm).collection(FORM_DETECTION_RESULT).document().set(req).await()
     }
 
     suspend fun saveExpression(req: SaveDetectionExpressionRequest): Boolean {
@@ -47,7 +56,7 @@ class DetectionRemoteDataSource(
         return true
     }
 
-    suspend fun detectForm(form: Form): FormDetectionResponse {
+    suspend fun detectForm(form: DetectFormRequest): FormDetectionResponse {
         val res = formService.detect(form)
         val data = res.takeIf { it.isSuccessful }?.body()
         if (data == null) {

@@ -23,16 +23,16 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
-import com.ch2ps215.mentorheal.domain.model.FormDetection
+import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.presentation.twos.TwosViewModel
 
 @Composable
 fun FormDetectionsContent(
     viewModel: TwosViewModel = hiltViewModel(),
     padding: PaddingValues,
-    navigateToDetectionScreen: (formDetection: FormDetection) -> Unit
+    onNavigateToDetailForm: (Form) -> Unit
 ) {
-    val pagingDetections = viewModel.detections.collectAsLazyPagingItems()
+    val pagingDetections = viewModel.formDetections.collectAsLazyPagingItems()
 
     val refresh = pagingDetections.loadState.refresh
     val append = pagingDetections.loadState.append
@@ -49,13 +49,13 @@ fun FormDetectionsContent(
         if (pagingDetections.itemCount > 0) {
             items(
                 count = pagingDetections.itemCount,
-                key = pagingDetections.itemKey { detection -> detection.id!! },
+                key = pagingDetections.itemKey { detection -> detection.id },
                 contentType = pagingDetections.itemContentType { "Form Detection" }
             ) { index: Int ->
                 pagingDetections[index]?.let { detection ->
-                    DetectionCard(
+                    FormDetectionCard(
                         formDetection = detection,
-                        onDetectionClick = navigateToDetectionScreen
+                        onNavigateToDetailForm = onNavigateToDetailForm,
                     )
                 }
             }

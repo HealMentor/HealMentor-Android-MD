@@ -1,15 +1,17 @@
 package com.ch2ps215.mentorheal.data
 
 import com.ch2ps215.mentorheal.data.local.DetectionLocalDataSource
-import com.ch2ps215.mentorheal.data.mapper.asModel
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.TfLiteUserClassifierDataSource
+import com.ch2ps215.mentorheal.data.remote.payload.DetectFormRequest
 import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionExpressionRequest
-import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
-import com.ch2ps215.mentorheal.domain.model.Form
+import com.ch2ps215.mentorheal.data.remote.payload.toForm
+import com.ch2ps215.mentorheal.data.remote.payload.toFormDetection
 import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.ch2ps215.mentorheal.domain.repository.DetectionRepository
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.dataObjects
 import java.io.File
 
 class DefaultDetectionRepository(
@@ -17,8 +19,12 @@ class DefaultDetectionRepository(
     private val detectionRemoteDataSource: DetectionRemoteDataSource,
     private val tfLiteUserClassifierDataSource: TfLiteUserClassifierDataSource
 ) : DetectionRepository {
-    override suspend fun getFormDetections(idUser: String): Query {
-        return detectionRemoteDataSource.getFormDetections(idUser)
+    override suspend fun getForm(idUser: String): Query {
+        return detectionRemoteDataSource.getForm(idUser)
+    }
+
+    override suspend fun getFormDetectionsResult(idForm: String): Query {
+        return detectionRemoteDataSource.getFormDetectionsResult(idForm)
     }
 
     override suspend fun getDetectionExpression(idUser: String): Query {
@@ -26,40 +32,38 @@ class DefaultDetectionRepository(
     }
 
     override suspend fun detectForm(
-        umur: Int,
+        age: Int,
         gender: String,
-        bidang: String,
+        major: String,
         semester: Int,
         cgpa: Int,
-        pernikahan: String,
-        depresi: String,
-        kecemasan: String,
+        marriage: String,
+        depression: String,
+        anxiety: String,
         panic: String,
-        kebutuhankhusus: String,
+        treatment: String,
         userId: String
-    ): FormDetection {
-        val detect = Form(
-            age = umur,
+    ): String {
+        val detect = DetectFormRequest(
+            age = age,
             gender = gender,
-            major = bidang,
+            major = major,
             year = semester,
             cgpa = cgpa,
-            marriage = pernikahan,
-            anxiety = kecemasan,
+            marriage = marriage,
+            depression = depression,
+            anxiety = anxiety,
             panic = panic,
-            treatment = kebutuhankhusus,
+            treatment = treatment,
+        )
+        val apiRes = detectionRemoteDataSource.detectForm(detect)
+        val idForm = detectionRemoteDataSource.saveForm(detect.toForm(id = "", userId = userId))
+        detectionRemoteDataSource.saveFormDetections(
+            idForm,
+            apiRes.toFormDetection(userId = userId)
         )
 
-        val res = detectionRemoteDataSource.detectForm(detect)
-        detectionRemoteDataSource.saveForm(
-            SaveDetectionFormRequest(
-                id = "",
-                label = res.data?.depression ?: "",
-                scores = res.data?.prediction ?: 0,
-                idUser = userId,
-            ), idUser = userId
-        )
-        return res.asModel(userId)
+        return idForm
     }
 
     override suspend fun detectExpression(idUser: String, file: File) {
@@ -79,22 +83,6 @@ class DefaultDetectionRepository(
             )
         )
 
-    }
-
-    override suspend fun save(
-        token: String,
-        label: String,
-        scores: Int,
-        idUser: String
-    ): Boolean {
-        val req = SaveDetectionFormRequest(
-            id = "",
-            label = label,
-            scores = scores,
-            idUser = idUser
-        )
-
-        return detectionRemoteDataSource.saveForm(req, idUser)
     }
 
     override suspend fun update(token: String, detectionId: Int, total: Int): FormDetection {

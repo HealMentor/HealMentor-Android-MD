@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.article.component
+package com.ch2ps215.mentorheal.presentation.detailarticle.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box

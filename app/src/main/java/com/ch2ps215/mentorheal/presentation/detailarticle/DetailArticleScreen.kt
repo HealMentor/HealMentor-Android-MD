@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.article
+package com.ch2ps215.mentorheal.presentation.detailarticle
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -38,8 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.Article
-import com.ch2ps215.mentorheal.presentation.article.component.Photos
 import com.ch2ps215.mentorheal.presentation.common.component.shimmer
+import com.ch2ps215.mentorheal.presentation.detailarticle.component.Photos
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

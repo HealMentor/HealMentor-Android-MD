@@ -4,8 +4,8 @@ import android.content.Context
 import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE_LIKES
-import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS_EXPRESSION
+import com.ch2ps215.mentorheal.core.Constants.FORM_HISTORY
 import com.ch2ps215.mentorheal.core.Constants.TRACKER
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
 import com.ch2ps215.mentorheal.data.remote.DetectionRemoteDataSource
@@ -114,9 +114,9 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    @Named("detectionsFormRef")
+    @Named("formHistoryRef")
     fun provideDetectionsFormRef(): CollectionReference {
-        return Firebase.firestore.collection(DETECTIONS)
+        return Firebase.firestore.collection(FORM_HISTORY)
     }
 
     @Provides
@@ -165,14 +165,14 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideDetectionRemoteDataSource(
-        @Named("detectionsFormRef") detectionsFormRef: CollectionReference,
+        @Named("formHistoryRef") detectionsFormRef: CollectionReference,
         @Named("detectionsExpressionRef") detectionsExpressionRef: CollectionReference,
         firebaseStorage: FirebaseStorage,
         @Named("firestoreService") retrofitFirestore: Retrofit,
-        @Named("formService") formService: Retrofit
+        @Named("formService") formRetrofit: Retrofit
     ): DetectionRemoteDataSource {
         val detectionService = retrofitFirestore.create<DetectionService>()
-        val formService = formService.create<FormService>()
+        val formService = formRetrofit.create<FormService>()
         return DetectionRemoteDataSource(
             detectionsFormRef,
             detectionsExpressionRef,

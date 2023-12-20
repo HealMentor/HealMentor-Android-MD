@@ -84,11 +84,13 @@ sealed class Route(
 
 
     // Tracker Content
-    object Problems : Route("kemungkinan") {
+    object Problems : Route("kemungkinan/{$KEY_FORM_ID}") {
         operator fun invoke() = route
+        operator fun invoke(idForm: String) = "kemungkinan/$idForm"
+
     }
 
-    object AtasiKecemasan : Route("atasikecemasan") {
+    object AtasiKecemasan : Route("atasikecemasan}") {
         operator fun invoke() = route
     }
 
@@ -109,5 +111,6 @@ sealed class Route(
     companion object {
         const val LIST_ARTICLE_TYPE = "list_article_type"
         const val KEY_ARTICLE_ID = "article_id"
+        const val KEY_FORM_ID = "form_id"
     }
 }

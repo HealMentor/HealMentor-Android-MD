@@ -1,4 +1,4 @@
-package com.ch2ps215.mentorheal.presentation.article
+package com.ch2ps215.mentorheal.presentation.detailarticle
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

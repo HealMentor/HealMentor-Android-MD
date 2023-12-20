@@ -8,13 +8,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.ch2ps215.mentorheal.presentation.article.DetailArticleScreen
 import com.ch2ps215.mentorheal.presentation.atasikecemasan.AtasiKecemasanScreen
-import com.ch2ps215.mentorheal.presentation.detection.DetectionScreen
+import com.ch2ps215.mentorheal.presentation.detailarticle.DetailArticleScreen
 import com.ch2ps215.mentorheal.presentation.form.FormScreen
 import com.ch2ps215.mentorheal.presentation.home.HomeScreen
 import com.ch2ps215.mentorheal.presentation.kemungkinan.KemungkinanScreen
 import com.ch2ps215.mentorheal.presentation.listarticle.ListArticleScreen
+import com.ch2ps215.mentorheal.presentation.navgraph.Route.Companion.KEY_ARTICLE_ID
+import com.ch2ps215.mentorheal.presentation.navgraph.Route.Companion.KEY_FORM_ID
 import com.ch2ps215.mentorheal.presentation.navgraph.Route.Companion.LIST_ARTICLE_TYPE
 import com.ch2ps215.mentorheal.presentation.onboarding.OnboardingScreen
 import com.ch2ps215.mentorheal.presentation.profile.ProfileScreen
@@ -80,8 +81,7 @@ fun NavGraph(
             }
 
             // Home Content
-            composable(
-                Route.ListArticle(),
+            composable(Route.ListArticle(),
                 listOf(
                     navArgument(LIST_ARTICLE_TYPE) {
                         type = NavType.StringType
@@ -94,7 +94,7 @@ fun NavGraph(
             composable(
                 Route.DetailArticle(),
                 listOf(
-                    navArgument(Route.KEY_ARTICLE_ID) {
+                    navArgument(KEY_ARTICLE_ID) {
                         type = NavType.StringType
                     })
             ) {
@@ -103,7 +103,6 @@ fun NavGraph(
 
             // Detection Content
             composable(Route.Detection()) {
-                DetectionScreen(LocalNavController.current)
             }
 
             composable(Route.Form()) {
@@ -119,7 +118,12 @@ fun NavGraph(
                 DetailTrackerScreen(LocalNavController.current)
             }
 
-            composable(Route.Problems()) {
+            composable(Route.Problems(),
+                listOf(
+                    navArgument(KEY_FORM_ID) {
+                        type = NavType.StringType
+                    }
+                )) {
                 KemungkinanScreen(LocalNavController.current)
             }
 
