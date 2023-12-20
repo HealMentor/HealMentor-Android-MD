@@ -10,9 +10,11 @@ interface ArticleRepository {
     suspend fun getArticleById(id: String): DocumentReference
     suspend fun getArticles(category: String): Query
 
-    suspend fun getFavoriteArticle(token: String): List<Article>
+    suspend fun getFavoriteArticle(userId: String): Query
 
-    suspend fun like(token: String, articleId: Int): Article
+    suspend fun isArticleFavorite(idArticle: String, userId: String): DocumentReference
 
-    suspend fun unlike(token: String, articleId: Int): Article
+    suspend fun like(articleId: String, userId: String)
+
+    suspend fun unlike(articleId: String, userId: String)
 }

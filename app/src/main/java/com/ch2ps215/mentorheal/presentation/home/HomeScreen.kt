@@ -38,6 +38,7 @@ import com.ch2ps215.mentorheal.presentation.theme.MentorhealTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -56,8 +57,8 @@ fun HomeScreen(
         onChangeQuerySearch = viewModel::changeQuerySearch,
         usernameState = viewModel.username,
         querySearchState = viewModel.querySearch,
-        articlesActivity = viewModel.latestArticles,
-        articlesRecommendation = viewModel.articles,
+        favoriteArticleState = viewModel.favoriteArticles,
+        latestArticleState = viewModel.articles,
         onClickShowMoreChart = {
 
         },
@@ -76,8 +77,8 @@ fun HomeScreen(
     onChangeQuerySearch: (String) -> Unit,
     usernameState: StateFlow<String?>,
     querySearchState: StateFlow<String>,
-    articlesActivity: Flow<PagingData<Article>>,
-    articlesRecommendation: Flow<PagingData<Article>>,
+    favoriteArticleState: Flow<PagingData<Article>>,
+    latestArticleState: Flow<PagingData<Article>>,
     onClickShowMoreChart: () -> Unit,
     onClickShowMoreArticle: (ListArticleType) -> Unit,
     onNavigateToDetailArticle: (String) -> Unit,
@@ -149,19 +150,19 @@ fun HomeScreen(
                 .padding(innerPadding)
         ) {
 
-            val activity = articlesActivity.collectAsLazyPagingItems()
-            val recommendation = articlesRecommendation.collectAsLazyPagingItems()
+            val favoriteArticle = favoriteArticleState.collectAsLazyPagingItems()
+            val latestArticle = latestArticleState.collectAsLazyPagingItems()
 
             Articles(
-                label = stringResource(R.string.ongoing_activity),
-                articles = activity,
+                label = stringResource(R.string.favorite_article),
+                articles = favoriteArticle,
                 onClickShowMore = { onClickShowMoreArticle(ListArticleType.Latest) },
                 onClickArticle = onNavigateToDetailArticle
             )
             
             Articles(
-                label = stringResource(R.string.activity_recommendation),
-                articles = recommendation,
+                label = stringResource(R.string.latest_articles),
+                articles = latestArticle,
                 onClickShowMore = { onClickShowMoreArticle(ListArticleType.Favorite) },
                 onClickArticle = onNavigateToDetailArticle
             )
@@ -178,8 +179,8 @@ fun HomeScreenPreview() {
             onChangeQuerySearch = { },
             usernameState = MutableStateFlow("Fulan"),
             querySearchState = MutableStateFlow(""),
-            articlesActivity = MutableStateFlow(PagingData.empty()),
-            articlesRecommendation = MutableStateFlow(PagingData.empty()),
+            favoriteArticleState = MutableStateFlow(PagingData.empty()),
+            latestArticleState = MutableStateFlow(PagingData.empty()),
             onClickShowMoreChart = { },
             onClickShowMoreArticle = { }
         ) { }

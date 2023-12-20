@@ -1,17 +1,23 @@
 package com.ch2ps215.mentorheal.domain.usecase
 
-import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.ch2ps215.mentorheal.domain.repository.UserRepository
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.tasks.await
 
 class GetFavoriteArticlesUseCase(
     private val userRepository: UserRepository,
     private val articleRepository: ArticleRepository
 ) {
 
-    suspend operator fun invoke(): Result<List<Article>> = runCatching {
+    suspend operator fun invoke(): Result<Query> = runCatching {
         val user = userRepository.getUser().firstOrNull() ?: throw Exception("Unauthorized")
-        articleRepository.getFavoriteArticle(user.token)
+        articleRepository.getFavoriteArticle(user.id)
+    }
+
+    suspend operator fun invoke(idArticle:String): Result<Boolean> = runCatching {
+        val user = userRepository.getUser().firstOrNull() ?: throw Exception("Unauthorized")
+        articleRepository.isArticleFavorite(idArticle, user.id).get().await().exists()
     }
 }

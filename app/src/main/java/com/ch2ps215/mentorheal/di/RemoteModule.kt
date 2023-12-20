@@ -3,6 +3,7 @@ package com.ch2ps215.mentorheal.di
 import android.content.Context
 import com.ch2ps215.mentorheal.BuildConfig
 import com.ch2ps215.mentorheal.core.Constants.ARTICLE
+import com.ch2ps215.mentorheal.core.Constants.ARTICLE_LIKES
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS
 import com.ch2ps215.mentorheal.core.Constants.DETECTIONS_EXPRESSION
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
@@ -98,6 +99,13 @@ object RemoteModule {
 
     @Provides
     @Singleton
+    @Named("articlesLikesRef")
+    fun provideArticlesLikesRef(): CollectionReference {
+        return Firebase.firestore.collection(ARTICLE_LIKES)
+    }
+
+    @Provides
+    @Singleton
     fun provideFirebaseStorage(): FirebaseStorage {
         return FirebaseStorage.getInstance()
     }
@@ -105,11 +113,11 @@ object RemoteModule {
     @Provides
     @Singleton
     fun provideArticleRemoteDataSource(
-        @Named("articlesRef") firebaseFirestore: CollectionReference,
+        @Named("articlesRef") articlesRef: CollectionReference,
+        @Named("articlesLikesRef") articlesLikesRef: CollectionReference,
         retrofit: Retrofit
     ): ArticleRemoteDataSource {
-        val detectionService = retrofit.create<ArticleService>()
-        return ArticleRemoteDataSource(firebaseFirestore, detectionService)
+        return ArticleRemoteDataSource(articlesRef, articlesLikesRef)
     }
 
     @Provides

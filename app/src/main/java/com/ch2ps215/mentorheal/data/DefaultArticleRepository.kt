@@ -1,10 +1,15 @@
 package com.ch2ps215.mentorheal.data
 
 import com.ch2ps215.mentorheal.data.remote.ArticleRemoteDataSource
+import com.ch2ps215.mentorheal.data.remote.payload.DeleteArticleLikesRequest
+import com.ch2ps215.mentorheal.data.remote.payload.SaveArticleLikesRequest
+import com.ch2ps215.mentorheal.data.remote.payload.SaveDetectionFormRequest
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.domain.repository.ArticleRepository
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import java.sql.Timestamp
+import java.util.Date
 
 class DefaultArticleRepository(
     private val articleRemoteDataSource: ArticleRemoteDataSource
@@ -23,15 +28,30 @@ class DefaultArticleRepository(
         return articleRemoteDataSource.getArticleById(id)
     }
 
-    override suspend fun getFavoriteArticle(token: String): List<Article> {
-        TODO()
+    override suspend fun getFavoriteArticle(userId: String): Query {
+        return articleRemoteDataSource.getFavoriteArticles(userId)
     }
 
-    override suspend fun like(token: String, articleId: Int): Article {
-        TODO()
+    override suspend fun isArticleFavorite(idArticle: String, userId: String): DocumentReference {
+        return articleRemoteDataSource.isArticleFavorite(idArticle, userId)
     }
 
-    override suspend fun unlike(token: String, articleId: Int): Article {
-        TODO()
+    override suspend fun like(articleId: String, userId: String) {
+        val req = SaveArticleLikesRequest(
+            id = articleId,
+            timestamp = Timestamp(Date().time),
+            userId = userId
+        )
+
+        return articleRemoteDataSource.like(req)
+    }
+
+    override suspend fun unlike(articleId: String, userId: String) {
+        val req = DeleteArticleLikesRequest(
+            id = articleId,
+            userId = userId
+        )
+
+        return articleRemoteDataSource.unLike(req)
     }
 }

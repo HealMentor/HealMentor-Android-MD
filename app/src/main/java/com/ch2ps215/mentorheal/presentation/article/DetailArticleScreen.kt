@@ -40,6 +40,8 @@ import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.presentation.article.component.Photos
 import com.ch2ps215.mentorheal.presentation.common.component.shimmer
+import com.ch2ps215.mentorheal.presentation.navgraph.Route
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -58,9 +60,11 @@ fun DetailArticleScreen(
     DetailArticleScreen(
         snackbarHostState = snackbarHostState,
         articleState = viewModel.article,
-        likedState = viewModel.liked,
+        likedState = viewModel.isLiked,
         onClickButtonLike = viewModel::toggleLike,
-        onNavigationBack = navController::popBackStack
+        onNavigationBack = {
+            navController.navigate(Route.Home.invoke())
+        }
     )
 }
 
@@ -69,12 +73,12 @@ fun DetailArticleScreen(
 fun DetailArticleScreen(
     snackbarHostState: SnackbarHostState,
     articleState: StateFlow<Article?>,
-    likedState: StateFlow<Boolean>,
-    onClickButtonLike: (Int) -> Unit,
+    likedState: Flow<Boolean?>,
+    onClickButtonLike: (String) -> Unit,
     onNavigationBack: () -> Unit,
 ) {
-    val article by articleState.collectAsState( )
-    val isLiked by likedState.collectAsState()
+    val article by articleState.collectAsState()
+    val isLiked by likedState.collectAsState(initial = false)
 
     Scaffold(
         modifier = Modifier
@@ -100,7 +104,7 @@ fun DetailArticleScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            TODO()
+                            onClickButtonLike(article?.id ?: return@IconButton)
                         },
                         enabled = article != null
                     ) {
@@ -136,7 +140,7 @@ fun DetailArticleScreen(
                     .fillMaxWidth()
                     .height(200.dp)
                     .shimmer(article == null),
-                photos =  article?.photo ?: emptyList()
+                photos = article?.photo ?: emptyList()
             )
             Text(
                 modifier = Modifier

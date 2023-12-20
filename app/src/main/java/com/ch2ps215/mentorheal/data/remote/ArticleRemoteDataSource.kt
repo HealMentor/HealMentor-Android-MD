@@ -1,46 +1,39 @@
 package com.ch2ps215.mentorheal.data.remote
 
-import com.ch2ps215.mentorheal.data.remote.payload.ArticleResponse
-import com.ch2ps215.mentorheal.data.remote.service.ArticleService
+import com.ch2ps215.mentorheal.data.remote.payload.DeleteArticleLikesRequest
+import com.ch2ps215.mentorheal.data.remote.payload.SaveArticleLikesRequest
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
 
 class ArticleRemoteDataSource(
-    private val articleRef: CollectionReference,
-    private val articleService: ArticleService
+    private val articlesRef: CollectionReference,
+    private val articlesLikesRef: CollectionReference,
 ) {
-    fun getArticles() = articleRef.limit(20)
-    fun getArticleById(id: String) = articleRef.document(id)
-    fun getArticles(category: String) = articleRef
+    fun getArticles() = articlesRef.limit(20)
+    fun getArticleById(id: String) = articlesRef.document(id)
+    fun getArticles(category: String) = articlesRef
         .whereEqualTo("category", category)
         .limit(20)
 
-    suspend fun getFavoriteArticles(token: String): List<ArticleResponse> {
-        val res = articleService.getFavoriteArticles("Bearer $token")
-        val data = res.takeIf { it.isSuccessful }?.body()?.data
-        if (data == null) {
-            res.errorBody()?.let { throw RuntimeException(it.getErrorMessage()) }
+    suspend fun getFavoriteArticles(idUser: String): Query {
+        var ids: List<String> = emptyList()
+        articlesLikesRef.whereEqualTo("userId", idUser).get().await().documents.forEach {
+            ids = ids.plus(it["id"].toString())
         }
-
-        return data ?: throw RuntimeException("Response body is empty")
+        return articlesRef.whereIn("id", ids)
     }
 
-    suspend fun like(token: String, articleId: Int): ArticleResponse {
-        val res = articleService.like("Bearer $token", articleId)
-        val data = res.takeIf { it.isSuccessful }?.body()?.data
-        if (data == null) {
-            res.errorBody()?.let { throw RuntimeException(it.getErrorMessage()) }
-        }
+    fun isArticleFavorite(idArticle: String, idUser: String) =
+        articlesLikesRef.document("${idArticle}_${idUser}")
 
-        return data ?: throw RuntimeException("Response body is empty")
+    fun like(req: SaveArticleLikesRequest) {
+        articlesLikesRef.document("${req.id}_${req.userId}").apply { set(req) }
     }
 
-    suspend fun unlike(token: String, articleId: Int): ArticleResponse {
-        val res = articleService.unlike("Bearer $token", articleId)
-        val data = res.takeIf { it.isSuccessful }?.body()?.data
-        if (data == null) {
-            res.errorBody()?.let { throw RuntimeException(it.getErrorMessage()) }
-        }
-
-        return data ?: throw RuntimeException("Response body is empty")
+    fun unLike(req: DeleteArticleLikesRequest) {
+        articlesLikesRef.document("${req.id}_${req.userId}").delete()
     }
+
 }
