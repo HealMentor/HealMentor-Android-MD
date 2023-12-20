@@ -40,7 +40,6 @@ import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.domain.model.Article
 import com.ch2ps215.mentorheal.presentation.article.component.Photos
 import com.ch2ps215.mentorheal.presentation.common.component.shimmer
-import com.ch2ps215.mentorheal.presentation.navgraph.Route
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -63,7 +62,7 @@ fun DetailArticleScreen(
         likedState = viewModel.isLiked,
         onClickButtonLike = viewModel::toggleLike,
         onNavigationBack = {
-            navController.navigate(Route.Home.invoke())
+            navController.navigateUp()
         }
     )
 }

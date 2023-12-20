@@ -39,7 +39,6 @@ fun FormDetectionsContent(
         LottieCompositionSpec.RawRes(R.raw.empty_box)
     )
 
-
     LazyColumn(
         contentPadding = padding,
         horizontalAlignment = Alignment.CenterHorizontally,
