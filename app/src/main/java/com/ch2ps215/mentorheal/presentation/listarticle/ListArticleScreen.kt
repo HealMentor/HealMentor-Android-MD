@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.rounded.ArrowBackIos
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,6 +42,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.home.component.ArticleContent
+import com.ch2ps215.mentorheal.presentation.listarticle.component.FilterArticleDialog
 import com.ch2ps215.mentorheal.presentation.navgraph.Route
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -46,6 +51,8 @@ fun ListArticleScreen(
     navController: NavHostController,
     viewModel: ListArticleViewModel = hiltViewModel()
 ) {
+
+    var isFilterOpen by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.loadArticles()
@@ -79,6 +86,18 @@ fun ListArticleScreen(
                         )
                     }
                 },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            isFilterOpen = true
+                        }
+                    ) {
+                        Icon(
+                            Icons.Filled.FilterList,
+                            stringResource(R.string.cd_filter_article)
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -129,6 +148,18 @@ fun ListArticleScreen(
                         .offset(y = (-24).dp),
                     composition = composition,
                     iterations = LottieConstants.IterateForever,
+                )
+            }
+
+            if (isFilterOpen) {
+                FilterArticleDialog(
+                    onDismiss = {
+                        isFilterOpen = false
+                    },
+                    onFilter = {
+                        viewModel.onChangeCategory(it)
+                        isFilterOpen = false
+                    }
                 )
             }
 

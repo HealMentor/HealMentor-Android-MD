@@ -17,6 +17,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Velocity
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
@@ -132,5 +133,12 @@ private fun rememberMotionScene(): String {
 
     return remember {
         context.resources.openRawResource(R.raw.twos_scene).readBytes().decodeToString()
+    }
+}
+
+@Preview
+@Composable
+fun SwipeableContainerPreview() {
+    SwipeableContainer {
     }
 }
