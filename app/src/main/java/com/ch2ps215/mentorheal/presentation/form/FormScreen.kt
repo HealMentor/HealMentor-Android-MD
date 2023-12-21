@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import com.ch2ps215.mentorheal.R
 import com.ch2ps215.mentorheal.presentation.common.component.TextError
 import com.ch2ps215.mentorheal.presentation.common.component.TopAppBar
@@ -92,7 +93,9 @@ fun FormScreen(
             scope.launch {
                 viewModel.submit().let { id ->
                     if (id == null) return@launch
-                    navController.navigate(Route.Problems(id))
+                    navController.navigate(Route.Problems(id)) {
+                        popUpTo(navController.graph.startDestinationId)
+                    }
                 }
             }
         }

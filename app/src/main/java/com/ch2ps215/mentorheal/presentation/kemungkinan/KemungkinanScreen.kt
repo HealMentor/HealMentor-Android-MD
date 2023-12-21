@@ -47,7 +47,7 @@ fun KemungkinanScreen(
     KemungkinanScreen(
         snackBarHostState = snackBarHostState,
         latestFormState = viewModel.latestForm,
-        onNavigateBack = navController::popBackStack,
+        onNavigateBack = navController::navigateUp,
         onClick = { navController.navigate(Route.AtasiKecemasan()) }
     )
 }

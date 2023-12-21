@@ -69,7 +69,13 @@ fun TwosScreen(
             navController.navigate(Route.Form.invoke())
         },
         onNavigateToDetailForm = { detection ->
-            navController.navigate(Route.Problems(detection.id))
+            navController.navigate(Route.Problems(detection.id)) {
+                // Avoid multiple copies of the same destination when
+                // reselecting the same item
+                launchSingleTop = true
+                // Restore state when reselecting a previously selected item
+                restoreState = true
+            }
         },
         onNavigateToDetailExpression = { detection ->
             navController.navigate(Route.AtasiKecemasan.invoke())

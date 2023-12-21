@@ -11,7 +11,6 @@ import com.ch2ps215.mentorheal.domain.model.ExpressionDetection
 import com.ch2ps215.mentorheal.domain.model.Form
 import com.ch2ps215.mentorheal.domain.model.FormDetection
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.dataObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.io.File
@@ -41,7 +40,8 @@ class DetectionRemoteDataSource(
     }
 
     suspend fun saveFormDetections(idForm: String, req: FormDetection) {
-        detectionFormRef.document(idForm).collection(FORM_DETECTION_RESULT).document().set(req).await()
+        detectionFormRef.document(idForm).collection(FORM_DETECTION_RESULT).document().set(req)
+            .await()
     }
 
     suspend fun saveExpression(req: SaveDetectionExpressionRequest): Boolean {
